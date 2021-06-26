@@ -1,4 +1,4 @@
-const management = require('../../management')
+const dbAdd = require('../../dbAdd')
 const fncDiscord = require('../../functions-discord')
 const dbGet = require('../../dbGet')
 
@@ -15,7 +15,7 @@ module.exports = {
     const [ clockID, errorID, logID, spamID ] = await dbGet.guildInfo(guild.id)    
     const channel = guild.channels.cache.get(clockID)
     const [ embOn, embQueue, embDOC ] = await fncDiscord.sendStartMessage(channel)
-    await management.start(guild.id, embOn, embQueue, embDOC)    
+    await dbAdd.start(guild.id, embOn, embQueue, embDOC)    
     console.log("Started up")
   },
 }

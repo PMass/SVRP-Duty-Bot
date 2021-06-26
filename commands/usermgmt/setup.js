@@ -1,4 +1,4 @@
-const management = require('../../management')
+const dbAdd = require('../../dbAdd')
 const fncDiscord = require('../../functions-discord')
 
 module.exports = {
@@ -48,7 +48,7 @@ module.exports = {
       }
       console.log(guild.id, botID, dutyID, queueID, clockID, logID, errorID, spamID)
 
-      await management.setup(guildID, botID, dutyID, queueID, clockID, logID, errorID, spamID)
+      await dbAdd.setup(guildID, botID, dutyID, queueID, clockID, logID, errorID, spamID)
       fncDiscord.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log")
 
   },

@@ -1,4 +1,4 @@
-const management = require('../../management')
+const dbAdd = require('../../dbAdd')
 const fncDiscord = require('../../functions-discord')
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
       message.reply('Please provide a valid department (police/sheriff).')
       return
     }
-    const newUser = await management.addUser(guildId, userId, department, hexid, hireDate, fullName, totalTime)
+    const newUser = await dbAdd.addUser(guildId, userId, department, hexid, hireDate, fullName, totalTime)
     fncDiscord.sendGuildMessage(message.guild, `<@${message.author.id}> have added <@${userId}> to the database. Thank you!`, "spam", 10)
   },
 }

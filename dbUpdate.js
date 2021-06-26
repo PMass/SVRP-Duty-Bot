@@ -24,7 +24,6 @@ const onDutySchema = require('./schemas/on-duty-schema')
             new: true,
           }
         )
-        return result.userID
       } finally {
         mongoose.connection.close()
       }
@@ -50,7 +49,6 @@ const onDutySchema = require('./schemas/on-duty-schema')
             new: true,
           }
         )
-        return result.status
       } finally {
         mongoose.connection.close()
       }

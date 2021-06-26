@@ -1,4 +1,3 @@
-const management = require('../../management')
 const fncDiscord = require('../../functions-discord')
 const dbGet = require('../../dbGet')
 

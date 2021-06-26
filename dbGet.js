@@ -15,9 +15,13 @@ const clockFunctions = require('./functions-clock')
         })
         let userID = 0
         let time = 0
+        let cadet = false
+        let doc = false
         if (result) {
           userID = result.userID
           time = result.time
+          cadet = result.cadet
+          doc = result.doc
           noMatch = false
         } else {
           console.log('No User Found')
@@ -26,6 +30,8 @@ const clockFunctions = require('./functions-clock')
         return [
           userID,
           time,
+          cadet,
+          doc,
           noMatch
         ];
       } finally {
