@@ -5,9 +5,9 @@ const messageCountSchema = require('./schemas/message-count-schema')
 module.exports = (client) => {
   client.on('message', async (message) => {
     const { author } = message
-    const guildId = message.guild.id
-    const userId = author.id
+    const guildID = message.guild.id
+    const userID = author.id
     const coins = 1
-    const newCoins = await economy.addCoins(guildId, userId, coins)    
+    const newCoins = await economy.addCoins(guildID, userID, coins)    
   })
 }
