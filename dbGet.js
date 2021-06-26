@@ -5,7 +5,7 @@ const guildInfoSchema = require('./schemas/guild-info-schema')
 const clockFunctions = require('./functions-clock')
 
 // Find a user's discord tag and hours worked by their hex id and department on the User Database
-  module.exports.getUser = async (hexID, department) => {
+  module.exports.user = async (hexID, department) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running getUser()')
@@ -35,7 +35,7 @@ const clockFunctions = require('./functions-clock')
   }
 
 // Find a users current status hours worked by their user ID and department on the On Duty Database
-  module.exports.getStatus = async (userID, department) => {
+  module.exports.status = async (userID, department) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running getStatus()')
@@ -57,7 +57,7 @@ const clockFunctions = require('./functions-clock')
   }
 
 // Find a users total hours worked by their user ID and department on the On Duty Database
-  module.exports.getTime = async (userID, department, time) => {
+  module.exports.time = async (userID, department, time) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running getTime()')
@@ -83,7 +83,7 @@ const clockFunctions = require('./functions-clock')
   }
 
 // Find the guild channels for the clock, error, log and spam from the Guild database
-  module.exports.getGuildInfo = async (guildID) => {
+  module.exports.guildInfo = async (guildID) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running getGuildInfo()')
@@ -115,7 +115,7 @@ const clockFunctions = require('./functions-clock')
   } // const [ clockID, errorID, logID, spamID ] = await management.getGuildInfo(guildID)
 
 // Find a the guilds discord roles for clocked on and in queue from the Guild database
-  module.exports.getGuildRoles = async (guildID) => {
+  module.exports.guildRoles = async (guildID) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running getGuildRoles()')
@@ -141,7 +141,7 @@ const clockFunctions = require('./functions-clock')
   }
 
 // Find all users who are of a current status on the On Duty Database
-  module.exports.getUsersOnDuty = async (status) => {
+  module.exports.usersOn = async (status) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running getUsersOnDuty()')

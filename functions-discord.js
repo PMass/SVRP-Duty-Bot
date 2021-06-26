@@ -35,7 +35,7 @@ module.exports.sendMessage = (channel, text, duration = -1) => {
 
 module.exports.sendGuildMessage = async (guild, text, msgType, duration = -1) => {
   try {
-    const [ clockID, errorID, logID, spamID ] = await dbGet.getGuildInfo(guild.id)
+    const [ clockID, errorID, logID, spamID ] = await dbGet.guildInfo(guild.id)
     var ch = 0
     switch (msgType) {
       case "log":

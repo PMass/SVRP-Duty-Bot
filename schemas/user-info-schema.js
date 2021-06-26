@@ -21,6 +21,7 @@ const userInfoSchema = mongoose.Schema({
   },
   time: reqString,
   cadet: reqBoolean,
+  doc: reqBoolean,
   rank: reqString,
   badge: reqString,
   phone: reqString,

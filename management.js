@@ -6,11 +6,10 @@ const guildInfoSchema = require('./schemas/guild-info-schema')
 const officersOnSchema = require('./schemas/officers-on-schema')
 const cadetsOnSchema = require('./schemas/cadets-on-schema')
 const docOnSchema = require('./schemas/doc-on-schema')
-const clockFunctions = require('./functions-clock')
 
 module.exports = (client) => {}
 
-// Add a server to the Guild Info Database
+// Add a server to the Guild Database
   module.exports.setup = async (guildID, botID, dutyID, queueID, clockID, logID, errorID, spamID) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -47,7 +46,7 @@ module.exports = (client) => {}
     })
   }
 
-// Add a server to the Guild Info Database
+// Add a server to the Guild Database
   module.exports.start = async (guildID, embOn, embQueue, embDOC) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -74,7 +73,7 @@ module.exports = (client) => {}
     })
   }
 
-// Add user to Main Database
+// Add user to User Database
   module.exports.addUser = async (guildID, userID, department, hexID, hired, name, time) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -125,7 +124,7 @@ module.exports = (client) => {}
     })
   }
 
-// Log someone clocking on/off on the Log Database
+// Add user to the proper on duty database for them
   module.exports.clockOn = async (guildID, userID, group) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -197,78 +196,6 @@ module.exports = (client) => {}
           default:
             console.log("ERROR: No group Specified")
         }
-      } finally {
-        mongoose.connection.close()
-      }
-    })
-  }
-
-// Log someone clocking on/off on the Log Database
-  module.exports.clockOn = async (department, hexID, time, name, status) => {
-    return await mongo().then(async (mongoose) => {
-      try {
-        console.log('Running logClock()')
-        const result = await clockLogSchema.insertMany(
-          {
-            guildID,
-            userID,
-          },    
-        )
-      } finally {
-        mongoose.connection.close()
-      }
-    })
-  }
-
-// Update status on the Duty Clock Database
-  module.exports.onDuty = async (userID, department, time, status) => {
-    return await mongo().then(async (mongoose) => {
-      try {
-        console.log('Running onDuty')
-
-        const result = await onDutySchema.findOneAndUpdate(
-          {
-            userID,
-            department,
-          },
-          {
-            userID,
-            department,
-            time,
-            status,
-          },
-          {
-            upsert: true,
-            new: true,
-          }
-        )
-        return result.userID
-      } finally {
-        mongoose.connection.close()
-      }
-    })
-  }
-
-// Update Hours on Main Database
-  module.exports.updateHours = async (userID, department, time) => {
-    return await mongo().then(async (mongoose) => {
-      try {
-        console.log('Running updateStatus')
-
-        const result = await userInfoSchema.findOneAndUpdate(
-          {
-            userID,
-            department,
-          },
-          {
-            time,
-          },
-          {
-            upsert: false,
-            new: true,
-          }
-        )
-        return result.status
       } finally {
         mongoose.connection.close()
       }
