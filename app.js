@@ -1,16 +1,16 @@
 // require the discord.js and GoogleSheets module and configuration and 
 	const Discord = require('discord.js');
-	const config = require('./config.json');
-	const { promisify } = require('util');
-
+	const mongo = require('./mongo')
 	const { GoogleSpreadsheet } = require('google-spreadsheet');
-	const doc = new GoogleSpreadsheet('15gD6aWB1y03LSo7GlyLLimdFekv-sMij6tw1oohaidM');
-	const creds = require('./client_secret.json');
 	const fs = require('fs')
 	const path = require('path')
+	const { promisify } = require('util');
 
-	const mongo = require('./mongo')
-	const messageCount = require('./message-counter')
+	const config = require('./config.json');
+	const creds = require('./client_secret.json');		
+	const messageCount = require('./message-counter');	
+
+	const doc = new GoogleSpreadsheet('15gD6aWB1y03LSo7GlyLLimdFekv-sMij6tw1oohaidM');	
 
 	const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
 	const timer = ms => new Promise(res => setTimeout(res, ms))
