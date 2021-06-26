@@ -22,17 +22,6 @@ module.exports.takeRole = (guild,userID,role) => {
 	}
 }
 
-module.exports.sendMessage = (channel, text, duration = -1) => {
-  channel.send(text).then((message) => {
-    if (duration === -1) {
-      return
-    }
-    setTimeout(() => {
-      message.delete()
-    }, 1000 * duration)
-  })
-}
-
 module.exports.sendGuildMessage = async (guild, text, msgType, duration = -1) => {
   try {
     const [ clockID, errorID, logID, spamID ] = await dbGet.guildInfo(guild.id)

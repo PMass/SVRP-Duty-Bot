@@ -30,7 +30,6 @@ module.exports = {
       return
     }
     const newUser = await management.addUser(guildId, userId, department, hexid, hireDate, fullName, totalTime)
-    const text = `<@${message.author.id}> have added <@${userId}> to the database. Thank you!`
-    fncDiscord.sendMessage(message.channel, text, 10)
+    fncDiscord.sendGuildMessage(message.guild, `<@${message.author.id}> have added <@${userId}> to the database. Thank you!`, "spam", 10)
   },
 }

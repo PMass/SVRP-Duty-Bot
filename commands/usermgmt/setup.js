@@ -9,7 +9,7 @@ module.exports = {
   permissionError: 'You must be an admin to run this',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
-  	// console.log(message.mentions)
+    message.delete({ timeout: 10000 })
     const guild = message.guild
   	const botID = message.mentions.users.first().id
       if (!botID) {

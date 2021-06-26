@@ -9,8 +9,9 @@ module.exports = {
   permissionError: 'You must be an admin to run this',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
+
     const guild = message.guild
-    message.delete({ timeout: 5000 })
+    message.delete({ timeout: 10000 })
     const [ clockID, errorID, logID, spamID ] = await dbGet.guildInfo(guild.id)    
     const channel = guild.channels.cache.get(clockID)
     const [ embOn, embQueue, embDOC ] = await fncDiscord.sendStartMessage(channel)

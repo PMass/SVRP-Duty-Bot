@@ -5,6 +5,7 @@ module.exports = {
   maxArgs: 1,
   expectedArgs: "[Target user's @]",
   callback: async (message) => {
+    message.delete({ timeout: 5000 })
     const target = message.mentions.users.first() || message.author
     const targetId = target.id
 
