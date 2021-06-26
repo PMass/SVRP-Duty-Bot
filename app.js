@@ -7,8 +7,7 @@
 	const { promisify } = require('util');
 
 	const config = require('./config.json');
-	const creds = require('./client_secret.json');		
-	const messageCount = require('./message-counter');	
+	const creds = require('./client_secret.json');
 
 	const doc = new GoogleSpreadsheet('15gD6aWB1y03LSo7GlyLLimdFekv-sMij6tw1oohaidM');	
 
@@ -43,7 +42,6 @@ client.once('ready', async () => {
     		}
   		}
 		}
-	messageCount(client)
   readCommands('commands')
 });
 

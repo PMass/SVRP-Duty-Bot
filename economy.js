@@ -1,21 +1,21 @@
 const mongo = require('./mongo')
 const profileSchema = require('./schemas/profile-schema')
 
-const coinsCache = {} // { 'guildId-userId': coins }
+const coinsCache = {} // { 'guildID-userID': coins }
 
 module.exports = (client) => {}
 
-module.exports.addCoins = async (guildId, userId, coins) => {
+module.exports.addCoins = async (guildID, userID, coins) => {
   return await mongo().then(async (mongoose) => {
     try {
       const result = await profileSchema.findOneAndUpdate(
         {
-          guildId,
-          userId,
+          guildID,
+          userID,
         },
         {
-          guildId,
-          userId,
+          guildID,
+          userID,
           $inc: {
             coins,
           },
@@ -25,7 +25,7 @@ module.exports.addCoins = async (guildId, userId, coins) => {
           new: true,
         }
       )
-      coinsCache[`${guildId}-${userId}`] = result.coins
+      coinsCache[`${guildID}-${userID}`] = result.coins
       return result.coins
     } finally {
       mongoose.connection.close()
@@ -33,16 +33,16 @@ module.exports.addCoins = async (guildId, userId, coins) => {
   })
 }
 
-module.exports.getCoins = async (guildId, userId) => {
-  const cachedValue = coinsCache[`${guildId}-${userId}`]
+module.exports.getCoins = async (guildID, userID) => {
+  const cachedValue = coinsCache[`${guildID}-${userID}`]
   if (cachedValue) {
     return cachedValue
   }
   return await mongo().then(async (mongoose) => {
     try {
       const result = await profileSchema.findOne({
-        guildId,
-        userId,
+        guildID,
+        userID,
       })
 
       let coins = 0
@@ -51,12 +51,12 @@ module.exports.getCoins = async (guildId, userId) => {
       } else {
         console.log('Inserting a document')
         await new profileSchema({
-          guildId,
-          userId,
+          guildID,
+          userID,
           coins,
         }).save()
       }
-      coinsCache[`${guildId}-${userId}`] = coins
+      coinsCache[`${guildID}-${userID}`] = coins
       return coins
     } finally {
       mongoose.connection.close()
