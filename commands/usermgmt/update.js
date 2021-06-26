@@ -1,5 +1,6 @@
 const management = require('../../management')
 const fncDiscord = require('../../functions-discord')
+const dbGet = require('../../dbGet')
 
 module.exports = {
   commands: ['update', 'updt'],
@@ -9,7 +10,7 @@ module.exports = {
   permissions: 'MANAGE_ROLES',
   callback: async (message, arguments) => {
     const status = true
-    const onDutyUsers = await management.getUsersOnDuty(status)
+    const onDutyUsers = await dbGet.getUsersOnDuty(status)
     const text = `The embeds have been updated!`
     fncDiscord.sendMessage(message.channel, text, 10)
   },

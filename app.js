@@ -16,9 +16,6 @@
 	const timer = ms => new Promise(res => setTimeout(res, ms))
 
 // Commands
-	const command = require('./command');
-	const firstMessage = require('./startmessage')
-	const editTime = require('./editmessage')
 
 client.once('ready', async () => {
 

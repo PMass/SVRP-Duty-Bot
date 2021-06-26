@@ -45,7 +45,7 @@ module.exports.timeConvert = (n) => {
     }
 }
 
-// Add a server to the Guild Info Database
+// sleep for a certain time
   module.exports.sleep = async (time) => {
       try {
         console.log('Running timer()')
