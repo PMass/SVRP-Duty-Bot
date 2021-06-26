@@ -20,25 +20,6 @@
 	const firstMessage = require('./startmessage')
 	const editTime = require('./editmessage')
 
-// Initialization Variables
-	var messageOne = "";
-	var messageTwo = "";
-	var messageThree = "";
-	var reactionMessage = "";
-	var reactionMessageID = "";
-	var everyoneOnDutyArry = [];
-	var officersOnDutyArray = [];
-	var cadetsOnDutyArray = [];
-	var officersInQueueArray = [];
-	var cadetsInQueueArray = [];
-	var docOfficersArray = [];
-	var docCadetsArray = [];
-	var updateStatus = "";
-	var result = "";
-	var txt = "";
-	var error = "Their was an error somewhere";
-
-
 client.once('ready', async () => {
 
 	client.user.setPresence({ activity: { type: 'LISTENING', name: 'The Phone Lines'}, status: 'online' }).catch(console.error);
