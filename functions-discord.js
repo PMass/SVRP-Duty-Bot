@@ -119,37 +119,32 @@ module.exports.getGuildRolesCert = async (guild) => {
 module.exports.getGuildRolesRank = async (guild) => {
   try {
     const cache = guild.roles.cache
-    let roleChief = cache.find(role => role.name === "Chief of Police");
-    let roleAstChief = cache.find(role => role.name === "Assistant Chief");
-    let roleSheriff = cache.find(role => role.name === "Sheriff");
-    let roleUdrSheriff = cache.find(role => role.name === "Undersheriff");
-    let roleCaptin = cache.find(role => role.name === "S.A.L.E Captain");
-    let roleLt = cache.find(role => role.name === "S.A.L.E Lieutenant");
-    let roleSgt = cache.find(role => role.name === "S.A.L.E Sergeant");
-    let roleSrOfc = cache.find(role => role.name === "Senior Officer");
-    let roleSrDpty = cache.find(role => role.name === "Senior Deputy");
-    let roleOfc = cache.find(role => role.name === "Officer");
-    let roleDpty = cache.find(role => role.name === "Deputy");
-    let rolePrbOfc = cache.find(role => role.name === "Probationary Officer");
-    let rolePrbDpty = cache.find(role => role.name === "Probationary Deputy");
-    let roleCdtPh2 = cache.find(role => role.name === "Cadet Phase 2");
-    let roleCdtPh1 = cache.find(role => role.name === "Cadet Phase 1");
-    let roleWarden = cache.find(role => role.name === "Warden");
-    let roleDptyWarden = cache.find(role => role.name === "Chief Deputy Warden");
-    let roleCrtnOfc = cache.find(role => role.name === "Corrections Officer");
-    let roleRctPh2 = cache.find(role => role.name === "Recruit Phase 2");
-    let roleRctPh1 = cache.find(role => role.name === "Recruit Phase 1");
-    console.log(roleChief, roleAstChief, roleSheriff, roleUdrSheriff, 
-    roleCaptin, roleLt, roleSgt, roleSrOfc,
-    roleSrDpty, roleOfc, roleDpty, rolePrbOfc,
-    rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden,
-    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleRctPh1)
+    let chief = cache.find(role => role.name === "Chief of Police").id;
+    let astChief = cache.find(role => role.name === "Assistant Chief").id;
+    let sheriff = cache.find(role => role.name === "Sheriff").id;
+    let udrSheriff = cache.find(role => role.name === "Undersheriff").id;
+    let captin = cache.find(role => role.name === "S.A.L.E Captain").id;
+    let lt = cache.find(role => role.name === "S.A.L.E Lieutenant").id;
+    let sgt = cache.find(role => role.name === "S.A.L.E Sergeant").id;
+    let srOfc = cache.find(role => role.name === "Senior Officer").id;
+    let srDpty = cache.find(role => role.name === "Senior Deputy").id;
+    let ofc = cache.find(role => role.name === "Officer").id;
+    let dpty = cache.find(role => role.name === "Deputy").id;
+    let prbOfc = cache.find(role => role.name === "Probationary Officer").id;
+    let prbDpty = cache.find(role => role.name === "Probationary Deputy").id;
+    let cdtPh2 = cache.find(role => role.name === "Cadet Phase 2").id;
+    let cdtPh1 = cache.find(role => role.name === "Cadet Phase 1").id;
+    let warden = cache.find(role => role.name === "Warden").id;
+    let dptyWarden = cache.find(role => role.name === "Chief Deputy Warden").id;
+    let crtnOfc = cache.find(role => role.name === "Corrections Officer").id;
+    let rctPh2 = cache.find(role => role.name === "Recruit Phase 2").id;
+    let rctPh1 = cache.find(role => role.name === "Recruit Phase 1").id;
+
+    console.log(chief, astChief, sheriff, udrSheriff, captin, lt, sgt, srOfc, srDpty, ofc, dpty,
+    prbOfc, prbDpty, cdtPh2, cdtPh1, warden, dptyWarden, crtnOfc, rctPh2, rctPh1)
     return [
-    roleChief, roleAstChief, roleSheriff, roleUdrSheriff, 
-    roleCaptin, roleLt, roleSgt, roleSrOfc,
-    roleSrDpty, roleOfc, roleDpty, rolePrbOfc,
-    rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden,
-    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleRctPh1
+    chief, astChief, sheriff, udrSheriff, captin, lt, sgt, srOfc, srDpty, ofc, dpty,
+    prbOfc, prbDpty, cdtPh2, cdtPh1, warden, dptyWarden, crtnOfc, rctPh2, rctPh1
     ]
   } catch(err){
     console.error(err)
