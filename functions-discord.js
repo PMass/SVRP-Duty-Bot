@@ -143,13 +143,13 @@ module.exports.getGuildRolesRank = async (guild) => {
     roleCaptin, roleLt, roleSgt, roleSrOfc,
     roleSrDpty, roleOfc, roleDpty, rolePrbOfc,
     rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden,
-    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleCdtPh2)
+    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleRctPh1)
     return [
     roleChief, roleAstChief, roleSheriff, roleUdrSheriff, 
     roleCaptin, roleLt, roleSgt, roleSrOfc,
     roleSrDpty, roleOfc, roleDpty, rolePrbOfc,
     rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden,
-    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleCdtPh2
+    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleRctPh1
     ]
   } catch(err){
     console.error(err)

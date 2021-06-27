@@ -5,7 +5,7 @@ module.exports = {
   commands: ['updatecerts', 'givecerts'],
   minArgs: 2,
   maxArgs: 2,
-  expectedArgs: "<The target's @>" , "<Which Department (police/sheriff/doc)>",
+  expectedArgs: "<The target's @> <Which Department (police/sheriff/doc)>",
   permissionError: 'You must be HR or higher to use this command.',
   permissions: 'MANAGE_ROLES',
   callback: async (message, arguments) => {

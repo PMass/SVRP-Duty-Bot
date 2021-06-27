@@ -10,6 +10,6 @@ module.exports = {
   callback: async (message, arguments) => {
     message.delete({ timeout: 5000 })
     const guild = message.guild
-    const [ roleChief, roleAstChief, roleSheriff, roleUdrSheriff, roleCaptin, roleLt, roleSgt, roleSrOfc, roleSrDpty, roleOfc, roleDpty, rolePrbOfc, rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden, roleDptyWarden, roleCrtnOfc, roleRctPh2, roleCdtPh2 ] = await fncDiscord.getGuildRoles(guild)
+    const [ roleChief, roleAstChief, roleSheriff, roleUdrSheriff, roleCaptin, roleLt, roleSgt, roleSrOfc, roleSrDpty, roleOfc, roleDpty, rolePrbOfc, rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden, roleDptyWarden, roleCrtnOfc, roleRctPh2, roleRctPh1] = await fncDiscord.getGuildRoles(guild)
   },
 }
