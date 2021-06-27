@@ -5,7 +5,7 @@ module.exports = {
   commands: ['adduser'],
   minArgs: 6,
   maxArgs: 6,
-  expectedArgs: "<The target's @> <Which Department (police/sheriff)> <Their Steam Hex ID> <Their Hire Date (MM-DD-YYYY)> <Their IC First Name> <Their IC Last Name>",
+  expectedArgs: "<The target's @> <Which Department (police/sheriff/doc)> <Their Steam Hex ID> <Their Hire Date (MM-DD-YYYY)> <Their IC First Name> <Their IC Last Name>",
   permissionError: 'You must be HR or higher to use this command.',
   permissions: 'MANAGE_ROLES',
   callback: async (message, arguments) => {
@@ -15,7 +15,7 @@ module.exports = {
       message.reply('Please tag the user who you are putting into the database.')
       return
     }
-    const guildId = message.guild.id
+    const guildID = message.guild.id
     const userId = mention.id
     const department = arguments[1]
     const hexid = arguments[2]
@@ -29,7 +29,7 @@ module.exports = {
       message.reply('Please provide a valid department (police/sheriff).')
       return
     }
-    const newUser = await dbAdd.addUser(guildId, userId, department, hexid, hireDate, fullName, totalTime)
+    const newUser = await dbAdd.addUser(guildID, mention, department, hexid, hireDate, fullName, totalTime)
     fncDiscord.sendGuildMessage(message.guild, `<@${message.author.id}> have added <@${userId}> to the database. Thank you!`, "spam", 10)
   },
 }

@@ -86,3 +86,72 @@ module.exports.sendStartMessage = async (channel) => {
     console.error(err)
   }
 }
+
+module.exports.getGuildRolesGroup = async (guild) => {
+  try {
+    let roleCadet = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleDOC = message.guild.roles.cache.find(role => role.name === "Rolename");
+    // let roleCadet = message.guild.roles.cache.find(role => role.name === "Rolename");    
+    return [embOn, embQueue, embDOC]
+  } catch(err){
+    console.error(err)
+  }
+}
+
+module.exports.getGuildRolesCert = async (guild) => {
+  try {
+    let roleFTO = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleAR = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleASU = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleMustang = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleBike = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleSWAT = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleK9 = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleCERT = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleICU = message.guild.roles.cache.find(role => role.name === "Rolename");
+    let roleCMU = message.guild.roles.cache.find(role => role.name === "Rolename");
+    return [embOn, embQueue, embDOC]
+  } catch(err){
+    console.error(err)
+  }
+}
+
+module.exports.getGuildRolesRank = async (guild) => {
+  try {
+    const cache = guild.roles.cache
+    let roleChief = cache.find(role => role.name === "Chief of Police");
+    let roleAstChief = cache.find(role => role.name === "Assistant Chief");
+    let roleSheriff = cache.find(role => role.name === "Sheriff");
+    let roleUdrSheriff = cache.find(role => role.name === "Undersheriff");
+    let roleCaptin = cache.find(role => role.name === "S.A.L.E Captain");
+    let roleLt = cache.find(role => role.name === "S.A.L.E Lieutenant");
+    let roleSgt = cache.find(role => role.name === "S.A.L.E Sergeant");
+    let roleSrOfc = cache.find(role => role.name === "Senior Officer");
+    let roleSrDpty = cache.find(role => role.name === "Senior Deputy");
+    let roleOfc = cache.find(role => role.name === "Officer");
+    let roleDpty = cache.find(role => role.name === "Deputy");
+    let rolePrbOfc = cache.find(role => role.name === "Probationary Officer");
+    let rolePrbDpty = cache.find(role => role.name === "Probationary Deputy");
+    let roleCdtPh2 = cache.find(role => role.name === "Cadet Phase 2");
+    let roleCdtPh1 = cache.find(role => role.name === "Cadet Phase 1");
+    let roleWarden = cache.find(role => role.name === "Warden");
+    let roleDptyWarden = cache.find(role => role.name === "Chief Deputy Warden");
+    let roleCrtnOfc = cache.find(role => role.name === "Corrections Officer");
+    let roleRctPh2 = cache.find(role => role.name === "Recruit Phase 2");
+    let roleRctPh1 = cache.find(role => role.name === "Recruit Phase 1");
+    console.log(roleChief, roleAstChief, roleSheriff, roleUdrSheriff, 
+    roleCaptin, roleLt, roleSgt, roleSrOfc,
+    roleSrDpty, roleOfc, roleDpty, rolePrbOfc,
+    rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden,
+    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleCdtPh2)
+    return [
+    roleChief, roleAstChief, roleSheriff, roleUdrSheriff, 
+    roleCaptin, roleLt, roleSgt, roleSrOfc,
+    roleSrDpty, roleOfc, roleDpty, rolePrbOfc,
+    rolePrbDpty, roleCdtPh2, roleCdtPh1, roleWarden,
+    roleDptyWarden, roleCrtnOfc, roleRctPh2, roleCdtPh2
+    ]
+  } catch(err){
+    console.error(err)
+  }
+}
