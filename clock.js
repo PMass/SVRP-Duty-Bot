@@ -20,8 +20,8 @@ module.exports.adjustDuty = async (message,department, hexID, fullClock, fullNam
 		console.log("Error in Logging the duty clock")
 		if (currentStatus) { fncDiscord.sendGuildMessage(guild, `Error, user never clocked off`,"error") } else { fncDiscord.sendGuildMessage(guild, `Error, user never clocked on`,"error") }
 	} else if (status) {
-		const roles = await dbGet.guildRoles(guild.id)
-		fncDiscord.giveRole(guild, userID, roles.on)
+		const [rolesGroups, rolesCerts, rolesRanks] = await dbGet.guildRoles(guild.id)
+		fncDiscord.giveRole(guild, userID, rolesGroups.on)
 		await dbUpdate.status(userID, department, fullClock, status)
 		await dbClock.clockOn(guildID, userID, group)
 		fncDiscord.sendGuildMessage(guild, `User Has Clocked On`, "spam", 10)
@@ -37,8 +37,8 @@ module.exports.adjustDuty = async (message,department, hexID, fullClock, fullNam
 		} else {
 			await dbUpdate.time(userID, department, formatedTime)
 		}
-		const roles = await dbGet.guildRoles(guild.id)
-		fncDiscord.takeRole(guild, userID, roles.on)
+		const [rolesGroups, rolesCerts, rolesRanks] = await dbGet.guildRoles(guild.id)
+		fncDiscord.takeRole(guild, userID, rolesGroups.on)
 		await dbUpdate.status(userID, department, fullClock, status)
 		await dbClock.clockOff(guildID, userID, group)
 		fncDiscord.sendGuildMessage(guild, `User Has Clocked Off`, "spam", 10)

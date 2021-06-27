@@ -16,32 +16,34 @@ module.exports = {
         message.reply('Please tag the bot.')
         return
       }
-      const roles = await fncDiscord.getGuildRolesRank(guild)
+      const groups = await fncDiscord.getGuildRolesGroup(guild)
+      const certs = await fncDiscord.getGuildRolesCert(guild)
+      const ranks = await fncDiscord.getGuildRolesRank(guild)
       const channels = await {};
       channels.clock = message.mentions.channels.array()[0].id
       if (!channels.clock) {
-        message.reply('Please tag the channel that will be used for the duty clock.')
+        message.reply('Please tag the channel that will be used for the duty clock.');
         return
       }
-      channels.log = message.mentions.channels.array()[1].id
+      channels.log = message.mentions.channels.array()[1].id;
       if (!channels.log) {
-        message.reply('Please tag the channel that will be used the log.')
+        message.reply('Please tag the channel that will be used the log.');
         return
       }
-      channels.error = message.mentions.channels.array()[2].id
+      channels.error = message.mentions.channels.array()[2].id;
       if (!channels.error) {
-        message.reply('Please tag the channel that will be used for errors.')
+        message.reply('Please tag the channel that will be used for errors.');
         return
       }
-      channels.spam = message.mentions.channels.array()[3].id
+      channels.spam = message.mentions.channels.array()[3].id;
       if (!channels.spam) {
-        message.reply('Please tag the channel that will be used for spamming commands.')
+        message.reply('Please tag the channel that will be used for spamming commands.');
         return
       }
-      console.log(guild.id, botID, roles, channels)
+      console.log(guild.id, botID, groups, certs, ranks, channels);
 
-      await dbAdd.setup(guild.id, botID, roles, channels)
-      fncDiscord.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log")
+      await dbAdd.setup(guild.id, botID, groups, certs, ranks, channels);
+      fncDiscord.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log");
 
   },
 }

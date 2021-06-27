@@ -6,7 +6,7 @@ const guildInfoSchema = require('./schemas/guild-info-schema')
 module.exports = (client) => {}
 
 // Add a server to the Guild Database
-  module.exports.setup = async (guildID, botID, roles, channels) => {
+  module.exports.setup = async (guildID, botID, groups, certs, ranks, channels) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running setup()')
@@ -18,9 +18,11 @@ module.exports = (client) => {}
           {
             guildID,
             botID,
-            roles,
+            groups,
+            certs,
+            ranks,
             channels,
-            embeds,         
+            embeds,
           },
           {
             upsert: true,

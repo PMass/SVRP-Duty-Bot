@@ -117,13 +117,17 @@ const clockFunctions = require('./functions-clock')
         const result = await guildInfoSchema.findOne({
           guildID,
         })
-        let roles = {};
+        let rolesGroups = {};
+        let rolesCerts = {};
+        let rolesRanks = {};
         if (result) {
-          roles = result.roles
+          rolesGroups = result.groups
+          rolesCerts = result.certs
+          rolesRanks = result.ranks
         } else {
           console.log('No User Found')
         }
-        return roles;
+        return [rolesGroups, rolesCerts, rolesRanks];
       } finally {
         mongoose.connection.close()
       }

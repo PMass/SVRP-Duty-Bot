@@ -9,16 +9,25 @@ const reqBoolean = {
   required: true,
 }
 
+const reqObject = {
+  type: Object,
+  required: true,
+}
+
+const reqDate = {
+  type: Date,
+  required: true,
+}
+
+
+
 const userInfoSchema = mongoose.Schema({
   guildID: reqString,  
   userID: reqString,
   hexID: reqString,
   name: reqString,
   department: reqString,
-  hired:{
-    type: Date,
-    required: true,
-  },
+  hired: reqDate,
   time: reqString,
   cadet: reqBoolean,
   doc: reqBoolean,
@@ -27,6 +36,7 @@ const userInfoSchema = mongoose.Schema({
   phone: reqString,
   region: reqString,
   strikes: reqString,
+  certs: reqObject,
   FTO: reqBoolean,
   AR: reqBoolean,
   ASU: reqBoolean,
@@ -41,10 +51,6 @@ const userInfoSchema = mongoose.Schema({
   other2: reqString,
   other3: reqString,
   other4: reqString,
-  otherCert1: reqBoolean,
-  otherCert2: reqBoolean,
-  otherCert3: reqBoolean,
-  otherCert4: reqBoolean,
 })
 
 module.exports = mongoose.model('users-info', userInfoSchema)

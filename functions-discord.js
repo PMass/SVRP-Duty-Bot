@@ -92,63 +92,73 @@ const dbGet = require('./dbGet')
     }
   }
 
-module.exports.getGuildRolesGroup = async (guild) => {
-  try {
-    let roleCadet = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleDOC = message.guild.roles.cache.find(role => role.name === "Rolename");
-    // let roleCadet = message.guild.roles.cache.find(role => role.name === "Rolename");    
-    return [embOn, embQueue, embDOC]
-  } catch(err){
-    console.error(err)
+// Get Roles for main groups (on duty, in queue, recruit, doc)
+  module.exports.getGuildRolesGroup = async (guild) => {
+    try {
+      const rolesGroups = {};
+      const cache = guild.roles.cache
+      rolesGroups.on = cache.find(role => role.name === "Clocked In").id;
+      rolesGroups.inQueue = cache.find(role => role.name === "In Queue").id;
+      rolesGroups.LSCadet = cache.find(role => role.name === "LSPD Cadet").id;
+      rolesGroups.BCCadet = cache.find(role => role.name === "BCSO Cadet").id;
+      rolesGroups.DOC = cache.find(role => role.name === "Department Of Corrections").id;  
+      return rolesGroups
+    } catch(err){
+      console.error(err)
+    }
   }
-}
 
-module.exports.getGuildRolesCert = async (guild) => {
-  try {
-    let roleFTO = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleAR = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleASU = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleMustang = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleBike = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleSWAT = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleK9 = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleCERT = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleICU = message.guild.roles.cache.find(role => role.name === "Rolename");
-    let roleCMU = message.guild.roles.cache.find(role => role.name === "Rolename");
-    return [embOn, embQueue, embDOC]
-  } catch(err){
-    console.error(err)
+// Get Roles for certs (FTO, K9, CMU)
+  module.exports.getGuildRolesCert = async (guild) => {
+    try {
+      const rolesCerts = {};
+      const cache = guild.roles.cache
+      rolesCerts.FTO = cache.find(role => role.name === "Field Training Officer").id;
+      rolesCerts.AR = cache.find(role => role.name === "A.R. Certified").id;
+      rolesCerts.ASU = cache.find(role => role.name === "A.S.U. Certified").id;
+      rolesCerts.Mustang = cache.find(role => role.name === "T.E.U. Mustang Certified").id;
+      rolesCerts.Bike = cache.find(role => role.name === "T.E.U. Bike Certified").id;
+      rolesCerts.SWAT = cache.find(role => role.name === "S.W.A.T.").id;
+      rolesCerts.K9 = cache.find(role => role.name === "K9 Handler").id;
+      rolesCerts.DOCFTO = cache.find(role => role.name === "DOC F.T.O.").id;
+      rolesCerts.DOCK9 = cache.find(role => role.name === "DOC K-9 Handler").id;
+      rolesCerts.CERT = cache.find(role => role.name === "C.E.R.T.").id;
+      rolesCerts.ICU = cache.find(role => role.name === "I.S.U.").id;
+      rolesCerts.CMU = cache.find(role => role.name === "C.M.U.").id;
+      rolesCerts.DOCAR = cache.find(role => role.name === "DOC A.R. Certified").id;
+      return rolesCerts
+    } catch(err){
+      console.error(err)
+    }
   }
-}
 
-module.exports.getGuildRolesRank = async (guild) => {
-  try {
-    const roles = {};
-    const cache = guild.roles.cache
-    roles.on = cache.find(role => role.name === "Clocked In").id;
-    roles.inQueue = cache.find(role => role.name === "In Queue").id;
-    roles.chief = cache.find(role => role.name === "Chief of Police").id;
-    roles.astChief = cache.find(role => role.name === "Assistant Chief").id;
-    roles.sheriff = cache.find(role => role.name === "Sheriff").id;
-    roles.udrSheriff = cache.find(role => role.name === "Undersheriff").id;
-    roles.captin = cache.find(role => role.name === "S.A.L.E Captain").id;
-    roles.lt = cache.find(role => role.name === "S.A.L.E Lieutenant").id;
-    roles.sgt = cache.find(role => role.name === "S.A.L.E Sergeant").id;
-    roles.srOfc = cache.find(role => role.name === "Senior Officer").id;
-    roles.srDpty = cache.find(role => role.name === "Senior Deputy").id;
-    roles.ofc = cache.find(role => role.name === "Officer").id;
-    roles.dpty = cache.find(role => role.name === "Deputy").id;
-    roles.prbOfc = cache.find(role => role.name === "Probationary Officer").id;
-    roles.prbDpty = cache.find(role => role.name === "Probationary Deputy").id;
-    roles.cdtPh2 = cache.find(role => role.name === "Cadet Phase 2").id;
-    roles.cdtPh1 = cache.find(role => role.name === "Cadet Phase 1").id;
-    roles.warden = cache.find(role => role.name === "Warden").id;
-    roles.dptyWarden = cache.find(role => role.name === "Chief Deputy Warden").id;
-    roles.crtnOfc = cache.find(role => role.name === "Corrections Officer").id;
-    roles.rctPh2 = cache.find(role => role.name === "Recruit Phase 2").id;
-    roles.rctPh1 = cache.find(role => role.name === "Recruit Phase 1").id;
-    return roles
-  } catch(err){
-    console.error(err)
+// Get Roles for ranks
+  module.exports.getGuildRolesRank = async (guild) => {
+    try {
+      const rolesRanks = {};
+      const cache = guild.roles.cache
+      rolesRanks.chief = cache.find(role => role.name === "Chief of Police").id;
+      rolesRanks.astChief = cache.find(role => role.name === "Assistant Chief").id;
+      rolesRanks.sheriff = cache.find(role => role.name === "Sheriff").id;
+      rolesRanks.udrSheriff = cache.find(role => role.name === "Undersheriff").id;
+      rolesRanks.captin = cache.find(role => role.name === "S.A.L.E Captain").id;
+      rolesRanks.lt = cache.find(role => role.name === "S.A.L.E Lieutenant").id;
+      rolesRanks.sgt = cache.find(role => role.name === "S.A.L.E Sergeant").id;
+      rolesRanks.srOfc = cache.find(role => role.name === "Senior Officer").id;
+      rolesRanks.srDpty = cache.find(role => role.name === "Senior Deputy").id;
+      rolesRanks.ofc = cache.find(role => role.name === "Officer").id;
+      rolesRanks.dpty = cache.find(role => role.name === "Deputy").id;
+      rolesRanks.prbOfc = cache.find(role => role.name === "Probationary Officer").id;
+      rolesRanks.prbDpty = cache.find(role => role.name === "Probationary Deputy").id;
+      rolesRanks.cdtPh2 = cache.find(role => role.name === "Cadet Phase 2").id;
+      rolesRanks.cdtPh1 = cache.find(role => role.name === "Cadet Phase 1").id;
+      rolesRanks.warden = cache.find(role => role.name === "Warden").id;
+      rolesRanks.dptyWarden = cache.find(role => role.name === "Chief Deputy Warden").id;
+      rolesRanks.crtnOfc = cache.find(role => role.name === "Corrections Officer").id;
+      rolesRanks.rctPh2 = cache.find(role => role.name === "Recruit Phase 2").id;
+      rolesRanks.rctPh1 = cache.find(role => role.name === "Recruit Phase 1").id;
+      return rolesRanks
+    } catch(err){
+      console.error(err)
+    }
   }
-}

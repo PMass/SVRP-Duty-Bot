@@ -13,7 +13,9 @@ const reqObject = {
 const guildInfoSchema = mongoose.Schema({
   guildID: reqString,
   botID: reqString,
-  roles: reqObject,
+  groups: reqObject,
+  certs: reqObject,
+  ranks: reqObject,
   channels: reqObject,
   embeds: reqObject,
 })
