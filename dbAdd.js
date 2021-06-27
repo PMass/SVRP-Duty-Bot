@@ -6,13 +6,11 @@ const guildInfoSchema = require('./schemas/guild-info-schema')
 module.exports = (client) => {}
 
 // Add a server to the Guild Database
-  module.exports.setup = async (guildID, botID, dutyID, queueID, clockID, logID, errorID, spamID) => {
+  module.exports.setup = async (guildID, botID, roles, channels) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running setup()')
-        var embOn = ""
-        var embQueue = ""
-        var embDOC = ""    
+        const embeds = {}
         const result = await guildInfoSchema.findOneAndUpdate(
           {
             guildID,
@@ -20,15 +18,9 @@ module.exports = (client) => {}
           {
             guildID,
             botID,
-            dutyID,
-            queueID,
-            clockID,
-            logID,
-            errorID,
-            spamID,
-            embOn,
-            embQueue,
-            embDOC,
+            roles,
+            channels,
+            embeds,         
           },
           {
             upsert: true,
@@ -43,7 +35,7 @@ module.exports = (client) => {}
   }
 
 // Add a server to the Guild Database
-  module.exports.start = async (guildID, embOn, embQueue, embDOC) => {
+  module.exports.start = async (guildID, embeds) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running setup()')
@@ -53,9 +45,7 @@ module.exports = (client) => {}
           },
           {
             guildID,
-            embOn,
-            embQueue,
-            embDOC,
+            embeds,
           },
           {
             upsert: true,
@@ -99,3 +89,4 @@ module.exports = (client) => {}
       }
     })
   }
+

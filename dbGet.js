@@ -89,31 +89,20 @@ const clockFunctions = require('./functions-clock')
   }
 
 // Find the guild channels for the clock, error, log and spam from the Guild database
-  module.exports.guildInfo = async (guildID) => {
+  module.exports.guildChannels = async (guildID) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running getGuildInfo()')
         const result = await guildInfoSchema.findOne({
           guildID,     
         })
-        let clockID = 0;
-        let errorID = 0;
-        let logID = 0;
-        let spamID = 0;
+        let channels = {};
         if (result) {
-          clockID = result.clockID;
-          errorID = result.errorID;
-          logID = result.logID;
-          spamID = result.spamID;
+          channels = result.channels;
         } else {
           console.log('No Server Found');
         }
-        return [
-          clockID,
-          errorID,
-          logID,
-          spamID
-        ];
+        return channels;
       } finally {
         mongoose.connection.close()
       }
@@ -128,18 +117,13 @@ const clockFunctions = require('./functions-clock')
         const result = await guildInfoSchema.findOne({
           guildID,
         })
-        let dutyID = ""
-        let queueID = ""
+        let roles = {};
         if (result) {
-          dutyID = result.dutyID
-          queueID = result.queueID
+          roles = result.roles
         } else {
           console.log('No User Found')
         }
-        return [
-          dutyID,
-          queueID
-        ];
+        return roles;
       } finally {
         mongoose.connection.close()
       }

@@ -11,10 +11,10 @@ module.exports = {
   callback: async (message, arguments) => {
     const guild = message.guild
     message.delete({ timeout: 10000 })
-    const [ clockID, errorID, logID, spamID ] = await dbGet.guildInfo(guild.id)    
-    const channel = guild.channels.cache.get(clockID)
-    const [ embOn, embQueue, embDOC ] = await fncDiscord.sendStartMessage(channel)
-    await dbAdd.start(guild.id, embOn, embQueue, embDOC)    
+    const channels = await dbGet.guildChannels(guild.id)
+    const channel = guild.channels.cache.get(channels.clock)
+    const embeds = await fncDiscord.sendStartMessage(channel)
+    await dbAdd.start(guild.id, embeds)
     console.log("Started up")
   },
 }

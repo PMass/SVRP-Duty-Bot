@@ -5,19 +5,17 @@ const reqString = {
   required: true,
 }
 
+const reqObject = {
+  type: Object,
+  required: true,
+}
+
 const guildInfoSchema = mongoose.Schema({
   guildID: reqString,
   botID: reqString,
-  dutyID: reqString,
-  queueID: reqString,
-  clockID: reqString,
-  logID: reqString,
-  errorID: reqString,
-  spamID: reqString,
-  spamID2: reqString,
-  embOn: reqString,
-  embQueue: reqString,
-  embDOC: reqString,
+  roles: reqObject,
+  channels: reqObject,
+  embeds: reqObject,
 })
 
 module.exports = mongoose.model('guild-info', guildInfoSchema)
