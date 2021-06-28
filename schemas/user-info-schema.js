@@ -19,8 +19,6 @@ const reqDate = {
   required: true,
 }
 
-
-
 const userInfoSchema = mongoose.Schema({
   guildID: reqString,  
   userID: reqString,
@@ -36,6 +34,7 @@ const userInfoSchema = mongoose.Schema({
   phone: reqString,
   region: reqString,
   strikes: reqString,
+  photo: reqString,
   certs: reqObject,
   FTO: reqBoolean,
   AR: reqBoolean,

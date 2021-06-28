@@ -9,9 +9,10 @@ module.exports = {
   permissionError: 'You must be an admin to run this',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
-    message.delete({ timeout: 10000 })
-    const guild = message.guild
-  	const botID = message.mentions.users.first().id
+    try {
+      message.delete({ timeout: 10000 })
+      const guild = message.guild
+      const botID = message.mentions.users.first().id
       if (!botID) {
         message.reply('Please tag the bot.')
         return
@@ -41,9 +42,10 @@ module.exports = {
         return
       }
       console.log(guild.id, botID, groups, certs, ranks, channels);
-
       await dbAdd.setup(guild.id, botID, groups, certs, ranks, channels);
       fncDiscord.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log");
-
+    } catch(err){
+      console.error(err)
+    }
   },
 }
