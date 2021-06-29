@@ -317,3 +317,114 @@ const dbGet = require('./dbGet')
       console.error(err)
     }
   }
+
+// Check for multiple departments
+  module.exports.multiGroupCheck = async (message, groups) => {
+    try {
+      var department = ""
+      if (groups.length > 1) {
+      const filter = m => m.author.id === message.author.id
+      message.channel.send(`Multiple departments listed, which department are they in? \`BCSO\` / \`LSPD\` / \`SASP\` / \`DOC\` / \`DOJ\``)
+        .then(() => {
+          message.channel.awaitMessages(filter, {
+            max: 1,
+            time: 30000,
+            errors: ['time']
+          })
+            .then(message => {
+              message = message.first()
+              switch (message.content.toUpperCase()) {
+                case "BSCO":
+                    department = "Blaine County Sheriff's Office"
+                    message.channel.send(`Logged as BCSO`)
+                  break;
+                case "LSPD":
+                    department = "Los Santos Police Department"
+                    message.channel.send(`Logged as LSPD`)
+                  break;
+                case "DOC":
+                    department = "Department Of Corrections"
+                    message.channel.send(`Logged as DOC`)
+                  break;
+                case "SASP":
+                    department = "San Andreas State Police"
+                    message.channel.send(`Logged as SASP`)                  
+                  break;
+                case "DOJ":
+                    department = "Department Of Justice"
+                    message.channel.send(`Logged as DOJ`)
+                  break;
+                default:
+                  console.log(`Terminated: Invalid Response`)
+              }
+            })
+              .catch(collected => {
+                message.channel.send('Timeout');
+              });
+          })
+    } else {
+      department = groups[0]
+    }
+      return department
+    } catch(err){
+      console.error(err)
+    }
+  }
+
+// Check for multiple departments
+  module.exports.responseRequired = async (message, text) => {
+    try {
+      const filter = m => m.author.id === message.author.id
+      message.channel.send(text)
+        .then(() => {
+          message.channel.awaitMessages(filter, {
+            max: 1,
+            time: 30000,
+            errors: ['time']
+          })
+            .then(message => {
+              message = message.first()
+              const content = message.content
+            })
+              .catch(collected => {
+                message.channel.send('Timeout');
+              });
+          })
+      return content
+    } catch(err){
+      console.error(err)
+    }
+  }
+
+
+
+
+  module.exports.sendProfileMessage = async (channel,userInfo) => {
+    try {
+      const embeds = {}
+      const profile = new Discord.MessageEmbed()
+        .setColor(`#8b5900`)
+        .setTitle(`${userInfo.callsign} - ${userInfo.name}`)
+        .setAuthor(`${userInfo.rank} with ${userInfo.department}', 'https://i.imgur.com/Department.jpeg` )
+        .setThumbnail(`${userInfo.photo}`)
+        .addFields(
+        { name: 'Phone Number', value: `${userInfo.pn}`, inline: true  },
+        { name: 'Hired Date', value: `${userInfo.hired}`, inline: true  },
+        { name: 'Last Promotion Date', value: `${userInfo.promo}`, inline: true  },
+        { name: 'FTO', value: `❌`, inline: true  },
+        { name: 'AR', value: `❌`, inline: true  },
+        { name: 'ASU', value: `❌`, inline: true  },
+        { name: 'MUSTANG', value: `❌`, inline: true  },
+        { name: 'BIKE', value: `❌`, inline: true  },
+        { name: 'SWAT', value: `❌`, inline: true  },
+        { name: 'K9', value: `❌`, inline: true  },
+        )
+        .setTimestamp()
+        .setFooter(`${userInfo.location}`, 'https://i.imgur.com/Department.jpeg');
+      embeds.on = await channel.send(profile)
+      return embeds
+    } catch(err){
+      console.error(err)
+    }
+  }
+

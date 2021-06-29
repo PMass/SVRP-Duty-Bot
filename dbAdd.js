@@ -62,7 +62,7 @@ module.exports = (client) => {}
   }
 
 // Add user to User Database
-  module.exports.addUser = async (guildID, userID, department, hexID, hired, name, time) => {
+  module.exports.addUser = async (guildID, userInfo) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running addUser()')
