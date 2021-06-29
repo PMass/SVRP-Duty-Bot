@@ -16,6 +16,7 @@ module.exports = {
     
     const text = `you are a ${rank} appart of the ${groups} with the certs ${certs}`
     const userInfo = {}
+    userInfo.certs = await fncDiscord.checkCerts(message, certs);
     userInfo.callsign = `X-??`
     userInfo.name = message.author.username
     userInfo.rank = rank
@@ -26,7 +27,7 @@ module.exports = {
     userInfo.hired = "01/01/2020"
     userInfo.promo = "01/01/2020"
 
-    await fncDiscord.sendProfileMessage(message.channel, userInfo)
+    await fncDiscord.sendProfileMessage(message.channel, userInfo, guildInfo)
 
 
 
