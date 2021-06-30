@@ -1,6 +1,5 @@
-const dbAdd = require('../../dbAdd')
-const fncDiscord = require('../../functions-discord')
 const addUser = require('../../addUser')
+const dsMsg = require('../../dsMsg')
 
 module.exports = {
   commands: ['adduser'],
@@ -11,12 +10,12 @@ module.exports = {
   permissions: 'MANAGE_ROLES',
   callback: async (message, arguments) => {
     message.delete({ timeout: 5000 })
-    const mention = message.mentions.users.first()
+    const mention = message.mentions.members.first()
     if (!mention) {
       message.reply('Please tag the user who you are putting into the database.')
       return
     }
     const statusCheck = await addUser.add(message, mention)
-    fncDiscord.sendGuildMessage(message.guild, `<@${message.author.id}> have added <@${mention.id}> to the database. Thank you!`, "spam", 10)
+    dsMsg.sendGuildMessage(message.guild, `<@${message.author.id}> have added <@${mention.id}> to the database. Thank you!`, "spam", 10)
   },
 }

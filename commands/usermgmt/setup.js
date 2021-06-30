@@ -1,5 +1,6 @@
 const dbAdd = require('../../dbAdd')
-const fncDiscord = require('../../functions-discord')
+const dsGet = require('../../dsGet')
+const dsMsg = require('../../dsMsg')
 
 module.exports = {
   commands: ['setup'],
@@ -17,9 +18,9 @@ module.exports = {
         message.reply('Please tag the bot.')
         return
       }
-      const groups = await fncDiscord.getGuildRolesGroup(guild)
-      const certs = await fncDiscord.getGuildRolesCert(guild)
-      const ranks = await fncDiscord.getGuildRolesRank(guild)
+      const groups = await dsGet.getGuildRolesGroup(guild)
+      const certs = await dsGet.getGuildRolesCert(guild)
+      const ranks = await dsGet.getGuildRolesRank(guild)
       const channels = await {};
       channels.clock = message.mentions.channels.array()[0].id
       if (!channels.clock) {
@@ -43,7 +44,7 @@ module.exports = {
       }
       console.log(guild.id, botID, groups, certs, ranks, channels);
       await dbAdd.setup(guild.id, botID, groups, certs, ranks, channels);
-      fncDiscord.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log");
+      dsMsg.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log");
     } catch(err){
       console.error(err)
     }

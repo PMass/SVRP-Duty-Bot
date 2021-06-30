@@ -1,29 +1,8 @@
 const Discord = require('discord.js');
 const dbGet = require('./dbGet')
+const dsMsg = require('./dsMsg')
 
-// Give Role by ID
-  module.exports.giveRole = (guild, userID, role) => {
-  	try {
-   		guild.members.fetch(userID).then(member => { 
-   			member.roles.add(role);
-   		});
-  	} catch {
-      	console.log("error in giving user a role")
-    }
-  }
-
-// Take Role by ID
-  module.exports.takeRole = (guild, userID, role) => {
-  	try {
-   		guild.members.fetch(userID).then(member => {
-   			member.roles.remove(role);
-   		});
-  	} catch {
-  		console.log("error in removing a role from a user")
-  	}
-  }
-
-// Get information on a user that user is
+// Get information on a user based on their roles
   module.exports.getRoles = async (guild, userID) => {
     try {
       const member = await guild.members.fetch(userID);
@@ -51,7 +30,7 @@ const dbGet = require('./dbGet')
     }
   }
 
-// Get information on a user that user is
+// Determine which department a user is in based on their Roles
   module.exports.getDprt = async (guild, userID) => {
     try {
       const member = await guild.members.fetch(userID);
@@ -71,7 +50,7 @@ const dbGet = require('./dbGet')
     }
   }
 
-// Get information on a user that user is
+// Determine which Rank a user is in based on their Roles
   module.exports.getRank = async (guild, userID) => {
     try {
       const member = await guild.members.fetch(userID);
@@ -91,7 +70,7 @@ const dbGet = require('./dbGet')
     }
   } 
 
-// Get information on a user that user is
+// Determine which certs a user has in based on their Roles
   module.exports.getCerts = async (guild, userID) => {
     try {
       const member = await guild.members.fetch(userID);
@@ -107,75 +86,6 @@ const dbGet = require('./dbGet')
       certName = certName.filter(x => x !== undefined);
       return certName
     } catch (err){
-      console.error(err)
-    }
-  }
-
-
-// Send message based on channel
-  module.exports.sendGuildMessage = async (guild, text, msgType, duration = -1) => {
-    try {
-      const channels = await dbGet.guildChannels(guild.id)
-      var ch = 0
-      switch (msgType) {
-        case "log":
-          ch = guild.channels.cache.get(channels.log)
-          break;
-        case "clock":
-          ch = guild.channels.cache.get(channels.clock)
-          break;
-        case "error":
-          ch = guild.channels.cache.get(channels.error)
-          break;
-        case "spam":
-          ch = guild.channels.cache.get(channels.spam)
-          break;
-        default:
-          ch = guild.channels.cache.get(msgType)
-          console.log("ERROR: No channel specified for Guild Message, using message channel")
-      }
-      const msg = await ch.send(text)
-      if (duration === -1) {
-        return
-      }
-      setTimeout(() => {
-        msg.delete()
-      }, 1000 * duration)
-    } catch(err){
-      console.error(err)
-    }
-  }
-
-// Send initial message
-  module.exports.sendStartMessage = async (channel) => {
-    try {
-      const embeds = {}
-      const onDutyEmbed = new Discord.MessageEmbed()
-        .setColor('#0b2e54')
-        .setTitle('On duty List')
-        .addFields(
-        { name: 'Officers', value: 'None On Duty', inline: true  },
-        { name: 'Cadets', value: 'None On Duty', inline: true  },
-      );
-      const queueEmbed = new Discord.MessageEmbed()
-        .setColor('#ffca28')
-        .setTitle('In Queue list')
-        .addFields(
-        { name: 'Officers', value: 'No Queue', inline: true  },
-        { name: 'Cadets', value: 'No Queue', inline: true  },
-      );
-      const docEmbed = new Discord.MessageEmbed()
-        .setColor('#9900ff')
-        .setTitle('DOC On duty List')
-        .addFields(
-        { name: 'Officers', value: 'None On Duty', inline: true  },
-        { name: 'Cadets', value: 'None On Duty', inline: true  },
-      );  
-      embeds.on = await channel.send(onDutyEmbed)
-      embeds.queue = await channel.send(queueEmbed)
-      embeds.DOC = await channel.send(docEmbed)
-      return embeds
-    } catch(err){
       console.error(err)
     }
   }
@@ -397,15 +307,8 @@ const dbGet = require('./dbGet')
     try {
       var department = ""
       if (groups.length > 1) {
-        const filter = m => m.author.id === message.author.id
-        await message.channel.send(`Multiple departments listed, which department are they in? \`BCSO\` / \`LSPD\` / \`SASP\` / \`DOC\` / \`DOJ\``)
-        const newMsg = await message.channel.awaitMessages(filter, {
-          max: 1,
-          time: 30000,
-          errors: ['time']
-        })
-        const responseMsg = newMsg.first()
-        switch (responseMsg.content.toUpperCase()) {
+        response = await dsMsg.response(message, `Multiple departments listed, which department are they in? \`BCSO\` / \`LSPD\` / \`SASP\` / \`DOC\` / \`DOJ\``);
+        switch (response) {
           case "BSCO":
               department = "Blaine County Sheriff's Office"
               message.channel.send(`Logged as BCSO`)
@@ -440,112 +343,17 @@ const dbGet = require('./dbGet')
     }
   }
 
-// Check for multiple departments
-  module.exports.response = async (message, text) => {
-    try {
-      const filter = m => m.author.id === message.author.id
-      const q = await message.channel.send(text)        
-      const newMsg = await message.channel.awaitMessages(filter, {
-        max: 1,
-        time: 60000,
-        errors: ['time']
-      })
-      const responseMsg = await newMsg.first()
-      q.delete({ timeout: 200 })
-      const content = responseMsg.content
-      responseMsg.delete({ timeout: 200 })
-      return content
-    } catch(err){
-      message.channel.send('Timed out');
-      console.error(err)
-    }
-  }
-
-// Send a profile message for the user mentioned
-  module.exports.sendProfileMessage = async (channel,userInfo) => {
-    try {
-      const embeds = {}
-      certList = userInfo.certsFull
-      certList.forEach(convertTFtoIcon);
-      console.log(certList)
-      if (userInfo.department == "Los Santos Police Department" || userInfo.department == "Blaine County Sheriff's Office" || userInfo.department == "San Andreas State Police" || userInfo.department == "Department Of Justice"){
-        switch(userInfo.department){
-          case "Los Santos Police Department":
-            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
-            break;
-          case "Blaine County Sheriff's Office":
-            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
-            break;
-          case "San Andreas State Police":
-            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
-            break;
-          case "Department Of Justice":
-            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
-            break;
-          default:
-            ch = guild.channels.cache.get(msgType)
-            console.log("ERROR: no department, investigate ")
-        }
-        var profile = new Discord.MessageEmbed()
-          .setColor(`${userInfo.color}`)
-          .setTitle(`${userInfo.badge} - ${userInfo.name}`)
-          .setAuthor(`${userInfo.rank} with ${userInfo.department}`, `${logo}` )
-          .setThumbnail(`${userInfo.photo}`)
-          .addFields(
-          { name: 'Phone Number', value: `${userInfo.phone}`, inline: true  },
-          { name: 'Hired Date', value: `${userInfo.hired}`, inline: true  },
-          { name: 'Last Promotion Date', value: `${userInfo.promo}`, inline: true  },
-          { name: 'FTO', value: certList[0], inline: true  },
-          { name: 'AR', value: certList[1], inline: true  },
-          { name: 'ASU', value: certList[2], inline: true  },
-          { name: 'BIKE', value: certList[6], inline: true  },
-          { name: 'SWAT', value: certList[7], inline: true  },
-          { name: 'K9', value: certList[8], inline: true  },
-          { name: 'SADOC', value: certList[9], inline: true  },
-          { name: 'CAR1', value: certList[3], inline: true  },
-          { name: 'CAR2', value: certList[4], inline: true  },
-          { name: 'CAR3', value: certList[5], inline: true  },
-          )
-          .setTimestamp()
-          .setFooter(`${userInfo.region}`, `${logo}`);
-      } else { // Else if they work for DOC as they have seperate Certs
-        var profile = new Discord.MessageEmbed()
-          .setColor(`#bf3cf8`)
-          .setTitle(`${userInfo.badge} - ${userInfo.name}`)
-          .setAuthor(`${userInfo.rank} with ${userInfo.department}', 'https://cdn.discordapp.com/attachments/474425814126166056/859572954333577226/doc.png` )
-          .setThumbnail(`${userInfo.photo}`)
-          .addFields(
-          { name: 'Phone Number', value: `${userInfo.phone}`, inline: true  },
-          { name: 'Hired Date', value: `${userInfo.hired}`, inline: true  },
-          { name: 'Last Promotion Date', value: `${userInfo.promo}`, inline: true  },
-          { name: 'FTO', value: certList[10], inline: true  },
-          { name: 'AR', value: certList[14], inline: true  },
-          { name: 'K9', value: certList[11], inline: true  },
-          { name: 'CERT', value: certList[12], inline: true  },
-          { name: 'ICU', value: certList[13], inline: true  },
-          )
-          .setTimestamp()
-          .setFooter(`${userInfo.region}`, 'https://i.imgur.com/Department.jpeg');
-      }
-      embeds.on = await channel.send(profile)
-      return embeds
-    } catch(err){
-      console.error(err)
-    }
-  }
-
   module.exports.checkCerts = async (message, certs) => {
     try {
       const [rolesGroups, rolesCerts, rolesRanks] = await dbGet.guildRoles(message.guild.id)
       const certsValues = Object.values(rolesCerts);
       let allCerts = certsValues.map(o => o.name);
-      userCerts = arrayMatchTF(allCerts,certs);      
+      userCerts = arrayMatch(allCerts,certs); //Run the Array matching function    
       return userCerts
     } catch(err){
       console.error(err);
     }
   }
-
 
 function checkVariables(values, roles, i){ // Take in a role ID and see if it matches any of the IDs in the provided array of values, if it does, return the name, otherwise return undefined
   const result = values.find( ({ id }) => id === roles[i] );
@@ -555,25 +363,11 @@ function checkVariables(values, roles, i){ // Take in a role ID and see if it ma
   }
 }
 
-function arrayMatch(array1, array2){ // Input 2 arrays and compare to see how they are the same or different
-  const onlyFirst =  array1.filter(x => !array2.includes(x)); // in 1 but not 2
-  const both =  array1.filter(x => array2.includes(x)); // in both
-  return [onlyFirst, both]
-}
-
-function arrayMatchTF(array1, array2){ // Input 2 arrays and compare to see how they are the same or different
-  var tf = []
+function arrayMatch(array1, array2){ // Input 2 arrays and output a T/F array of the size of array 1 where True vales are values that are in both array
+  var output = []
   for (let i = 0; i < array1.length; i++) {
-    tf.push( array2.includes(array1[i]))
+    output.push(array2.includes(array1[i]))
   }
-  return tf
+  return output
 }
 
-function convertTFtoIcon(item, index, arr){ // Input 2 arrays and compare to see how they are the same or different
-  if(item){
-    arr[index] = "✅"
-  } else {
-    arr[index] = "❌"
-  }
-  return arr
-}

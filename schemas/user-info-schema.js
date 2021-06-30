@@ -36,10 +36,10 @@ const userInfoSchema = mongoose.Schema({
   strikes: reqString,
   photo: reqString,
   certs: reqObject,
+  color: reqString,
+  title: reqString,
   other1: reqString,
   other2: reqString,
-  other3: reqString,
-  other4: reqString,
 })
 
 module.exports = mongoose.model('users-info', userInfoSchema)

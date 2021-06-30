@@ -1,5 +1,5 @@
 const dbAdd = require('../../dbAdd')
-const fncDiscord = require('../../functions-discord')
+const dsMsg = require('../../dsMsg')
 const dbGet = require('../../dbGet')
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
     message.delete({ timeout: 10000 })
     const channels = await dbGet.guildChannels(guild.id)
     const channel = guild.channels.cache.get(channels.clock)
-    const embeds = await fncDiscord.sendStartMessage(channel)
+    const embeds = await dsMsg.sendStartMessage(channel)
     await dbAdd.start(guild.id, embeds)
     console.log("Started up")
   },

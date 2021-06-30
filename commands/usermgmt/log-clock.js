@@ -1,5 +1,5 @@
 const clock = require('../../clock')
-const fncDiscord = require('../../functions-discord')
+const dsMsg = require('../../dsMsg')
 
 module.exports = {
 	commands: ['simclock'],
@@ -23,7 +23,7 @@ module.exports = {
 		var fullClock = date+' '+time;
 		var fullName = firstName.concat(space.concat(lastName));
 		const statusCheck = await clock.adjustDuty(message, department, hexID, fullClock, fullName, status)
-		fncDiscord.sendGuildMessage(message.guild, `You have added a simulated clock on log to the database. Thank you!`, message.channel.id, 10)
+		dsMsg.sendGuildMessage(message.guild, `You have added a simulated clock on log to the database. Thank you!`, message.channel.id, 10)
 	},
 }
 

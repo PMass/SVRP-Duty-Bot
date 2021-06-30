@@ -152,3 +152,102 @@ const clockFunctions = require('./functions-clock')
     })
   }
 
+// Add user to User Database
+  module.exports.userProfile = async (guildID, userID) => {
+    return await mongo().then(async (mongoose) => {
+      try {
+        console.log('Running userFull()')
+        const userInfo = {}
+        const result = await userInfoSchema.findOne(
+          {
+            guildID,
+            userID,
+          })
+        if (result) {
+          userInfo.userID = result.userID
+          userInfo.department = result.department
+          userInfo.hired = result.hired
+          userInfo.name = result.name
+          userInfo.badge = result.badge
+          userInfo.phone = result.phone
+          userInfo.photo = result.photo
+          userInfo.region = result.region
+          userInfo.color = result.color
+          userInfo.rank = result.rank
+          userInfo.time = result.time
+          userInfo.cadet = result.cadet
+          userInfo.doc = result.doc
+          userInfo.certs = result.certs
+          noMatch = false
+        } else {
+          console.log('No User Found')
+          noMatch = true
+        }
+        console.log(userInfo,noMatch)
+        return [
+          userInfo,
+          noMatch
+        ];
+      } finally {
+        mongoose.connection.close()
+      }
+    })
+  }
+
+// Add user to User Database
+  module.exports.userFull = async (guildID, userID) => {
+    return await mongo().then(async (mongoose) => {
+      try {
+        console.log('Running userFull()')
+        var userInfo = {}
+        const result = await userInfoSchema.findOne(
+          {
+            guildID,
+            userID,
+          })
+        if (result) {
+          userInfo = result
+          noMatch = false
+        } else {
+          console.log('No User Found')
+          noMatch = true
+        }
+        console.log(userInfo,noMatch)
+        return [
+          userInfo,
+          noMatch
+        ];
+      } finally {
+        mongoose.connection.close()
+      }
+    })
+  }
+
+
+
+// Add user to User Database
+  module.exports.userCerts = async (guildID, userID) => {
+    return await mongo().then(async (mongoose) => {
+      try {
+        console.log('Running userFull()')
+        var certs = []
+        const result = await userInfoSchema.findOne(
+          {
+            guildID,
+            userID,
+          })
+        if (result) {
+          console.log(result)
+          certs = result.certs
+          noMatch = false
+        } else {
+          console.log('No User Found')
+          noMatch = true
+        }
+        console.log(certs,noMatch)
+        return [ certs, noMatch ];
+      } finally {
+        mongoose.connection.close()
+      }
+    })
+  }
