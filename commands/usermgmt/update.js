@@ -21,7 +21,6 @@ module.exports = {
     const option = arguments[1];
     var [certs, noMatch ] = await dbGet.userCerts(guild.id, mention.id)
     var [userInfo, noMatch ] = await dbGet.userFull(guild.id, mention.id)
-    const userInfo = {}
     userInfo.ID = mention.id
     switch (option) {
       case "rank":    
