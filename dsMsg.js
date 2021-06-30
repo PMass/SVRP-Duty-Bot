@@ -160,7 +160,7 @@ const dbGet = require('./dbGet')
           { name: 'ICU', value: certList[13], inline: true  },
           )
           .setTimestamp()
-          .setFooter(`${userInfo.region}`, 'https://i.imgur.com/Department.jpeg');
+          .setFooter(`${userInfo.region}`, `https://cdn.discordapp.com/attachments/474425814126166056/859572954333577226/doc.png`);
       }
       embeds.on = await channel.send(profile)
       return embeds
