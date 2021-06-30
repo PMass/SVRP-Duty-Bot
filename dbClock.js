@@ -81,7 +81,7 @@ module.exports = (client) => {}
   module.exports.clockOff = async (guildID, userID, group) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running clockOn()')
+        console.log('Running clockOff()')
         switch (group) {
           case "officers":
             await officersOnSchema.findOneAndDelete(

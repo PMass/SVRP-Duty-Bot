@@ -39,7 +39,7 @@ module.exports = (client) => {}
   module.exports.start = async (guildID, embeds) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running setup()')
+        console.log('Running start()')
         const result = await guildInfoSchema.findOneAndUpdate(
           {
             guildID,

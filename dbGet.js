@@ -8,7 +8,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.user = async (hexID, department) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running getUser()')
+        console.log('Running user()')
         const result = await userInfoSchema.findOne({
           hexID,
           department,     
@@ -44,7 +44,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.status = async (userID, department) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running getStatus()')
+        console.log('Running status()')
         const result = await onDutySchema.findOne({
           userID,
           department,
@@ -66,7 +66,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.time = async (userID, department, time) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running getTime()')
+        console.log('Running time()')
         const result = await onDutySchema.findOne({
           userID,
           department,
@@ -92,7 +92,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.guildChannels = async (guildID) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running getGuildInfo()')
+        console.log('Running guildChannels()')
         const result = await guildInfoSchema.findOne({
           guildID,     
         })
@@ -113,7 +113,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.guildRoles = async (guildID) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running getGuildRoles()')
+        console.log('Running guildRoles()')
         const result = await guildInfoSchema.findOne({
           guildID,
         })
@@ -138,7 +138,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.usersOn = async (status) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running getUsersOnDuty()')
+        console.log('Running usersOn()')
         const result = await onDutySchema.find({
           status,
         })
@@ -153,7 +153,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.userProfile = async (guildID, userID) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running userFull()')
+        console.log('Running userProfile()')
         const userInfo = {}
         const result = await userInfoSchema.findOne(
           {
@@ -222,7 +222,7 @@ const clockFunctions = require('./functions-clock')
   module.exports.userCerts = async (guildID, userID) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running userFull()')
+        console.log('Running userCerts()')
         var certs = []
         const result = await userInfoSchema.findOne(
           {
