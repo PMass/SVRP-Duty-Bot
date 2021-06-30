@@ -35,7 +35,7 @@ module.exports = (client) => {}
     })
   }
 
-// Add a server to the Guild Database
+// Log the embeded messages to the guilds database
   module.exports.start = async (guildID, embeds) => {
     return await mongo().then(async (mongoose) => {
       try {

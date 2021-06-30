@@ -4,6 +4,7 @@ const dsMsg = require('./dsMsg')
 
 // Get information on a user based on their roles
   module.exports.getRoles = async (guild, userID) => {
+    console.log('Running getRoles()')
     try {
       const member = await guild.members.fetch(userID);
       const allRoles = member.roles.cache
@@ -32,6 +33,7 @@ const dsMsg = require('./dsMsg')
 
 // Determine which department a user is in based on their Roles
   module.exports.getDprt = async (guild, userID) => {
+    console.log('Running getDprt()')
     try {
       const member = await guild.members.fetch(userID);
       const allRoles = member.roles.cache
@@ -52,6 +54,7 @@ const dsMsg = require('./dsMsg')
 
 // Determine which Rank a user is in based on their Roles
   module.exports.getRank = async (guild, userID) => {
+    console.log('Running getRank()')
     try {
       const member = await guild.members.fetch(userID);
       const allRoles = member.roles.cache
@@ -72,6 +75,7 @@ const dsMsg = require('./dsMsg')
 
 // Determine which certs a user has in based on their Roles
   module.exports.getCerts = async (guild, userID) => {
+    console.log('Running getCerts()')
     try {
       const member = await guild.members.fetch(userID);
       const allRoles = member.roles.cache
@@ -92,6 +96,7 @@ const dsMsg = require('./dsMsg')
 
 // Get Roles for main groups (on duty, in queue, recruit, doc)
   module.exports.getGuildRolesGroup = async (guild) => {
+    console.log('Running getGuildRolesGroup()')
     try {
       const rolesGroups = {};
       const cache = guild.roles.cache
@@ -139,6 +144,7 @@ const dsMsg = require('./dsMsg')
 
 // Get Roles for certs (FTO, K9, CMU)
   module.exports.getGuildRolesCert = async (guild) => {
+    console.log('Running getGuildRolesCert()')
     try {
       const rolesCerts = {};
       const cache = guild.roles.cache
@@ -214,6 +220,7 @@ const dsMsg = require('./dsMsg')
 
 // Get Roles for ranks
   module.exports.getGuildRolesRank = async (guild) => {
+    console.log('Running getGuildRolesRank()')
     try {
       const cache = guild.roles.cache
       const rolesRanks = {};
@@ -304,6 +311,7 @@ const dsMsg = require('./dsMsg')
 
 // Check for multiple departments
   module.exports.multiGroupCheck = async (message, groups) => {
+    console.log('Running multiGroupCheck()')
     try {
       var department = ""
       if (groups.length > 1) {
@@ -343,7 +351,9 @@ const dsMsg = require('./dsMsg')
     }
   }
 
+// Check their certs that the user has and return a T/F array of what certs match
   module.exports.checkCerts = async (message, certs) => {
+    console.log('Running checkCerts()')
     try {
       const [rolesGroups, rolesCerts, rolesRanks] = await dbGet.guildRoles(message.guild.id)
       const certsValues = Object.values(rolesCerts);
@@ -355,19 +365,21 @@ const dsMsg = require('./dsMsg')
     }
   }
 
-function checkVariables(values, roles, i){ // Take in a role ID and see if it matches any of the IDs in the provided array of values, if it does, return the name, otherwise return undefined
-  const result = values.find( ({ id }) => id === roles[i] );
-  if (result === undefined) {
-  } else { 
-    return result.name
+//Internaul function to check variables role IDs aginst a role id array and see matching ones and return the name of the at one
+  function checkVariables(values, roles, i){ // Take in a role ID and see if it matches any of the IDs in the provided array of values, if it does, return the name, otherwise return undefined
+    const result = values.find( ({ id }) => id === roles[i] );
+    if (result === undefined) {
+    } else { 
+      return result.name
+    }
   }
-}
 
-function arrayMatch(array1, array2){ // Input 2 arrays and output a T/F array of the size of array 1 where True vales are values that are in both array
-  var output = []
-  for (let i = 0; i < array1.length; i++) {
-    output.push(array2.includes(array1[i]))
+// Internaul function to input 2 arrays and output a T/F array of the size of array 1 where True vales are values that are in both array
+  function arrayMatch(array1, array2){ 
+    var output = []
+    for (let i = 0; i < array1.length; i++) {
+      output.push(array2.includes(array1[i]))
+    }
+    return output
   }
-  return output
-}
 

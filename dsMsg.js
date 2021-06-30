@@ -2,8 +2,9 @@ const Discord = require('discord.js');
 const dbGet = require('./dbGet')
 
 
-// Send message based on channel
+// Send message based on channel and a guild
   module.exports.sendGuildMessage = async (guild, text, msgType, duration = -1) => {
+    console.log('Running sendGuildMessage()')
     try {
       const channels = await dbGet.guildChannels(guild.id)
       var ch = 0
@@ -38,6 +39,7 @@ const dbGet = require('./dbGet')
 
 // Send initial message
   module.exports.sendStartMessage = async (channel) => {
+    console.log('Running sendStartMessage()')
     try {
       const embeds = {}
       const onDutyEmbed = new Discord.MessageEmbed()
@@ -72,6 +74,7 @@ const dbGet = require('./dbGet')
 
 // Send a discord message and log a response
   module.exports.response = async (message, text) => {
+    console.log('Running response()')
     try {
       const filter = m => m.author.id === message.author.id
       const q = await message.channel.send(text)        
@@ -93,6 +96,7 @@ const dbGet = require('./dbGet')
 
 // Send a profile message for the user mentioned
   module.exports.sendProfileMessage = async (channel,userInfo) => {
+    console.log('Running sendProfileMessage()')
     try {
       const embeds = {}
       certList = userInfo.certsFull
@@ -164,11 +168,12 @@ const dbGet = require('./dbGet')
     }
   }
 
-function convertTFtoIcon(item, index, arr){ // Input 2 arrays and compare to see how they are the same or different
-  if(item){
-    arr[index] = "✅"
-  } else {
-    arr[index] = "❌"
+// Internal function to convert a True/False array to an array of Icons for True or False
+  function convertTFtoIcon(item, index, arr){ // Input 2 arrays and compare to see how they are the same or different
+    if(item){
+      arr[index] = "✅"
+    } else {
+      arr[index] = "❌"
+    }
+    return arr
   }
-  return arr
-}
