@@ -44,6 +44,7 @@ module.exports = {
       }
       console.log(guild.id, botID, groups, certs, ranks, channels);
       await dbAdd.setup(guild.id, botID, groups, certs, ranks, channels);
+      dsMsg.sendGuildMessage(guild, `Added!`, message.channel.id, 30);
       dsMsg.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log");
     } catch(err){
       console.error(err)
