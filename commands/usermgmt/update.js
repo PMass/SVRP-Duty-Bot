@@ -11,7 +11,7 @@ module.exports = {
   permissionError: 'You must be HR or higher to use this command.',
   permissions: 'MANAGE_ROLES',
   callback: async (message, arguments) => {
-    message.delete({ timeout: 5000 })
+    message.delete({ timeout: 2000 })
     guild = message.guild
     const mention = message.mentions.members.first()
     if (!mention) {
@@ -56,6 +56,7 @@ module.exports = {
         console.log("ERROR: No channel specified for Guild Message, using message channel")
     }
     await dbUpdate.userInfo(guild.id, userInfo, certs)
+    dsMsg.sendGuildMessage(guild, `You have sucessfully updated ${mention.displayName} ${option}!`, message.channel.id, 10);
 
   },
 }
