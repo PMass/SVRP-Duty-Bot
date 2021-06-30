@@ -1,6 +1,7 @@
 const dbAdd = require('./dbAdd')
 const dsGet = require('./dsGet')
 const dsMsg = require('./dsMsg')
+const fnOther = require('./functions-other')
 
 module.exports.add = async (message, mention) => {
   const guild = message.guild
@@ -29,6 +30,13 @@ module.exports.add = async (message, mention) => {
     } else {
       userInfo.doc = false
     }
+    const validPhoto = await fnOther.checkURL(userInfo.photo)
+    if (validPhoto){
+    } else {
+    userInfo.photo = "https://cdn.discordapp.com/attachments/162286223866593280/859824380014886933/Rotate-Blast-Black.gif"
+    dsMsg.sendGuildMessage(guild, `Photo not valid, substituting` ,"error")
+    dsMsg.sendGuildMessage(guild, `The photo was not a direct link, substituting alternate!`, message.channel.id, 30);
+    }
     console.log(guild.id, userInfo, certs, rank[0])
     await dbAdd.addUser(guild.id, userInfo, certs)
     return ;
@@ -37,3 +45,4 @@ module.exports.add = async (message, mention) => {
       dsMsg.sendGuildMessage(guild, 'Error in adding user to database',"error")
     }
 }
+

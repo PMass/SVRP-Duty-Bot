@@ -1,16 +1,8 @@
-module.exports.findGroup = async (department, cadet, doc) => {
-  try {
-    if (cadet) {
-      const group = cadets
-    } else if (doc) {
-      const group = doc
-    } else {
-      const group = officers
-    }
-    return group
+
+
+module.exports.checkURL = async (url) => {
+  return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
   } catch(err){
     console.error(err)
   }
-}
-
 
