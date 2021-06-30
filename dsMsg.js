@@ -146,14 +146,15 @@ const dbGet = require('./dbGet')
         var profile = new Discord.MessageEmbed()
           .setColor(`#bf3cf8`)
           .setTitle(`${userInfo.badge} - ${userInfo.name}`)
-          .setAuthor(`${userInfo.rank} with ${userInfo.department}', 'https://cdn.discordapp.com/attachments/474425814126166056/859572954333577226/doc.png` )
+          .setAuthor(`${userInfo.rank} with ${userInfo.department}`, `https://cdn.discordapp.com/attachments/474425814126166056/859572954333577226/doc.png` )
           .setThumbnail(`${userInfo.photo}`)
           .addFields(
           { name: 'Phone Number', value: `${userInfo.phone}`, inline: true  },
           { name: 'Hired Date', value: `${userInfo.hired}`, inline: true  },
           { name: 'Last Promotion Date', value: `${userInfo.promo}`, inline: true  },
           { name: 'FTO', value: certList[10], inline: true  },
-          { name: 'AR', value: certList[14], inline: true  },
+          { name: 'CMU', value: certList[14], inline: true  },
+          { name: 'AR', value: certList[15], inline: true  },
           { name: 'K9', value: certList[11], inline: true  },
           { name: 'CERT', value: certList[12], inline: true  },
           { name: 'ICU', value: certList[13], inline: true  },
