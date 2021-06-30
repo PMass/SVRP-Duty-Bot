@@ -142,9 +142,6 @@ const clockFunctions = require('./functions-clock')
         const result = await onDutySchema.find({
           status,
         })
-        console.log(result)
-        console.log(result.length)
-        console.log(result[0].userID)
         return result
       } finally {
         mongoose.connection.close()
@@ -183,7 +180,6 @@ const clockFunctions = require('./functions-clock')
           console.log('No User Found')
           noMatch = true
         }
-        console.log(userInfo,noMatch)
         return [
           userInfo,
           noMatch
@@ -212,7 +208,6 @@ const clockFunctions = require('./functions-clock')
           console.log('No User Found')
           noMatch = true
         }
-        console.log(userInfo,noMatch)
         return [
           userInfo,
           noMatch
@@ -222,8 +217,6 @@ const clockFunctions = require('./functions-clock')
       }
     })
   }
-
-
 
 // Add user to User Database
   module.exports.userCerts = async (guildID, userID) => {
@@ -237,14 +230,12 @@ const clockFunctions = require('./functions-clock')
             userID,
           })
         if (result) {
-          console.log(result)
           certs = result.certs
           noMatch = false
         } else {
           console.log('No User Found')
           noMatch = true
         }
-        console.log(certs,noMatch)
         return [ certs, noMatch ];
       } finally {
         mongoose.connection.close()
