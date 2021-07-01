@@ -47,6 +47,12 @@ client.once('ready', async () => {
 
 client.login(config.token);
 
+client.on('message', message => {
+	if (message.channel.name == "duty-log") {
+    accessDutySpreadsheet(message.content);
+	}
+});
+
 
 setInterval(function autoUpdate() {	
 			// readCells()
