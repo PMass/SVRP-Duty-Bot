@@ -8,7 +8,7 @@
 
 	const config = require('./config.json');
 	const creds = require('./client_secret.json');
-
+	const fnOther = require('./functions-other')
 	const doc = new GoogleSpreadsheet('15gD6aWB1y03LSo7GlyLLimdFekv-sMij6tw1oohaidM');	
 
 	const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
@@ -31,16 +31,16 @@ client.once('ready', async () => {
 		const commandBase = require(`./commands/${baseFile}`)
 
 		const readCommands = (dir) => {
-  		const files = fs.readdirSync(path.join(__dirname, dir))
-  		for (const file of files) {
-    		const stat = fs.lstatSync(path.join(__dirname, dir, file))
-    		if (stat.isDirectory()) {
-      			readCommands(path.join(dir, file))
-    		} else if (file !== baseFile) {
-      			const option = require(path.join(__dirname, dir, file))
-      			commandBase(client, option)
-    		}
-  		}
+	  		const files = fs.readdirSync(path.join(__dirname, dir))
+	  		for (const file of files) {
+	    		const stat = fs.lstatSync(path.join(__dirname, dir, file))
+	    		if (stat.isDirectory()) {
+	      			readCommands(path.join(dir, file))
+	    		} else if (file !== baseFile) {
+	      			const option = require(path.join(__dirname, dir, file))
+	      			commandBase(client, option)
+	    		}
+	  		}
 		}
   readCommands('commands')
 });
@@ -49,7 +49,9 @@ client.login(config.token);
 
 client.on('message', message => {
 	if (message.channel.name == "duty-log") {
-    accessDutySpreadsheet(message.content);
+   		responseMsg.content.then(content => {
+			fnOther.format(content)
+		}
 	}
 });
 
