@@ -18,7 +18,7 @@ const clock = require('./clock')
     } else {
       var status = "off"
     }
-    var job = res[2].substring(1, res[2].length-1);
+    var team = res[2].substring(1, res[2].length-1);
     var res2 = message.content.split(": ");
     var res3 = res2[1].split(" (");
     var name = res3[0].trim();
@@ -26,7 +26,7 @@ const clock = require('./clock')
     var res5 = res4[0].split("steam:");
     var hex = res5[1];
     var date = res4[1]
-    await clock.adjustDuty(message, job, hex, date, name, status)
+    await clock.adjustDuty(message, team, hex, date, name, status)
   }
 
 //function for matching 2 arrays that outputs a array of matching and an array of only in the first one

@@ -6,7 +6,7 @@ const onDutySchema = require('./schemas/on-duty-schema')
   module.exports.status = async (userID, department, time, status) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running onDuty')
+        console.log('Running status()')
 
         const result = await onDutySchema.findOneAndUpdate(
           {
@@ -34,7 +34,7 @@ const onDutySchema = require('./schemas/on-duty-schema')
   module.exports.time = async (userID, department, time) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running updateStatus')
+        console.log('Running time()')
 
         const result = await userInfoSchema.findOneAndUpdate(
           {
@@ -59,7 +59,7 @@ const onDutySchema = require('./schemas/on-duty-schema')
   module.exports.userInfo = async (guildID, userInfo, certs) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running updateStatus')
+        console.log('Running userInfo()')
         const userID = userInfo.ID
         const photo = userInfo.photo
         const rank = userInfo.rank

@@ -4,9 +4,9 @@ const dsMsg = require('../../dsMsg')
 
 module.exports = {
   commands: ['setup'],
-  minArgs: 5,
-  maxArgs: 5,
-  expectedArgs: "<The bot's @> <The duty clock channel's #> <The Log channel's #> <The error channel's #> <The spam channel's #>",
+  minArgs: 6,
+  maxArgs: 6,
+  expectedArgs: "<The bot's @> <name> <The duty clock channel's #> <The Log channel's #> <The error channel's #> <The spam channel's #>",
   permissionError: 'You must be an admin to run this',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
@@ -18,6 +18,7 @@ module.exports = {
         message.reply('Please tag the bot.')
         return
       }
+      const name = arguments[1];
       const groups = await dsGet.getGuildRolesGroup(guild)
       const certs = await dsGet.getGuildRolesCert(guild)
       const ranks = await dsGet.getGuildRolesRank(guild)
@@ -42,8 +43,8 @@ module.exports = {
         message.reply('Please tag the channel that will be used for spamming commands.');
         return
       }
-      console.log(guild.id, botID, groups, certs, ranks, channels);
-      await dbAdd.setup(guild.id, botID, groups, certs, ranks, channels);
+      console.log(guild.id, botID, groups, certs, ranks, channels, guild);
+      await dbAdd.setup(guild.id, botID, groups, certs, ranks, channels, guild, name);
       dsMsg.sendGuildMessage(guild, `Added!`, message.channel.id, 30);
       dsMsg.sendGuildMessage(guild, `You have added this server to the database. Thank you!`, "log");
     } catch(err){

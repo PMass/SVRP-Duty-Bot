@@ -1,4 +1,3 @@
-const management = require('./management')
 const fncClock = require('./functions-clock')
 const fncDiscord = require('./functions-discord')
 const dbGet = require('./dbGet')
@@ -6,14 +5,15 @@ const dbUpdate = require('./dbUpdate')
 const dbClock = require('./dbClock')
 const dsMsg = require('./dsMsg')
 
-module.exports.adjustDuty = async (message, department, hexID, fullClock, fullName, status) => {
+module.exports.adjustDuty = async (message, team, hexID, fullClock, fullName, status) => {
 	try {
-	const guild = message.guild
-	console.log(department, hexID, fullClock, fullName, status)
-	const newUser = await dbClock.logClock(department, hexID, fullClock, fullName, status)
-	const [ userID, pastTime, cadet, doc, noMatch ] = await dbGet.user(hexID)
+		// ADD in an If/Then function to only check for PD/DOC/sherif/ems
+	const guild = dbGet.guild(team)
+	console.log(team, hexID, fullClock, fullName, status)
+	const newUser = await dbClock.logClock(team, hexID, fullClock, fullName, status)
+	const [ userID, pastTime, cadet, doc, department, noMatch ] = await dbGet.user(hexID)
 	const currentStatus = await dbGet.status(userID, department, status)
-	const group = await fncOther.findGroup(department, cadet, doc)
+	const group = await fncOther.findGroup(cadet, doc)
 	if (noMatch) {
 		console.log("Didn't find a user, exiting clock in")
 	} else if (currentStatus === status) {

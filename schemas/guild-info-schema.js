@@ -11,7 +11,9 @@ const reqObject = {
 }
 
 const guildInfoSchema = mongoose.Schema({
+  name: reqString,
   guildID: reqString,
+  guild: reqObject,
   botID: reqString,
   groups: reqObject,
   certs: reqObject,

@@ -16,11 +16,13 @@ const clockFunctions = require('./functions-clock')
         let time = 0
         let cadet = false
         let doc = false
+        let department = ""
         if (result) {
           userID = result.userID
           time = result.time
           cadet = result.cadet
           doc = result.doc
+          department = result.department
           noMatch = false
         } else {
           console.log('No User Found')
@@ -31,6 +33,7 @@ const clockFunctions = require('./functions-clock')
           time,
           cadet,
           doc,
+          department,
           noMatch
         ];
       } finally {
@@ -107,6 +110,45 @@ const clockFunctions = require('./functions-clock')
       }
     })
   }
+
+// Find the guild channels for the clock, error, log and spam from the Guild database
+  module.exports.guild = async (name) => {
+    return await mongo().then(async (mongoose) => {
+      try {
+        switch (name) {
+          case "police":
+            ch = guild.channels.cache.get(channels.log)
+            break;
+          case "sheriff":
+            ch = guild.channels.cache.get(channels.clock)
+            break;
+          case "ems":
+            ch = guild.channels.cache.get(channels.error)
+            break;
+          case "spam":
+            ch = guild.channels.cache.get(channels.spam)
+            break;
+          default:
+            ch = guild.channels.cache.get(msgType)
+            console.log("ERROR: No channel specified for Guild Message, using message channel")
+      }
+        console.log('Running guildChannels()')
+        const result = await guildInfoSchema.findOne({
+          name,
+        })
+        let guild = {};
+        if (result) {
+          guild = result.guild;
+        } else {
+          console.log('No Server Found');
+        }
+        return guild;
+      } finally {
+        mongoose.connection.close()
+      }
+    })
+  }
+
 
 // Find a the guilds discord roles for clocked on and in queue from the Guild database
   module.exports.guildRoles = async (guildID) => {
