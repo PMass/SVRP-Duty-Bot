@@ -1,11 +1,12 @@
 const mongo = require('./mongo')
 const userInfoSchema = require('./schemas/user-info-schema')
+const playersSchema = require('./schemas/players-schema')
 const guildInfoSchema = require('./schemas/guild-info-schema')
 
 module.exports = (client) => {}
 
 // Add a server to the Guild Database
-  module.exports.setup = async (guildID, botID, groups, certs, ranks, channels, guild) => {
+  module.exports.setup = async (guildID, botID, groups, certs, ranks, channels, guild, name) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running setup()')
@@ -22,6 +23,7 @@ module.exports = (client) => {}
             ranks,
             channels,
             guild,
+            name,
             embeds,
           },
           {
@@ -62,10 +64,10 @@ module.exports = (client) => {}
   }
 
 // Add user to User Database
-  module.exports.addUser = async (guildID, userInfo, certs, rank) => {
+  module.exports.user = async (guildID, userInfo, certs, rank) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running addUser()')
+        console.log('Running user()')
         const userID = userInfo.ID      
         const department = userInfo.department
         const hexID = userInfo.hexid
@@ -111,6 +113,32 @@ module.exports = (client) => {}
             title,
             other1,
             other2,
+          },
+          {
+            upsert: true,
+            new: true,
+          }
+        )
+      } finally {
+        mongoose.connection.close()
+      }
+    })
+  }
+
+// Add user to User Database
+  module.exports.player = async (hexID, name) => {
+    return await mongo().then(async (mongoose) => {
+      try {
+        console.log('Running player()')
+
+        const result = await playersSchema.findOneAndUpdate(
+          {
+            hexID,
+            name,
+          },
+          {
+            hexID,
+            name,
           },
           {
             upsert: true,

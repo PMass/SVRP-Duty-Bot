@@ -2,6 +2,7 @@ const mongo = require('./mongo')
 const userInfoSchema = require('./schemas/user-info-schema')
 const onDutySchema = require('./schemas/on-duty-schema')
 const guildInfoSchema = require('./schemas/guild-info-schema')
+const playersSchema = require('./schemas/players-schema')
 const clockFunctions = require('./functions-clock')
 
 // Find a user's discord tag and hours worked by their hex id and department on the User Database
@@ -283,3 +284,27 @@ const clockFunctions = require('./functions-clock')
       }
     })
   }
+
+// Add user to User Database
+  module.exports.players = async (hexID) => {
+    return await mongo().then(async (mongoose) => {
+      try {
+        console.log('Running players()')
+        const result = await playersSchema.find({
+            hexID,
+          }) 
+        // print a message if no documents were found
+        let characters = []
+        if (result.length === 0) {
+          console.log("No users found!");
+        } else {
+          characters = result       
+        }
+        // replace console.dir with your callback to access individual elements
+        return characters;
+      } finally {
+        mongoose.connection.close()
+      }
+    })
+  }
+

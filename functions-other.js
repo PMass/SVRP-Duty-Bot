@@ -1,5 +1,5 @@
 const clock = require('./clock')
-
+const dbAdd = require('./dbAdd')
 
 //Function that checks and makes sure that the URL is an image url
   module.exports.checkURL = async (url) => {
@@ -11,14 +11,14 @@ const clock = require('./clock')
   }
 
 // Function for formatting the single line text that comes from the duty clock
-  module.exports.format = async (message) => {
+  module.exports.formatDuty = async (message) => {
     var res = message.content.split(" ");
     if(res[0] == "🟢"){
       var status = "on"
     } else {
       var status = "off"
     }
-    var team = res[2].substring(1, res[2].length-1);
+    var job = res[2].substring(1, res[2].length-1);
     var res2 = message.content.split(": ");
     var res3 = res2[1].split(" (");
     var name = res3[0].trim();
@@ -26,7 +26,19 @@ const clock = require('./clock')
     var res5 = res4[0].split("steam:");
     var hex = res5[1];
     var date = res4[1]
-    await clock.adjustDuty(message, team, hex, date, name, status)
+    await clock.adjustDuty(message, job, hex, date, name, status)
+  }
+
+// Function for formatting the single line text that comes from the duty clock
+  module.exports.formatJoin = async (message) => {
+    var res = message.content.split(" / ");
+    var res2 = res[1].split("steam:");
+    var hexID = res2[1]
+    console.log(hexID)
+    var res3 = res[2].split(")");
+    var name = res3[0]
+    console.log(name)
+    await dbAdd.player(hexID, name)
   }
 
 //function for matching 2 arrays that outputs a array of matching and an array of only in the first one
@@ -41,7 +53,7 @@ const clock = require('./clock')
   }
 
 //function that determins what group a person is in
-  module.exports.findGroup = async (department, cadet, doc) => {
+  module.exports.findGroup = async (cadet, doc) => {
     try {
       var group = ""
       if (doc){
