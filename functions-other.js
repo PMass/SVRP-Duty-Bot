@@ -26,3 +26,13 @@ module.exports.format = async (message) => {
   await clock.adjustDuty(message, job, hex, date, name, status)
 }
 
+
+module.exports.arrayMatch = async (array1, array2) => {
+  try {
+    const onlyFirst =  array1.filter(x => !array2.includes(x)); // in 1 but not 2
+    const both =  array1.filter(x => array2.includes(x)); // in both
+    return [onlyFirst, both]
+  } catch(err){
+    console.error(err)
+  }
+}
