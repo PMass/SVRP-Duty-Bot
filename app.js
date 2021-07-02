@@ -49,9 +49,7 @@ client.login(config.token);
 
 client.on('message', message => {
 	if (message.channel.name == "duty-log") {
-   		responseMsg.content.then(content => {
-			fnOther.format(content)
-		}
+		fnOther.format(message)
 	}
 });
 

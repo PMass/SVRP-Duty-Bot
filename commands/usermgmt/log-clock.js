@@ -22,7 +22,7 @@ module.exports = {
 		var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 		var fullClock = date+' '+time;
 		var fullName = firstName.concat(space.concat(lastName));
-		const statusCheck = await clock.adjustDuty(message, department, hexID, fullClock, fullName, status)
+		await clock.adjustDuty(message, department, hexID, fullClock, fullName, status)
 		dsMsg.sendGuildMessage(message.guild, `You have added a simulated clock on log to the database. Thank you!`, message.channel.id, 10)
 	},
 }

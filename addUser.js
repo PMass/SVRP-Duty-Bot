@@ -38,7 +38,7 @@ module.exports.add = async (message, mention) => {
     dsMsg.sendGuildMessage(guild, `The photo was not a direct link, substituting alternate!`, message.channel.id, 30);
     }
     console.log(guild.id, userInfo, certs, rank[0])
-    await dbAdd.addUser(guild.id, userInfo, certs)
+    await dbAdd.user(guild.id, userInfo, certs)
     return ;
     } catch (err){
       console.log(err)

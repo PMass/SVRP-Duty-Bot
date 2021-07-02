@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const dbGet = require('./dbGet')
-
+const dbGet = require('./dbGet');
 
 // Send message based on channel and a guild
   module.exports.sendGuildMessage = async (guild, text, msgType, duration = -1) => {

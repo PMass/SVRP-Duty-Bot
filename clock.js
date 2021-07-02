@@ -6,12 +6,12 @@ const dbUpdate = require('./dbUpdate')
 const dbClock = require('./dbClock')
 const dsMsg = require('./dsMsg')
 
-module.exports.adjustDuty = async (message,department, hexID, fullClock, fullName, status) => {
+module.exports.adjustDuty = async (message, department, hexID, fullClock, fullName, status) => {
 	try {
 	const guild = message.guild
 	console.log(department, hexID, fullClock, fullName, status)
 	const newUser = await dbClock.logClock(department, hexID, fullClock, fullName, status)
-	const [ userID, pastTime, cadet, doc, noMatch ] = await dbGet.user(hexID, department)
+	const [ userID, pastTime, cadet, doc, noMatch ] = await dbGet.user(hexID)
 	const currentStatus = await dbGet.status(userID, department, status)
 	const group = await fncOther.findGroup(department, cadet, doc)
 	if (noMatch) {
@@ -43,7 +43,6 @@ module.exports.adjustDuty = async (message,department, hexID, fullClock, fullNam
 		await dbClock.clockOff(guildID, userID, group)
 		dsMsg.sendGuildMessage(guild, `User Has Clocked Off`, "spam", 10)
 	}
-		return ;
     } catch {
     	dsMsg.sendGuildMessage(guild, 'Error in Logging the duty clock',"error")
     }

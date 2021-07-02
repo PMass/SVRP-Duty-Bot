@@ -5,13 +5,12 @@ const guildInfoSchema = require('./schemas/guild-info-schema')
 const clockFunctions = require('./functions-clock')
 
 // Find a user's discord tag and hours worked by their hex id and department on the User Database
-  module.exports.user = async (hexID, department) => {
+  module.exports.user = async (hexID) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running user()')
         const result = await userInfoSchema.findOne({
-          hexID,
-          department,     
+          hexID,    
         })
         let userID = 0
         let time = 0
@@ -107,7 +106,7 @@ const clockFunctions = require('./functions-clock')
         mongoose.connection.close()
       }
     })
-  } // const [ clockID, errorID, logID, spamID ] = await management.getGuildInfo(guildID)
+  }
 
 // Find a the guilds discord roles for clocked on and in queue from the Guild database
   module.exports.guildRoles = async (guildID) => {

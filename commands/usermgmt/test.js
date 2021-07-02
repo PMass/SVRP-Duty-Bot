@@ -1,5 +1,3 @@
-
-
 module.exports = {
   commands: ['test'],
   minArgs: 1,
