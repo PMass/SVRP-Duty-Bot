@@ -70,6 +70,7 @@ module.exports.add = async (message, mention) => {
     }
     console.log(guild.id, userInfo, certs, rank[0])
     await dbAdd.user(guild.id, userInfo, certs)
+    
     return ;
     } catch (err){
       console.log(err)

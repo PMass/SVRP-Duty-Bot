@@ -18,6 +18,8 @@ module.exports = {
       for (let i = 0; i < characterCount; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
         dsMsg.sendGuildMessage(message.guild, `${i+1}: ${characters[i].name}?`, message.channel.id, 30)    
       }
+    } else {
+      
     }
   
   },

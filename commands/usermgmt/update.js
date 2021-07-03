@@ -23,6 +23,11 @@ module.exports = {
     var [userInfo, noMatch ] = await dbGet.userFull(guild.id, mention.id)
     userInfo.ID = mention.id
     switch (option) {
+      case "all":    
+        var [groups, certs, rank] = await dsGet.getRoles(guild, mention)
+        userInfo.department = await dsGet.multiGroupCheck(message, groups);
+        userInfo.rank = rank[0];
+        break;
       case "rank":    
         const rank = await dsGet.getRank(guild, mention.id)
         userInfo.rank = rank[0];
@@ -31,7 +36,7 @@ module.exports = {
         certs = await dsGet.getCerts(guild, mention.id)
         break;
       case "department":
-        groups = await dsGet.getDprt(guild, mention.id)
+        var groups = await dsGet.getDprt(guild, mention.id)
         userInfo.department = await dsGet.multiGroupCheck(message, groups);
         break;
       case "photo":
