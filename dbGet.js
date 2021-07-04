@@ -150,7 +150,6 @@ const clockFunctions = require('./functions-clock')
     })
   }
 
-
 // Find a the guilds discord roles for clocked on and in queue from the Guild database
   module.exports.guildRoles = async (guildID) => {
     return await mongo().then(async (mongoose) => {

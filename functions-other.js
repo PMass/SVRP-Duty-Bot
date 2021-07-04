@@ -68,3 +68,21 @@ const dbAdd = require('./dbAdd')
       console.error(err)
     }
   }
+
+//Update 
+   module.exports.updateArray = async (rows) => {
+      let maxRow = rows.length, returnedArray = [];
+    var i;
+    for (i = 0; i < maxRow; i++) {
+      returnedArray.push(rows[i].Name);
+    }
+    return returnedArray
+  }
+
+ //Update 
+   module.exports.arrayLoction = async (value,array) => {
+    const number = (element) => element == value; 
+    var location = array.findIndex(number);
+    console.log(location)
+    return location;
+  }

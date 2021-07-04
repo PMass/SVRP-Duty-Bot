@@ -71,7 +71,7 @@ module.exports.add = async (message, mention) => {
     console.log(guild.id, userInfo, certs, userInfo.rank)
     await dbAdd.user(guild.id, userInfo, certs)
     userInfo.certsFull = await dsGet.checkCerts(guild, certs);
-    await gSheets.user(userInfo)
+    await gSheets.userAdd(userInfo)
     return ;
     } catch (err){
       console.log(err)

@@ -2,6 +2,7 @@ const dbGet = require('../../dbGet')
 const dbUpdate = require('../../dbUpdate')
 const dsMsg = require('../../dsMsg')
 const dsGet = require('../../dsGet')
+const gSheets = require('../../gSheets')
 
 module.exports = {
   commands: ['update', 'updt'],
@@ -13,14 +14,16 @@ module.exports = {
   callback: async (message, arguments) => {
     message.delete({ timeout: 2000 })
     guild = message.guild
+    guildID = guild.id
     const mention = message.mentions.members.first()
     if (!mention) {
       message.reply('Please tag the user who you are putting into the database.')
       return
     }
+    userID = mention.id
     const option = arguments[1];
-    var [certs, noMatch ] = await dbGet.userCerts(guild.id, mention.id)
-    var [userInfo, noMatch ] = await dbGet.userFull(guild.id, mention.id)
+    var [certs, noMatch ] = await dbGet.userCerts(guildID, userID)
+    var [userInfo, noMatch ] = await dbGet.userFull(guildID, userID)
     userInfo.ID = mention.id
     switch (option) {
       case "all":    
@@ -28,15 +31,16 @@ module.exports = {
         userInfo.department = await dsGet.multiGroupCheck(message, groups);
         userInfo.rank = rank[0];
         break;
-      case "rank":    
-        var rank = await dsGet.getRank(guild, mention.id)
+      case "rank":
+        var rank = await dsGet.getRank(guild, userID)
+        console.log(rank)
         userInfo.rank = rank[0];
         break;
       case "certs":
-        certs = await dsGet.getCerts(guild, mention.id)
+        certs = await dsGet.getCerts(guild, userID)
         break;
       case "department":
-        var groups = await dsGet.getDprt(guild, mention.id)
+        var groups = await dsGet.getDprt(guild, userID)
         userInfo.department = await dsGet.multiGroupCheck(message, groups);
         break;
       case "photo":
@@ -60,7 +64,10 @@ module.exports = {
       default:
         console.log("ERROR: No channel specified for Guild Message, using message channel")
     }
-    await dbUpdate.userInfo(guild.id, userInfo, certs)
+    await dbUpdate.userInfo(guildID, userInfo, certs)
+    const [userInfoNew, noMatch2] = await dbGet.userFull(guildID, userID)
+    userInfoNew.certsFull = await dsGet.checkCerts(guild, certs);
+    await gSheets.userUpdate(userInfoNew)
     dsMsg.sendGuildMessage(guild, `You have sucessfully updated ${mention.displayName} ${option}!`, message.channel.id, 10);
 
   },
