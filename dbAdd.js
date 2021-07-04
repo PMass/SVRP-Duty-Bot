@@ -4,12 +4,13 @@ const playersSchema = require('./schemas/players-schema')
 const guildInfoSchema = require('./schemas/guild-info-schema')
 
 module.exports = (client) => {}
+const name = "dbAdd"
 
 // Add a server to the Guild Database
   module.exports.setup = async (guildID, botID, groups, certs, ranks, channels, guild, name) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running setup()')
+        console.log('Running dbAdd setup()')
         const embeds = {}
         const result = await guildInfoSchema.findOneAndUpdate(
           {
@@ -42,7 +43,7 @@ module.exports = (client) => {}
   module.exports.start = async (guildID, embeds) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running start()')
+        console.log('Running dbAdd start()')
         const result = await guildInfoSchema.findOneAndUpdate(
           {
             guildID,
@@ -64,11 +65,11 @@ module.exports = (client) => {}
   }
 
 // Add user to User Database
-  module.exports.user = async (guildID, userInfo, certs, rank) => {
+  module.exports.user = async (guildID, userInfo, certs) => {
     return await mongo().then(async (mongoose) => {
       try {
-        console.log('Running user()')
-        const userID = userInfo.ID      
+        console.log('Running dbAdd user()')
+        const userID = userInfo.ID
         const department = userInfo.department
         const hexID = userInfo.hexid
         const hired = userInfo.hired
@@ -86,7 +87,6 @@ module.exports = (client) => {}
         const title = ""
         const other1 = ""
         const other2 = ""
-
         const result = await userInfoSchema.findOneAndUpdate(
           {
             guildID,

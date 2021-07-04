@@ -3,7 +3,6 @@ const dbGet = require('./dbGet');
 
 // Send message based on channel and a guild
   module.exports.sendGuildMessage = async (guild, text, msgType, duration = -1) => {
-    console.log('Running sendGuildMessage()')
     try {
       const channels = await dbGet.guildChannels(guild.id)
       var ch = 0
@@ -73,7 +72,6 @@ const dbGet = require('./dbGet');
 
 // Send a discord message and log a response
   module.exports.response = async (message, text) => {
-    console.log('Running response()')
     try {
       const filter = m => m.author.id === message.author.id
       const q = await message.channel.send(text)        

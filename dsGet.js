@@ -352,10 +352,10 @@ const dsMsg = require('./dsMsg')
   }
 
 // Check their certs that the user has and return a T/F array of what certs match
-  module.exports.checkCerts = async (message, certs) => {
+  module.exports.checkCerts = async (guild, certs) => {
     console.log('Running checkCerts()')
     try {
-      const [rolesGroups, rolesCerts, rolesRanks] = await dbGet.guildRoles(message.guild.id)
+      const [rolesGroups, rolesCerts, rolesRanks] = await dbGet.guildRoles(guild.id)
       const certsValues = Object.values(rolesCerts);
       let allCerts = certsValues.map(o => o.name);
       userCerts = arrayMatch(allCerts,certs); //Run the Array matching function    

@@ -1,6 +1,7 @@
 const dbAdd = require('./dbAdd')
 const dbGet = require('./dbGet')
 const dsGet = require('./dsGet')
+const gSheets = require('./gSheets')
 const dsMsg = require('./dsMsg')
 const fnOther = require('./functions-other')
 
@@ -25,7 +26,7 @@ module.exports.add = async (message, mention) => {
         dsMsg.sendGuildMessage(message.guild, `${i+1}: ${characters[i].name}?`, message.channel.id, 15)
       } 
       const choice = await dsMsg.response(message, `Which person would you like to add? \'reply with number\'`);
-      userInfo.name = characters[choice-1]
+      userInfo.name = characters[choice-1].name
     } else {
       const check = await dsMsg.response(message, `That hexID is not in the database, are you sure you ented it correctly? \`yes\` / \`no\``);
       if(check == "yes"){
@@ -40,13 +41,12 @@ module.exports.add = async (message, mention) => {
             dsMsg.sendGuildMessage(message.guild, `${i+1}: ${characters[i].name}?`, message.channel.id, 15)
           } 
           const choice = await dsMsg.response(message, `Which person would you like to add? \'reply with number\'`);
-          userInfo.name = characters[choice-1]
+          userInfo.name = characters[choice-1].name
         } else {
           userInfo.name = await dsMsg.response(message, `What is the users Character Name?`);
         }
       }
     }
-    console.log(userInfo)
     // Find a user based on searching the database of all joined users
     userInfo.hired = await dsMsg.response(message, `On what day was this person hired? \`MM-DD-YYYY\` format`);
     userInfo.badge = await dsMsg.response(message, `What is the characters badge number? \`X-##\` / \`9##\` / \`D-###\ format `);
@@ -68,9 +68,10 @@ module.exports.add = async (message, mention) => {
     dsMsg.sendGuildMessage(guild, `Photo not valid, substituting` ,"error")
     dsMsg.sendGuildMessage(guild, `The photo was not a direct link, substituting alternate!`, message.channel.id, 30);
     }
-    console.log(guild.id, userInfo, certs, rank[0])
+    console.log(guild.id, userInfo, certs, userInfo.rank)
     await dbAdd.user(guild.id, userInfo, certs)
-    
+    userInfo.certsFull = await dsGet.checkCerts(guild, certs);
+    await gSheets.user(userInfo)
     return ;
     } catch (err){
       console.log(err)

@@ -19,7 +19,7 @@ module.exports = {
     if (noMatch) {
     dsMsg.sendGuildMessage(message.guild, "Didn't find a user, please add them to the database", message.channel.id, 30)
     } else {
-    userInfo.certsFull = await dsGet.checkCerts(message, userInfo.certs);
+    userInfo.certsFull = await dsGet.checkCerts(message.guild, userInfo.certs);
     userInfo.promo = "01/01/2020"
     console.log(userInfo)
     await dsMsg.sendProfileMessage(message.channel, userInfo)

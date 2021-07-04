@@ -29,7 +29,7 @@ module.exports = {
         userInfo.rank = rank[0];
         break;
       case "rank":    
-        const rank = await dsGet.getRank(guild, mention.id)
+        var rank = await dsGet.getRank(guild, mention.id)
         userInfo.rank = rank[0];
         break;
       case "certs":
