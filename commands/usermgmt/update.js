@@ -8,7 +8,7 @@ module.exports = {
   commands: ['update', 'updt'],
   minArgs: 2,
   maxArgs: 2,
-  expectedArgs: "<The target's @> <what you want to update (options are \`rank\`, \`certs\`, \`photo\`, \`badge\`, \`title\`, \`strikes\` , \`other1\`, \`other2\`>",
+  expectedArgs: "<The target's @> <what you want to update (options are \`all\`, \`rank\`, \`certs\`, \`department\`, \`photo\`, \`badge\`, \`title\`, \`strikes\` , \`other1\`, \`other2\`>",
   permissionError: 'You must be HR or higher to use this command.',
   permissions: 'MANAGE_ROLES',
   callback: async (message, arguments) => {
