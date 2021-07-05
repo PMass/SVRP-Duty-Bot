@@ -4,7 +4,6 @@ const playersSchema = require('./schemas/players-schema')
 const guildInfoSchema = require('./schemas/guild-info-schema')
 
 module.exports = (client) => {}
-const name = "dbAdd"
 
 // Add a server to the Guild Database
   module.exports.setup = async (guildID, botID, groups, certs, ranks, channels, guild, name) => {
