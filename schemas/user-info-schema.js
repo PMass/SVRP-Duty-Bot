@@ -26,6 +26,7 @@ const userInfoSchema = mongoose.Schema({
   name: reqString,
   department: reqString,
   hired: reqDate,
+  promo: reqDate,
   time: reqString,
   cadet: reqBoolean,
   doc: reqBoolean,

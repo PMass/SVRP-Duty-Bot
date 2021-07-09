@@ -54,6 +54,7 @@ module.exports.add = async (message, mention) => {
     userInfo.photo = await dsMsg.response(message, `Provide a direct link to a their employee photo? NOTE: THE URL NEEDS TO END IN .JPG or .PNG`);
     userInfo.region = await dsMsg.response(message, `Where is the person located? \`NA\` / \`EU\` / \`AUS\` `);
     userInfo.color = mention.displayHexColor;
+    userInfo.promo = userInfo.hired
     userInfo.time = "0000:00:00"
     userInfo.rank = rank[0]
     if (userInfo.department == `Department Of Corrections`){

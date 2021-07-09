@@ -166,6 +166,71 @@ const dbGet = require('./dbGet');
     }
   }
 
+// Send a profile message for the user mentioned
+  module.exports.sendProfileHR = async (channel,userInfo) => {
+    console.log('Running sendProfileMessage()')
+    try {
+      const embeds = {}
+      certList = userInfo.certsFull
+      certList.forEach(convertTFtoIcon);
+      console.log(certList)
+        switch(userInfo.department){
+          case "Los Santos Police Department":
+            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
+            break;
+          case "Blaine County Sheriff's Office":
+            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
+            break;
+          case "San Andreas State Police":
+            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
+            break;
+          case "Department Of Justice":
+            var logo = 'https://cdn.discordapp.com/attachments/474425814126166056/859572584517861386/SASP_Badge.png'
+            break;
+          default:
+            ch = guild.channels.cache.get(msgType)
+            console.log("ERROR: no department, investigate ")
+        }
+        var profile = new Discord.MessageEmbed()
+          .setColor(`${userInfo.color}`)
+          .setTitle(`HR only profile for ${userInfo.badge} - ${userInfo.name}`)
+          .setAuthor(`${userInfo.rank} with ${userInfo.department}`, `${logo}` )
+          .setThumbnail(`${userInfo.photo}`)
+          .addFields(
+          { name: 'Phone Number', value: `${userInfo.phone}`, inline: true  },
+          { name: 'Hired Date', value: `${userInfo.hired}`, inline: true  },
+          { name: 'Last Promotion Date', value: `${userInfo.promo}`, inline: true  },
+          { name: 'Title', value: `${userInfo.title}`, inline: false  },
+          { name: 'Strike Points', value: `${userInfo.strikes}`, inline: true  },
+          { name: 'Other Information #1', value: `${userInfo.other1}`, inline: false  },
+          { name: 'Other Information #2', value: `${userInfo.other2}`, inline: true  },
+          { name: 'FTO', value: certList[0], inline: true  },
+          { name: 'AR', value: certList[1], inline: true  },
+          { name: 'ASU', value: certList[2], inline: true  },
+          { name: 'BIKE', value: certList[6], inline: true  },
+          { name: 'SWAT', value: certList[7], inline: true  },
+          { name: 'K9', value: certList[8], inline: true  },
+          { name: 'SADOC', value: certList[9], inline: true  },
+          { name: 'CAR1', value: certList[3], inline: true  },
+          { name: 'CAR2', value: certList[4], inline: true  },
+          { name: 'CAR3', value: certList[5], inline: true  },
+          { name: 'DOC FTO', value: certList[10], inline: true  },
+          { name: 'CMU', value: certList[14], inline: true  },
+          { name: 'DOC AR', value: certList[15], inline: true  },
+          { name: 'DOC K9', value: certList[11], inline: true  },
+          { name: 'CERT', value: certList[12], inline: true  },
+          { name: 'ICU', value: certList[13], inline: true  },
+          )
+          .setTimestamp()
+          .setFooter(`${userInfo.region}`, `${logo}`);
+      embeds.on = await channel.send(profile)
+      return embeds
+    } catch(err){
+      console.error(err)
+    }
+  }
+
+
 // Internal function to convert a True/False array to an array of Icons for True or False
   function convertTFtoIcon(item, index, arr){ // Input 2 arrays and compare to see how they are the same or different
     if(item){
