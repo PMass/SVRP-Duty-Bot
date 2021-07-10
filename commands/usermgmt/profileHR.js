@@ -17,11 +17,11 @@ module.exports = {
     }
     const [ userInfo, noMatch ] = await dbGet.userFull(message.guild.id, mention.id)
     if (noMatch) {
-    dsMsg.sendGuildMessage(message.guild, "Didn't find a user, please add them to the database", message.channel.id, 30)
+    dsMsg.guildMessage(message.guild, "Didn't find a user, please add them to the database", message.channel.id, 30)
     } else {
     userInfo.certsFull = await dsGet.checkCerts(message.guild, userInfo.certs);
     console.log(userInfo)
-    await dsMsg.sendProfileHR(message.channel, userInfo)
+    await dsMsg.profileHR(message.channel, userInfo)
     }
   },
 }

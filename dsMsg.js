@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const dbGet = require('./dbGet');
 
 // Send message based on channel and a guild
-  module.exports.sendGuildMessage = async (guild, text, msgType, duration = -1) => {
+  module.exports.guildMessage = async (guild, text, msgType, duration = -1) => {
     try {
       const channels = await dbGet.guildChannels(guild.id)
       var ch = 0
@@ -36,8 +36,8 @@ const dbGet = require('./dbGet');
   }
 
 // Send initial message
-  module.exports.sendStartMessage = async (channel) => {
-    console.log('Running sendStartMessage()')
+  module.exports.startMessage = async (channel) => {
+    console.log('Running startMessage()')
     try {
       const embeds = {}
       const onDutyEmbed = new Discord.MessageEmbed()
@@ -92,8 +92,8 @@ const dbGet = require('./dbGet');
   }
 
 // Send a profile message for the user mentioned
-  module.exports.sendProfileMessage = async (channel,userInfo) => {
-    console.log('Running sendProfileMessage()')
+  module.exports.profileMessage = async (channel,userInfo) => {
+    console.log('Running profileMessage()')
     try {
       const embeds = {}
       certList = userInfo.certsFull
@@ -167,8 +167,8 @@ const dbGet = require('./dbGet');
   }
 
 // Send a profile message for the user mentioned
-  module.exports.sendProfileHR = async (channel,userInfo) => {
-    console.log('Running sendProfileMessage()')
+  module.exports.profileHR = async (channel,userInfo) => {
+    console.log('Running profileMessage()')
     try {
       const embeds = {}
       certList = userInfo.certsFull

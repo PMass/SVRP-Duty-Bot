@@ -21,9 +21,9 @@ module.exports.add = async (message, mention) => {
     const characters = await dbGet.players(userInfo.hexid)
     const characterCount = characters.length
     if(characterCount > 0){
-      dsMsg.sendGuildMessage(guild, `That person has ${characterCount} characters.`, message.channel.id, 10);
+      dsMsg.guildMessage(guild, `That person has ${characterCount} characters.`, message.channel.id, 10);
       for (let i = 0; i < characterCount; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
-        dsMsg.sendGuildMessage(message.guild, `${i+1}: ${characters[i].name}?`, message.channel.id, 15)
+        dsMsg.guildMessage(message.guild, `${i+1}: ${characters[i].name}?`, message.channel.id, 15)
       } 
       const choice = await dsMsg.response(message, `Which person would you like to add? \'reply with number\'`);
       userInfo.name = characters[choice-1].name
@@ -36,9 +36,9 @@ module.exports.add = async (message, mention) => {
         const characters = await dbGet.players(userInfo.hexid)
         const characterCount = characters.length
         if(characterCount > 0){
-          dsMsg.sendGuildMessage(guild, `That person has ${characterCount} characters.`, message.channel.id, 10);
+          dsMsg.guildMessage(guild, `That person has ${characterCount} characters.`, message.channel.id, 10);
           for (let i = 0; i < characterCount; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
-            dsMsg.sendGuildMessage(message.guild, `${i+1}: ${characters[i].name}?`, message.channel.id, 15)
+            dsMsg.guildMessage(message.guild, `${i+1}: ${characters[i].name}?`, message.channel.id, 15)
           } 
           const choice = await dsMsg.response(message, `Which person would you like to add? \'reply with number\'`);
           userInfo.name = characters[choice-1].name
@@ -66,8 +66,8 @@ module.exports.add = async (message, mention) => {
     if (validPhoto){
     } else {
     userInfo.photo = "https://cdn.discordapp.com/attachments/162286223866593280/859824380014886933/Rotate-Blast-Black.gif"
-    dsMsg.sendGuildMessage(guild, `Photo not valid, substituting` ,"error")
-    dsMsg.sendGuildMessage(guild, `The photo was not a direct link, substituting alternate!`, message.channel.id, 30);
+    dsMsg.guildMessage(guild, `Photo not valid, substituting` ,"error")
+    dsMsg.guildMessage(guild, `The photo was not a direct link, substituting alternate!`, message.channel.id, 30);
     }
     console.log(guild.id, userInfo, certs, userInfo.rank)
     await dbAdd.user(guild.id, userInfo, certs)
@@ -76,7 +76,7 @@ module.exports.add = async (message, mention) => {
     return ;
     } catch (err){
       console.log(err)
-      dsMsg.sendGuildMessage(guild, 'Error in adding user to database',"error")
+      dsMsg.guildMessage(guild, 'Error in adding user to database',"error")
     }
 }
 

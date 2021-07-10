@@ -23,7 +23,7 @@ module.exports = {
 		var fullClock = date+' '+time;
 		var fullName = firstName.concat(space.concat(lastName));
 		await clock.adjustDuty(message, department, hexID, fullClock, fullName, status)
-		dsMsg.sendGuildMessage(message.guild, `You have added a simulated clock on log to the database. Thank you!`, message.channel.id, 10)
+		dsMsg.guildMessage(message.guild, `You have added a simulated clock on log to the database. Thank you!`, message.channel.id, 10)
 	},
 }
 

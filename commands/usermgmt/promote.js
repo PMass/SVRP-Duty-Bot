@@ -28,7 +28,7 @@ module.exports = {
     const [userInfoNew, noMatch2] = await dbGet.userFull(guildID, userID)
     userInfoNew.certsFull = await dsGet.checkCerts(guild, certs);
     await gSheets.userUpdate(userInfoNew)
-    dsMsg.sendGuildMessage(guild, `You have sucessfully set ${mention.displayName}'s promotion day to today!`, message.channel.id, 10);
+    dsMsg.guildMessage(guild, `You have sucessfully set ${mention.displayName}'s promotion day to today!`, message.channel.id, 10);
 
   },
 }

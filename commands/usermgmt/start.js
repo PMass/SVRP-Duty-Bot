@@ -13,7 +13,7 @@ module.exports = {
     message.delete({ timeout: 10000 })
     const channels = await dbGet.guildChannels(guild.id)
     const channel = guild.channels.cache.get(channels.clock)
-    const embeds = await dsMsg.sendStartMessage(channel)
+    const embeds = await dsMsg.startMessage(channel)
     await dbAdd.start(guild.id, embeds)
     console.log("Started up")
   },
