@@ -107,7 +107,7 @@ const dsMsg = require('./dsMsg')
       const LSPD = {};
       const BCSO = {};
       const SASP = {};
-      const DOJ = {};      
+      const DOJ = {};
       const DOC = {};
       on.id = cache.find(role => role.name === "Clocked In").id;
       on.name = cache.find(role => role.name === "Clocked In").name;
