@@ -5,14 +5,14 @@ module.exports = {
   maxArgs: 1,
   expectedArgs: "[Target user's @]",
   callback: async (message) => {
-    message.delete({ timeout: 5000 })
+    message.delete({ timeout: 1000 })
     const target = message.mentions.users.first() || message.author
     const targetId = target.id
 
-    const guildId = message.guild.id
-    const userId = target.id
+    const guildID = message.guild.id
+    const userID = target.id
 
-    const coins = await economy.getCoins(guildId, userId)
+    const coins = await economy.getCoins(guildID, userID)
 
     message.reply(`That user has ${coins} coins!`)
   },

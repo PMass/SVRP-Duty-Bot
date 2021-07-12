@@ -8,6 +8,7 @@ module.exports = {
   permissionError: 'You must be an administrator to use this command.',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
+    message.delete({ timeout: 1000 })
     const mention = message.mentions.users.first()
 
     if (!mention) {
@@ -21,13 +22,13 @@ module.exports = {
       return
     }
 
-    const guildId = message.guild.id
-    const userId = mention.id
+    const guildID = message.guild.id
+    const userID = mention.id
 
-    const newCoins = await economy.addCoins(guildId, userId, coins)
+    const newCoins = await economy.addCoins(guildID, userID, coins)
 
     message.reply(
-      `You have given <@${userId}> ${coins} coin(s). They now have ${newCoins} coin(s)!`
+      `You have given <@${userID}> ${coins} coin(s). They now have ${newCoins} coin(s)!`
     )
   },
 }

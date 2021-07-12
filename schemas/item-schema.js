@@ -8,27 +8,24 @@ const reqBoolean = {
   type: Boolean,
   required: true,
 }
-
 const reqObject = {
   type: Object,
   required: true,
 }
-
 const reqDate = {
   type: Date,
   required: true,
 }
-
 const reqNum = {
   type: Number,
   required: true,
 }
 
-const profileSchema = mongoose.Schema({
+const itemSchema = mongoose.Schema({
   guildID: reqString,
-  userID: reqString,
-  coins: reqNum,
-  items: reqObject,
+  name: reqString,
+  attack: reqNum,
+  defence: reqNum,
 })
 
-module.exports = mongoose.model('profiles', profileSchema)
+module.exports = mongoose.model('item', itemSchema)

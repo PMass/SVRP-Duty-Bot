@@ -19,6 +19,11 @@ const reqDate = {
   required: true,
 }
 
+const reqNum = {
+  type: Number,
+  required: true,
+}
+
 const userInfoSchema = mongoose.Schema({
   guildID: reqString,  
   userID: reqString,

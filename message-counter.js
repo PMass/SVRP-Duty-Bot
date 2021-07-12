@@ -7,7 +7,11 @@ module.exports = (client) => {
     const { author } = message
     const guildID = message.guild.id
     const userID = author.id
-    const coins = 1
+    const coins = getRandomInt(10)
     const newCoins = await economy.addCoins(guildID, userID, coins)    
   })
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }

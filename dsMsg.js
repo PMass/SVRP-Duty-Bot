@@ -231,6 +231,45 @@ const dbGet = require('./dbGet');
   }
 
 
+// Send a profile message for the user mentioned
+  module.exports.store = async (channel,items,guild) => {
+    console.log('Running profileMessage()')
+    try {
+      const length = items.length
+      const date = new Date()
+      var field = []
+      for (let i = 0; i < length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
+        var item = {}
+        let stock = items[i].stock
+        if(stock == 0){
+          item.name = `${items[i].name} is SOLD OUT!`
+          let cost = items[i].cost
+          item.value = `Unavailable`
+        } else {
+          item.name = items[i].name
+          let cost = items[i].cost
+          item.value = `Cost: ${cost}\nStock: ${stock}`          
+        }
+        item.inline = true
+        field[i] = item
+      }
+      const embed = {
+          "title": `SVRP Items Store`,
+          "color": 8717573,
+          "timestamp": `${date}`,
+          "thumbnail": {
+            "url": `${guild.iconURL()}`
+          },
+          "fields": field
+        }
+      await channel.send({ embed });
+      return
+    } catch(err){
+      console.error(err)
+    }
+  }
+
+
 // Internal function to convert a True/False array to an array of Icons for True or False
   function convertTFtoIcon(item, index, arr){ // Input 2 arrays and compare to see how they are the same or different
     if(item){

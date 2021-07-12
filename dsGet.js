@@ -6,6 +6,7 @@ const dsMsg = require('./dsMsg')
   module.exports.getRoles = async (guild, userID) => {
     console.log('Running getRoles()')
     try {
+      console.log(userID)
       const member = await guild.members.fetch(userID);
       const allRoles = member.roles.cache
       const roles = []

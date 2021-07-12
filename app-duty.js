@@ -7,6 +7,7 @@
 
 	const config = require('./config.json');
 	const fnOther = require('./functions-other')
+	const messageCount = require('./message-counter')
 
 	const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
 	const timer = ms => new Promise(res => setTimeout(res, ms))
