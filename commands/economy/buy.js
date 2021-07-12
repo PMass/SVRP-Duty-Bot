@@ -12,7 +12,7 @@ module.exports = {
     const guild = message.guild
     const guildID = guild.id
     const userID = message.author.id
-    const name = arguments[0]    
+    const name = arguments[0]
     message.delete({ timeout: 100 })
     var stock = await economy.getStock(guildID, name)
     console.log(stock)
@@ -28,17 +28,17 @@ module.exports = {
         return
       } else {
         const items = await economy.getItems(guildID, userID)
-        await economy.updtBal(guildID, userID, newbal)
         const current = items[name];
         if (current === undefined) {
           items[name] = 1        
         } else {
           items[name] = 1 + current
         }
-        stock = stock - 1 
+        stock = stock - 1
+        await economy.updtBal(guildID, userID, newbal)
         await economy.giveItem(guildID, userID, items)
         await economy.updtStock(guildID, name, stock)
-        dsMsg.guildMessage(guild, `You have purchased a ${name} for ${cost} and have ${newbal} left. Their are ${newbal} left in stock!`, message.channel.id, 30);
+        dsMsg.guildMessage(guild, `You have purchased a ${name} for ${cost} and have ${newbal} left. Their are ${stock} left in stock!`, message.channel.id, 30);
 
       }
     }

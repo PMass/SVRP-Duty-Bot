@@ -15,6 +15,7 @@ module.exports = (client) => {}
   module.exports.addCoins = async (guildID, userID, coins) => {
     return await mongo().then(async (mongoose) => {
       try {
+        const items = {}
         const result = await profileSchema.findOneAndUpdate(
           {
             guildID,
@@ -71,7 +72,7 @@ module.exports = (client) => {}
     })
   }
 
-// Adding an item to the Guild
+// Adding an item to the store
   module.exports.addItemStore = async (guildID, name, cost, stock) => {
     return await mongo().then(async (mongoose) => {
       const other = {}
@@ -100,8 +101,8 @@ module.exports = (client) => {}
     })
   }
 
-// Adding an item to the Guild
-  module.exports.addItemStats = async (guildID, name, attack, defence) => {
+// Adding an items stats
+  module.exports.addItemStats = async (guildID, name, defence, attack) => {
     return await mongo().then(async (mongoose) => {
       const other = {}
       try {
@@ -129,7 +130,7 @@ module.exports = (client) => {}
     })
   }
 
-// Getting the users current coins
+// Getting the items cost
   module.exports.getCost = async (guildID, name) => {
     const cachedValue = costCache[`${guildID}-${name}`]
     if (cachedValue) {
@@ -155,7 +156,7 @@ module.exports = (client) => {}
     })
   }
 
-// Getting the users current coins
+// Getting the items current Stock Levels
   module.exports.getStock = async (guildID, name) => {
     const cachedValue = stockCache[`${guildID}-${name}`]
     if (cachedValue) {
@@ -181,7 +182,7 @@ module.exports = (client) => {}
     })
   }
 
-// Getting the users current coins
+// Getting the items Attack
   module.exports.getAttack = async (guildID, name) => {
     const cachedValue = attackCache[`${guildID}-${name}`]
     if (cachedValue) {
@@ -189,7 +190,7 @@ module.exports = (client) => {}
     }
     return await mongo().then(async (mongoose) => {
       try {
-        const result = await storeSchema.findOne({
+        const result = await itemSchema.findOne({
           guildID,
           name,
         })
@@ -207,7 +208,7 @@ module.exports = (client) => {}
     })
   }
 
-// Getting the users current coins
+// Getting the items Defence
   module.exports.getDefence = async (guildID, name) => {
     const cachedValue = defenceCache[`${guildID}-${name}`]
     if (cachedValue) {
@@ -215,7 +216,7 @@ module.exports = (client) => {}
     }
     return await mongo().then(async (mongoose) => {
       try {
-        const result = await storeSchema.findOne({
+        const result = await itemSchema.findOne({
           guildID,
           name,
         })
@@ -233,7 +234,7 @@ module.exports = (client) => {}
     })
   }
 
-// Adding an item to the Guild
+// Adding an item in the store
   module.exports.updtItemStore = async (guildID, name, itemInfo) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -263,13 +264,13 @@ module.exports = (client) => {}
     })
   }
 
-// Adding an item to the Guild
+// Adding an item's stats
   module.exports.updtItemStats = async (guildID, name, itemInfo) => {
     return await mongo().then(async (mongoose) => {
       try {
         const attack = itemInfo.attack
         const defence = itemInfo.defence
-        const result = await storeSchema.findOneAndUpdate(
+        const result = await itemSchema.findOneAndUpdate(
           {
             guildID,
             name,
@@ -293,7 +294,7 @@ module.exports = (client) => {}
     })
   }
 
-// Getting the users current coins
+// Get all the Items in the store
   module.exports.getAll = async (guildID) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -313,7 +314,7 @@ module.exports = (client) => {}
     })
   }
 
-// Adding an item to the Guild
+// Update the Stock of an item
   module.exports.updtStock = async (guildID, name, stock) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -339,7 +340,7 @@ module.exports = (client) => {}
     })
   }
 
-// Adding coins to a user
+// Update the balance of a person to a specific number
   module.exports.updtBal = async (guildID, userID, coins) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -365,7 +366,7 @@ module.exports = (client) => {}
     })
   }
 
-// Adding coins to a user
+// Get all the items that the user currently has
   module.exports.getItems = async (guildID, userID) => {
     return await mongo().then(async (mongoose) => {
       try {
@@ -379,6 +380,9 @@ module.exports = (client) => {}
         } else {
           console.log('No user found')
         }
+        if (items == undefined){
+          items = {}
+        }
         return items
       } finally {
         mongoose.connection.close()
@@ -386,7 +390,7 @@ module.exports = (client) => {}
     })
   }
 
-// Adding coins to a user
+// Give an item to a user
   module.exports.giveItem = async (guildID, userID, items) => {
     return await mongo().then(async (mongoose) => {
       try {

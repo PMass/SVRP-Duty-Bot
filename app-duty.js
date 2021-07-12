@@ -40,7 +40,8 @@ client.once('ready', async () => {
 	    		}
 	  		}
 		}
-  readCommands('commands')
+	messageCount(client)
+	readCommands('commands')
 });
 
 client.login(config.token);

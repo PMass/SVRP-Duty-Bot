@@ -2,8 +2,8 @@ const economy = require('../../economy')
 
 module.exports = {
   commands: ['additem'],
-  minArgs: 3,
-  maxArgs: 3,
+  minArgs: 5,
+  maxArgs: 5,
   expectedArgs: "<The items name> <coin cost> <stock amount> <Defence> <Attack>",
   permissionError: 'You must be an administrator to use this command.',
   permissions: 'ADMINISTRATOR',
