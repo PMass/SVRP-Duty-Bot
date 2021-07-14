@@ -8,7 +8,7 @@ module.exports = {
   callback: async (message, arguments) => {
     const guild = message.guild
     message.delete({ timeout: 100 })
-    const items = await economy.getAll(guild.id)
+    const items = await economy.getAllStore(guild.id)
     console.log(items)
     await dsMsg.store(message.channel, items, guild)
   },

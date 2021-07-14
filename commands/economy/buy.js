@@ -7,7 +7,7 @@ module.exports = {
   maxArgs: 1,
   expectedArgs: "<What item u want to buy>",
   permissionError: 'You must be an administrator to use this command.',
-  permissions: 'ADMINISTRATOR',
+  permissions: 'VIEW_CHANNEL',
   callback: async (message, arguments) => {
     const guild = message.guild
     const guildID = guild.id

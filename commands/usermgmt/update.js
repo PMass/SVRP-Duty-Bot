@@ -69,6 +69,5 @@ module.exports = {
     userInfoNew.certsFull = await dsGet.checkCerts(guild, certs);
     await gSheets.userUpdate(userInfoNew)
     dsMsg.guildMessage(guild, `You have sucessfully updated ${mention.displayName} ${option}!`, message.channel.id, 10);
-
   },
 }
