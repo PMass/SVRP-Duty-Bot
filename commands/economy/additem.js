@@ -45,7 +45,7 @@ module.exports = {
     await economy.addItemStats(guildID, name, defence, attack)
 
     message.reply(
-      `You have added ${name} to the database. It costs ${cost} coin(s) and their is ${stock} of it in stock!`
+      `You have added ${name} to the database. It costs ${cost} dollars and their is ${stock} of it in stock!`
     )
   },
 }

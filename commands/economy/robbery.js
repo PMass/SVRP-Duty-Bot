@@ -11,14 +11,14 @@ module.exports = {
   permissions: 'VIEW_CHANNEL',
   callback: async (message, arguments) => {
     message.delete({ timeout: 100 })
-    const guildID = message.guild.id
+    const guild = message.guild
     const callType = arguments[0]
-    const active = await battle.getCurrent(callType)
+    const active = await economy.getActive(guild.id, callType)
     if(active){
-      dsMsg.guildMessage(guild, `<@${message.author.id}> you readying up to respond to the ${callType} robbery. What equipment do you take?`, message.channel.id, 30);T
-      await battle.addDefender(guildID, message.author.id, callType)
+      dsMsg.guildMessage(guild, `<@${message.author.id}> you readying up to respond to the ${callType} robbery. What equipment do you take?`, message.channel.id, 30);
+      await battle.join(guild.id, message, callType)
     } else {
-      dsMsg.guildMessage(guild, `Their are no active ${callType} robberies to responde to. Good job keeping the city safe`, message.channel.id, 30);T
+      dsMsg.guildMessage(guild, `Their are no active ${callType} robberies to responde to. Good job keeping the city safe`, message.channel.id, 30);
     }
   },
 }

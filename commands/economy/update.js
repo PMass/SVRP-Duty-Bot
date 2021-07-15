@@ -5,7 +5,7 @@ module.exports = {
   commands: ['updateitem'],
   minArgs: 2,
   maxArgs: 2,
-  expectedArgs: "<the items name> <What you wanted to update  \`cost\` / \`stock\ / \`attack\` / \`defence\`>",
+  expectedArgs: "<the items name> <What you wanted to update  \`cost\` / \`stock\ / \`attack\ / \`defence\ >",
   permissionError: 'You must be an administrator to use this command.',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
@@ -33,7 +33,7 @@ module.exports = {
         await economy.updtItemStats(guildID, name, itemInfo)
         break;
       case "defence":
-        itemInfo.defence = await dsMsg.response(message, `This item currently has an defence of ${itemInfo.defence} in stock. Provide a new stock for this item`);
+        itemInfo.defence = await dsMsg.response(message, `This item currently has an defence of ${itemInfo.defence}. Provide a new stock for this item`);
         await economy.updtItemStats(guildID, name, itemInfo)
         break;
       default:

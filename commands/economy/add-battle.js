@@ -11,10 +11,6 @@ module.exports = {
     message.delete({ timeout: 1000 })
     const mention = message.mentions.users.first()
     const name = arguments[0]
-    if (isNaN(name)) {
-      message.reply('Please provide a valid numnber of name.')
-      return
-    }
     const modifier = arguments[1]
     if (isNaN(modifier)) {
       message.reply('Please provide a valid numnber of modifier.')
@@ -26,10 +22,10 @@ module.exports = {
       return
     }
     const guildID = message.guild.id
-    const newCoins = await economy.addBattle(guildID, name, modifier, payout)
+    await economy.addBattle(guildID, name, modifier, payout)
 
     message.reply(
-      `You have given <@${userID}> ${coins} coin(s). They now have ${newCoins} coin(s)!`
+      `You have added a ${name} battle to the database. It has a ${modifier} X modifier and pays out average ${payout}!`
     )
   },
 }

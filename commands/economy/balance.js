@@ -14,6 +14,6 @@ module.exports = {
 
     const coins = await economy.getCoins(guildID, userID)
 
-    message.reply(`That user has ${coins} coins!`)
+    message.reply(`That user has ${coins} dollars!`)
   },
 }

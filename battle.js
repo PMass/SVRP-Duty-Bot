@@ -1,35 +1,43 @@
 const Discord = require('discord.js');
 const economy = require('./economy')
 const fncClock = require('./functions-clock')
+const dsMsg = require('./dsMsg')
 
 // Give Role by ID
-  module.exports.setup = (guildID, userID, callType) => {
+  module.exports.join = async (guildID, message, callType) => {
   	try {
+      const userID = message.author.id
       const items = await economy.getItems(guildID, userID)
       const health = await economy.getHealth(guildID, userID)
+      console.log(health)
       const equipment = {}
       var dmgVal = 0
       var armorVal = 0
-      for (let i = 0; i < items.length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
+      const length = Object.keys(items).length - 1;
+      for (let i = 0; i <= length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
         let name = Object.keys(items)[i]
         let amount = Object.values(items)[i]
         let taking = await dsMsg.response(message, `You have ${amount} ${name}(s). How many would you like to take?`);
         if(taking > 0){
+          console.log(name)
           equipment[name] = taking
-          let dmgVal = dmgVal + economy.getAttack(name)
-          let armorVal = armorVal + economy.getDefence(name)
+          dmgVal = dmgVal + (await economy.getAttack(guildID, name) * taking)
+          armorVal = armorVal + (await economy.getDefence(guildID, name) * taking)
           items[name] = items[name] - taking
         }
       }
+      console.log(equipment)
+      console.log(guildID, callType, health, dmgVal, armorVal)
       await economy.giveItem(guildID, userID, items)
-      await updtBattleDef(guildID, callType, health, dmgVal, armorVal)
-  	} catch {
-      	console.log("error in giving user a role")
+      await economy.updtBattleDef(guildID, callType, health, dmgVal, armorVal)
+  	} catch (err){
+      console.log(err)
+      console.log("error in joining a user to a battle")
     }
   }
 
 // Take Role by ID
-  module.exports.startBattle = (guildID, name) => {
+  module.exports.startBattle = async (guildID, name) => {
   	try {
       var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = economy.getBattleInfo(guildID, name)
       const modifier = economy.getModifier(guildID, name)
@@ -80,32 +88,8 @@ const fncClock = require('./functions-clock')
         dsMsg.guildMessage(guild, `The officers stopped the criminals from escaping and the mayor rewarded them with ${payout}.`, "battle");
       }
      console.log(payout)
-  	} catch {
-  		console.log("error in removing a role from a user")
+  	} catch (err){
+  		console.log("error in running the battle")
   	}
   }
-
-// Send a profile message for the user mentioned
-  module.exports.updateNick = async (message,userInfo) => {
-    console.log('Running updateNick()')
-    try {
-      var badge = userInfo.badge;
-      var name = userInfo.name;
-      const space = " "
-      const period = "."
-      badge = adget.concat(space)
-      var newnick = badget.concat(name);
-      var length = newnick.length;
-      if(length<32){
-        message.member.setNickname(length)     
-      } else {
-        var res = name.split(" ");
-        var lastI = res[1].charAt(0)
-        newnick = badget.concat(res[0].concat(space.concat(lastI.concat(period))));
-      }
-    } catch(err){
-      console.error(err)
-    }
-  }
-
 

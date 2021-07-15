@@ -38,7 +38,7 @@ module.exports = {
         await economy.updtBal(guildID, userID, newbal)
         await economy.giveItem(guildID, userID, items)
         await economy.updtStock(guildID, name, stock)
-        dsMsg.guildMessage(guild, `You have purchased a ${name} for ${cost} and have ${newbal} left. Their are ${stock} left in stock!`, message.channel.id, 30);
+        dsMsg.guildMessage(guild, `You have purchased a ${name} for $${cost}.00 and have $${newbal}.00 left. Their are ${stock} left in stock!`, message.channel.id, 30);
 
       }
     }

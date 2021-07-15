@@ -26,10 +26,11 @@ const battleSchema = mongoose.Schema({
   name: reqString,
   modifier: reqNum,
   payout: reqNum,
-  atkealth: reqNum,
+  active: reqBoolean,
+  atkHealth: reqNum,
   atkDmg: reqNum,
   atkArmor: reqNum,
-  defealth: reqNum,
+  defHealth: reqNum,
   defDmg: reqNum,
   defArmor: reqNum,
 })
