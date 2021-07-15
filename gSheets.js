@@ -2,6 +2,7 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 const doc = new GoogleSpreadsheet('1f7TOwwbgJlty6KkJk-1SAz2IvbNl5EYuQ-riWatc9ug');  
 const creds = require('./client_secret.json');
 const fnOther = require('./functions-other')
+const fncClock = require('./functions-clock')
 
 module.exports = (client) => {}
 
@@ -116,12 +117,12 @@ module.exports = (client) => {}
         if(googleError == '429' ){
         sendMessage(channelFull, `Google is rate limiting the bot due to spam, please give the bot up to three minutes to update. Requests will still get processed in the order recieved, information will just not be updated.`, 20)
         sendMessage(channelLog, `ERROR! Unable to read sheet due to rate limit. Retrying in 2 minutes.`, -1);
-          sleep(120000).then(() => {verifyDuty(userid);
+          fncClock.sleep(120).then(() => {verifyDuty(userid);
             console.log('Retrying Read Cells')
           });
         } else {
         sendMessage(channelLog, `ERROR! Unable to read sheet due to other Google reasons. Retrying in 30 seconds.`, -1);
-          sleep(30000).then(() => {verifyDuty(userid);
+          fncClock.sleep(30).then(() => {verifyDuty(userid);
             console.log('Retrying Read Cells')
           });
         }

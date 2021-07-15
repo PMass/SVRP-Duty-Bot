@@ -6,7 +6,7 @@ module.exports = {
   commands: ['setup'],
   minArgs: 6,
   maxArgs: 6,
-  expectedArgs: "<The bot's @> <name> <The duty clock channel's #> <The Log channel's #> <The error channel's #> <The spam channel's #>",
+  expectedArgs: "<The bot's @> <name> <The duty clock channel's #> <The Log channel's #> <The error channel's #> <The spam channel's #> <The battle channel's #>",
   permissionError: 'You must be an admin to run this',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
@@ -41,6 +41,11 @@ module.exports = {
       channels.spam = message.mentions.channels.array()[3].id;
       if (!channels.spam) {
         message.reply('Please tag the channel that will be used for spamming commands.');
+        return
+      }
+      channels.battle = message.mentions.channels.array()[4].id;
+      if (!channels.battle) {
+        message.reply('Please tag the channel that will be used for the battle commands.');
         return
       }
       console.log(guild.id, botID, groups, certs, ranks, channels, guild);

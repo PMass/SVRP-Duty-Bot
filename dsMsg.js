@@ -19,6 +19,9 @@ const dbGet = require('./dbGet');
         case "spam":
           ch = guild.channels.cache.get(channels.spam)
           break;
+        case "battle":
+          ch = guild.channels.cache.get(channels.battle)
+          break;
         default:
           ch = guild.channels.cache.get(msgType)
           console.log("ERROR: No channel specified for Guild Message, using message channel")

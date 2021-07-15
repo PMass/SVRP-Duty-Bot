@@ -48,9 +48,11 @@ module.exports.timeConvert = (n) => {
 // sleep for a certain time
   module.exports.sleep = async (time) => {
       try {
-        console.log('Running timer()')
-    	return new Promise(resolve => setTimeout(resolve, ms));
-      } finally {
-      }
+        console.log('Running sleep()')
+        time = await time * 1000
+    		return new Promise(resolve => setTimeout(resolve, time));
+      } catch {
+    		console.log("error sleeping")
+    	}
   }
 
