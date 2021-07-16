@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const dbBattle = require('../../dbBattle')
+const dbBattle = require('./dbBattle')
 const fncClock = require('./functions-clock')
 const dsMsg = require('./dsMsg')
 
