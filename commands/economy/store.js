@@ -1,4 +1,4 @@
-const economy = require('../../economy')
+const dbEcon = require('../../dbEcon')
 const dsMsg = require('../../dsMsg')
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   callback: async (message, arguments) => {
     const guild = message.guild
     message.delete({ timeout: 100 })
-    const items = await economy.getAllStore(guild.id)
+    const items = await dbEcon.getAllStore(guild.id)
     console.log(items)
     await dsMsg.store(message.channel, items, guild)
   },

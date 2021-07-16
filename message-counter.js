@@ -1,5 +1,5 @@
 const mongo = require('./mongo')
-const economy = require('./economy')
+const dbEcon = require('./dbEcon')
 const messageCountSchema = require('./schemas/message-count-schema')
 
 const talkedRecently = new Set();
@@ -13,7 +13,7 @@ module.exports = (client) => {
       const userID = author.id
       const coins = getRandomInt(10)
       const time = coins*3000;
-      const newCoins = await economy.addCoins(guildID, userID, coins)    
+      const newCoins = await dbEcon.addCoins(guildID, userID, coins)    
       talkedRecently.add(message.author.id);
       setTimeout(() => {
         // Removes the user from the set after a minute

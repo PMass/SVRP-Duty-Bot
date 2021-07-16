@@ -1,4 +1,4 @@
-const economy = require('../../economy')
+const dbEcon = require('../../dbEcon')
 
 module.exports = {
   commands: ['addbalance', 'addbal'],
@@ -25,7 +25,7 @@ module.exports = {
     const guildID = message.guild.id
     const userID = mention.id
 
-    const newCoins = await economy.addCoins(guildID, userID, coins)
+    const newCoins = await dbEcon.addCoins(guildID, userID, coins)
 
     message.reply(
       `You have given <@${userID}> ${coins} dollars(s). They now have ${newCoins} dollars(s)!`

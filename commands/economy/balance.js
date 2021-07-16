@@ -1,4 +1,4 @@
-const economy = require('../../economy')
+const dbEcon = require('../../dbEcon')
 
 module.exports = {
   commands: ['balance', 'bal'],
@@ -12,7 +12,7 @@ module.exports = {
     const guildID = message.guild.id
     const userID = target.id
 
-    const coins = await economy.getCoins(guildID, userID)
+    const coins = await dbEcon.getCoins(guildID, userID)
 
     message.reply(`That user has ${coins} dollars!`)
   },

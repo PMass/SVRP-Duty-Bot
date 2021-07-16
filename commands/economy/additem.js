@@ -1,4 +1,5 @@
-const economy = require('../../economy')
+const dbEcon = require('../../dbEcon')
+const dbBattle = require('../../dbBattle')
 
 module.exports = {
   commands: ['additem'],
@@ -41,8 +42,8 @@ module.exports = {
       return
     }
 
-    await economy.addItemStore(guildID, name, cost, stock)
-    await economy.addItemStats(guildID, name, defence, attack)
+    await dbEcon.addItemStore(guildID, name, cost, stock)
+    await dbBattle.addItemStats(guildID, name, defence, attack)
 
     message.reply(
       `You have added ${name} to the database. It costs ${cost} dollars and their is ${stock} of it in stock!`

@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const economy = require('./economy')
+const dbBattle = require('../../dbBattle')
 const fncClock = require('./functions-clock')
 const dsMsg = require('./dsMsg')
 
@@ -7,8 +7,8 @@ const dsMsg = require('./dsMsg')
   module.exports.join = async (guildID, message, callType) => {
   	try {
       const userID = message.author.id
-      const items = await economy.getItems(guildID, userID)
-      const health = await economy.getHealth(guildID, userID)
+      const items = await dbBattle.getItems(guildID, userID)
+      const health = await dbBattle.getHealth(guildID, userID)
       console.log(health)
       const equipment = {}
       var dmgVal = 0
@@ -21,15 +21,15 @@ const dsMsg = require('./dsMsg')
         if(taking > 0){
           console.log(name)
           equipment[name] = taking
-          dmgVal = dmgVal + (await economy.getAttack(guildID, name) * taking)
-          armorVal = armorVal + (await economy.getDefence(guildID, name) * taking)
+          dmgVal = dmgVal + (await dbBattle.getAttack(guildID, name) * taking)
+          armorVal = armorVal + (await dbBattle.getDefence(guildID, name) * taking)
           items[name] = items[name] - taking
         }
       }
       console.log(equipment)
       console.log(guildID, callType, health, dmgVal, armorVal)
-      await economy.giveItem(guildID, userID, items)
-      await economy.updtBattleDef(guildID, callType, health, dmgVal, armorVal)
+      await dbBattle.addItemtoUser(guildID, userID, items)
+      await dbBattle.updtBattleDef(guildID, callType, health, dmgVal, armorVal)
   	} catch (err){
       console.log(err)
       console.log("error in joining a user to a battle")
@@ -39,9 +39,9 @@ const dsMsg = require('./dsMsg')
 // Take Role by ID
   module.exports.startBattle = async (guildID, name) => {
   	try {
-      var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = economy.getBattleInfo(guildID, name)
-      const modifier = economy.getModifier(guildID, name)
-      var payout = economy.getPayout(guildID, name)
+      var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guildID, name)
+      const modifier = dbBattle.getModifier(guildID, name)
+      var payout = dbBattle.getPayout(guildID, name)
       var status = "engaged"
       while (status == "engaged") {
         let atkHit = getRandomInt(atkDmg)

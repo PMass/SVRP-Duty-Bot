@@ -1,4 +1,5 @@
-const economy = require('../../economy')
+const dbEcon = require('../../dbEcon')
+const dbBattle = require('../../dbBattle')
 const dsMsg = require('../../dsMsg')
 
 module.exports = {
@@ -14,27 +15,27 @@ module.exports = {
     const name = arguments[0]
     const option = arguments[1]
     var itemInfo = {}
-    itemInfo.cost = await economy.getCost(guildID, name)
-    itemInfo.stock = await economy.getStock(guildID, name)
-    itemInfo.attack = await economy.getAttack(guildID, name)
-    itemInfo.defence = await economy.getDefence(guildID, name)
+    itemInfo.cost = await dbEcon.getCost(guildID, name)
+    itemInfo.stock = await dbEcon.getStock(guildID, name)
+    itemInfo.attack = await dbBattle.getAttack(guildID, name)
+    itemInfo.defence = await dbBattle.getDefence(guildID, name)
     console.log(itemInfo)
     switch (option) {
       case "cost":
         itemInfo.cost = await dsMsg.response(message, `This item currently costs ${itemInfo.cost}. Provide a new cost for this item`);
-        await economy.updtItemStore(guildID, name, itemInfo)
+        await dbEcon.updtItemStore(guildID, name, itemInfo)
         break;
       case "stock":
         itemInfo.stock = await dsMsg.response(message, `This item currently has ${itemInfo.stock} in stock. Provide a new stock for this item`);
-        await economy.updtItemStore(guildID, name, itemInfo)
+        await dbEcon.updtItemStore(guildID, name, itemInfo)
         break;
       case "attack":
         itemInfo.attack = await dsMsg.response(message, `This item currently has an attack of ${itemInfo.attack}. Provide a new cost for this item`);
-        await economy.updtItemStats(guildID, name, itemInfo)
+        await dbBattle.updtItemStats(guildID, name, itemInfo)
         break;
       case "defence":
         itemInfo.defence = await dsMsg.response(message, `This item currently has an defence of ${itemInfo.defence}. Provide a new stock for this item`);
-        await economy.updtItemStats(guildID, name, itemInfo)
+        await dbBattle.updtItemStats(guildID, name, itemInfo)
         break;
       default:
         message.reply('Please provide a valid option to update.');

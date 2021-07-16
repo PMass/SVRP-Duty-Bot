@@ -1,4 +1,4 @@
-const economy = require('../../economy')
+const dbBattle = require('../../dbBattle')
 
 module.exports = {
   commands: ['addbattle'],
@@ -22,7 +22,7 @@ module.exports = {
       return
     }
     const guildID = message.guild.id
-    await economy.addBattle(guildID, name, modifier, payout)
+    await dbBattle.addBattle(guildID, name, modifier, payout)
 
     message.reply(
       `You have added a ${name} battle to the database. It has a ${modifier} X modifier and pays out average ${payout}!`
