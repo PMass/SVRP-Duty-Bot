@@ -21,7 +21,7 @@ module.exports = {
         status = false
         await dbBattle.updtActive(guild.id, callType, status)
         await battle.startBattle(guild, callType)
-        dsMsg.guildMessage(message.guild, `Closing and starting the ${callType} robbery for PD to repospond to`, message.channel.id, 30);
+        dsMsg.guildMessage(message.guild, `Closing and starting the ${callType}`, message.channel.id, 30);
         break;
       default:
         console.log("ERROR: NOT A VALID OPTION FOR TYRING TO DO")
