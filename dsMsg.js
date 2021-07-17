@@ -171,7 +171,7 @@ const dbGet = require('./dbGet');
 
 // Send a profile message for the user mentioned
   module.exports.profileHR = async (channel,userInfo) => {
-    console.log('Running profileMessage()')
+    console.log('Running dsMsg profileHR()')
     try {
       const embeds = {}
       certList = userInfo.certsFull
@@ -233,10 +233,9 @@ const dbGet = require('./dbGet');
     }
   }
 
-
 // Send a profile message for the user mentioned
   module.exports.store = async (channel,items,guild) => {
-    console.log('Running profileMessage()')
+    console.log('Running dsMsg store()')
     try {
       const length = items.length
       const date = new Date()
@@ -272,6 +271,37 @@ const dbGet = require('./dbGet');
     }
   }
 
+// Send a profile message for the user mentioned
+  module.exports.inventory = async (channel,items,guild,member) => {
+    console.log('Running dsMsg inventory()')
+    try {
+      const length = Object.entries(items).length
+      const date = new Date()
+      var field = []
+      for (let i = 0; i < length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
+        let item = {}
+        let stock = Object.values(items)[i]
+        console.log(stock)
+        item.name = Object.keys(items)[i]
+        item.value = `Amount: ${stock}`
+        item.inline = true
+        field[i] = item
+      }
+      const embed = {
+          "title": `${member.displayName} inventory`,
+          "color": `${member.displayHexColor}`,
+          "timestamp": `${date}`,
+          "thumbnail": {
+            "url": `${guild.iconURL()}`
+          },
+          "fields": field
+        }
+      await channel.send({ embed });
+      return
+    } catch(err){
+      console.error(err)
+    }
+  }
 
 // Internal function to convert a True/False array to an array of Icons for True or False
   function convertTFtoIcon(item, index, arr){ // Input 2 arrays and compare to see how they are the same or different

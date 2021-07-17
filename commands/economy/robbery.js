@@ -6,7 +6,7 @@ module.exports = {
   commands: ['10-90'],
   minArgs: 1,
   maxArgs: 1,
-  expectedArgs: "<What call are you responding to  \`LTD\` / \`Fleeca\ / \`Paleto\` / \`Pacific\`>",
+  expectedArgs: "<What call are you responding to  \`LTD\` / \`Fleeca\` / \`Paleto\` / \`Pacific\`>",
   permissionError: 'You must be an administrator to use this command.',
   permissions: 'VIEW_CHANNEL',
   callback: async (message, arguments) => {

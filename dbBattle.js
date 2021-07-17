@@ -109,7 +109,6 @@ module.exports = (client) => {}
       })
     }
 
-
 // Get commands
 
   // Getting the items Attack
@@ -332,7 +331,9 @@ module.exports = (client) => {}
             {
               guildID,
               userID,
-              health,
+              $inc: {
+                health,
+              },              
             },
             {
               upsert: true,
@@ -421,6 +422,31 @@ module.exports = (client) => {}
             }
           )
           console.log(result)
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+  // Set a users health 
+    module.exports.updtActive = async (guildID, name, active) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const result = await battleSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              active,
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
         } finally {
           mongoose.connection.close()
         }
