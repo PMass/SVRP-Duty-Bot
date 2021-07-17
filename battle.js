@@ -39,7 +39,8 @@ const dsMsg = require('./dsMsg')
   module.exports.startBattle = async (guild, name) => {
   	try {
       console.log(`running battle startBattle()`)
-      const [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guild.id, name)
+      const guildID = guild.id
+      var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guildID, name)
       const modifier = dbBattle.getModifier(guild.id, name)
       var payout = dbBattle.getPayout(guild.id, name)
       if(atkHealth=0){
