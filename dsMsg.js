@@ -292,7 +292,7 @@ const dbGet = require('./dbGet');
           "color": `${member.displayHexColor}`,
           "timestamp": `${date}`,
           "thumbnail": {
-            "url": `${guild.iconURL()}`
+            "url": `${member.user.avatarURL()}`
           },
           "fields": field
         }

@@ -1,5 +1,6 @@
 const dbEcon = require('../../dbEcon')
 const dsMsg = require('../../dsMsg')
+const fnOther = require('../../functions-other')
 
 module.exports = {
   commands: ['buy'],
@@ -12,7 +13,10 @@ module.exports = {
     const guild = message.guild
     const guildID = guild.id
     const userID = message.author.id
-    const name = arguments[0]
+    var name = arguments[0]
+    name = name.toLowerCase()
+    name = await fnOther.capitalizeFirstLetter(name)
+    console.log(name)
     message.delete({ timeout: 100 })
     var stock = await dbEcon.getStock(guildID, name)
     console.log(stock)

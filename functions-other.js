@@ -69,6 +69,15 @@ const dbAdd = require('./dbAdd')
     }
   }
 
+//capatilize the first letter
+  module.exports.capitalizeFirstLetter = async (string) => {
+    try {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    } catch(err){
+      console.error(err)
+    }
+  }
+
 //Update 
    module.exports.updateArray = async (rows) => {
       let maxRow = rows.length, returnedArray = [];
