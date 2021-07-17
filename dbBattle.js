@@ -189,6 +189,7 @@ module.exports = (client) => {}
 
   // Get the modifier for a battle
     module.exports.getModifier = async (guildID, name) => {
+      console.log(`Runnning dbBattle getModifier`)
       const cachedValue = modifierCache[`${guildID}-${name}`]
       if (cachedValue) {
         return cachedValue
@@ -199,7 +200,7 @@ module.exports = (client) => {}
             guildID,
             name,
           })
-          let modifier = {}
+          let modifier = 0
           if (result) {
             modifier = result.modifier
           } else {
@@ -215,7 +216,7 @@ module.exports = (client) => {}
 
   // Get the payout for a battle
     module.exports.getPayout = async (guildID, name) => {
-        console.log(`Runnning dbBattle getPayout`)
+      console.log(`Runnning dbBattle getPayout`)
       const cachedValue = payoutCache[`${guildID}-${name}`]
       if (cachedValue) {
         return cachedValue
@@ -226,7 +227,7 @@ module.exports = (client) => {}
             guildID,
             name,
           })
-          let payout = {}
+          let payout = 0
           if (result) {
             payout = result.payout
           } else {

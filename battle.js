@@ -45,7 +45,7 @@ const dsMsg = require('./dsMsg')
       var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = await dbBattle.getBattleInfo(guildID, name);
       console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
       const modifier = await dbBattle.getModifier(guild.id, name);
-      var payout = await dbBattle.getPayout(guild.id, name);
+      const payout = await dbBattle.getPayout(guild.id, name);
       if(atkHealth == 0){
         atkDmg = defDmg;
         atkArmor = defArmor;
