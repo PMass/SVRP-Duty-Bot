@@ -9,7 +9,6 @@ const dsMsg = require('./dsMsg')
       const userID = message.author.id
       const items = await dbBattle.getItems(guildID, userID)
       const health = await dbBattle.getHealth(guildID, userID)
-      console.log(health)
       const equipment = {}
       var dmgVal = 0
       var armorVal = 0
@@ -26,8 +25,7 @@ const dsMsg = require('./dsMsg')
           items[name] = items[name] - taking
         }
       }
-      console.log(equipment)
-      console.log(guildID, callType, health, dmgVal, armorVal)
+      dsMsg.guildMessage(guild, `<@${userID}> you are responding to the ${callType} with ${items}.`, "battle", 60); 
       await dbBattle.addItemtoUser(guildID, userID, items)
       await dbBattle.updtBattleDef(guildID, callType, health, dmgVal, armorVal)
   	} catch (err){
@@ -42,6 +40,14 @@ const dsMsg = require('./dsMsg')
       var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guildID, name)
       const modifier = dbBattle.getModifier(guildID, name)
       var payout = dbBattle.getPayout(guildID, name)
+      if(atkHealth=0){
+        atkDmg = defDmg
+        atkArmor = defArmor
+      }
+      if(defHealth=0){
+        defDmg = atkDmg
+        defArmor = atkArmor
+      }
       var status = "engaged"
       while (status == "engaged") {
         let atkHit = getRandomInt(atkDmg)
