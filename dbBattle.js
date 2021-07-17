@@ -287,6 +287,38 @@ module.exports = (client) => {}
       })
     }
 
+  // Get if a battle is active or not
+    module.exports.getBattleInfo = async (guildID, name) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const result = await battleSchema.findOne({
+            guildID,
+            name,
+          })
+          let atkHealth = 0
+          let atkDmg = 0
+          let atkArmor = 0
+          let defHealth = 0
+          let defDmg = 0
+          let defArmor = 0
+          console.log(result)
+          if (result) {
+            atkHealth = result.atkHealth
+            atkDmg = result.atkDmg
+            atkArmor = result.atkArmor
+            defHealth = result.defHealth
+            defDmg = result.defDmg
+            defArmor = result.defArmor
+          } else {
+            console.log('No active battle found')
+          }
+          return [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor]
+        } finally {
+        }
+      })
+    }
+
+
 // Update Commands
 
   // Adding an item's stats
