@@ -290,6 +290,36 @@ module.exports = (client) => {}
       })
     }
 
+  // Get all active battles
+    module.exports.getActives = async (guildID) => {
+      return await mongo().then(async (mongoose) => {
+        console.log(`Runnning dbBattle getActives`)
+        const active = true
+        try {
+          const result = await battleSchema.find({
+            guildID,
+            active,
+          })
+          console.log(result)
+          let names = []
+          if (result) {
+            for (let i = 0; i < result.length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays          
+              let name = result[i].name
+              let nametest = `\`${name}\``
+              console.log(nametest)
+              names.push(nametest);
+            }
+          } else {
+            console.log('No active battle found')
+          }
+          console.log(names)
+          return names
+        } finally {
+        }
+      })
+    }
+
+
   // Get if a battle is active or not
     module.exports.getBattleInfo = async (guildID, name) => {
       return await mongo().then(async (mongoose) => {
