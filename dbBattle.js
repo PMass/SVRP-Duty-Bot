@@ -279,7 +279,6 @@ module.exports = (client) => {}
             name,
           })
           let active = false
-          console.log(result)
           if (result) {
             active = result.active
           } else {
