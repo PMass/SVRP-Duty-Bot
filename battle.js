@@ -28,9 +28,14 @@ const dsMsg = require('./dsMsg')
           }
         }
       }
-      dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to the ${callType} with ${bject.keys(equipment)}.`, "battle", 60); 
-      await dbBattle.addItemtoUser(guildID, userID, items)
-      await dbBattle.updtBattleDef(guildID, callType, userID, health, dmgVal, armorVal)
+      console.log(equipment)
+      const totalAmount = Object.values(equipment)
+      console.log(totalAmount)
+      if(totalAmount.reduce(reducer) >= 0){
+        dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to the ${callType} with ${Object.keys(equipment)}.`, "battle", 60); 
+        await dbBattle.addItemtoUser(guildID, userID, items)      
+        await dbBattle.updtBattleDef(guildID, callType, userID, health, dmgVal, armorVal)
+      }
   	} catch (err){
       console.log(err)
       console.log("error in joining a user to a battle")
@@ -117,3 +122,5 @@ const dsMsg = require('./dsMsg')
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
+
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
