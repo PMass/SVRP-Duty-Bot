@@ -35,11 +35,11 @@ const dsMsg = require('./dsMsg')
   }
 
 // Take Role by ID
-  module.exports.startBattle = async (guildID, name) => {
+  module.exports.startBattle = async (guild, name) => {
   	try {
-      var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guildID, name)
-      const modifier = dbBattle.getModifier(guildID, name)
-      var payout = dbBattle.getPayout(guildID, name)
+      var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guild.id, name)
+      const modifier = dbBattle.getModifier(guild.id, name)
+      var payout = dbBattle.getPayout(guild.id, name)
       if(atkHealth=0){
         atkDmg = defDmg
         atkArmor = defArmor

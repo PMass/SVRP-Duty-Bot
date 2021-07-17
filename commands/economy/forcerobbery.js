@@ -20,7 +20,7 @@ module.exports = {
       case "end":
         status = false
         await dbBattle.updtActive(message.guild.id, callType, status)
-        await battle.startBattle(guildID, callType)
+        await battle.startBattle(guild, callType)
         dsMsg.guildMessage(message.guild, `Closing and starting the ${callType} robbery for PD to repospond to`, message.channel.id, 30);
         break;
       default:
