@@ -13,6 +13,6 @@ module.exports = {
 
     const coins = await dbEcon.getCoins(guildID, userID)
 
-    message.reply(`${target.nickname} has ${coins} dollars!`)
+    message.reply(`${target.username} has ${coins} dollars!`)
   },
 }

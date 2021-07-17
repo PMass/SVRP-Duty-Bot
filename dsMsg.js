@@ -279,15 +279,30 @@ const dbGet = require('./dbGet');
       const date = new Date()
       var field = []
       for (let i = 0; i < length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
-        let item = {}
         let stock = Object.values(items)[i]
-        console.log(stock)
-        item.name = Object.keys(items)[i]
-        item.value = `Amount: ${stock}`
-        item.inline = true
-        field[i] = item
+        if(stock == 0){
+        } else {
+          let item = {}
+          item.name = Object.keys(items)[i]
+          item.value = `Amount: ${stock}`
+          item.inline = true
+          field.push(item)
+        }
       }
-      const embed = {
+      if(field.length == 0){
+        const embed = {
+          "title": `${member.displayName} inventory`,
+          "color": `${member.displayHexColor}`,
+          "timestamp": `${date}`,
+          "thumbnail": {
+            "url": `${member.user.avatarURL()}`
+          },
+          "image": {"url": "https://media1.giphy.com/media/10h8CdMQUWoZ8Y/giphy-downsized-large.gif"
+          }
+        }
+        await channel.send({ embed }); 
+      } else {
+        const embed = {
           "title": `${member.displayName} inventory`,
           "color": `${member.displayHexColor}`,
           "timestamp": `${date}`,
@@ -295,8 +310,9 @@ const dbGet = require('./dbGet');
             "url": `${member.user.avatarURL()}`
           },
           "fields": field
-        }
-      await channel.send({ embed });
+        }      
+        await channel.send({ embed });
+      }
       return
     } catch(err){
       console.error(err)

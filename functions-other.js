@@ -72,6 +72,7 @@ const dbAdd = require('./dbAdd')
 //capatilize the first letter
   module.exports.capitalizeFirstLetter = async (string) => {
     try {
+      string = string.toLowerCase
       return string.charAt(0).toUpperCase() + string.slice(1);
     } catch(err){
       console.error(err)

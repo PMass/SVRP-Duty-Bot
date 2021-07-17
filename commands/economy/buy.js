@@ -14,8 +14,7 @@ module.exports = {
     const guildID = guild.id
     const userID = message.author.id
     var name = arguments[0]
-    name = name.toLowerCase()
-    name = await fnOther.capitalizeFirstLetter(name)
+    name = await fnOther.capitalize(name)
     console.log(name)
     message.delete({ timeout: 100 })
     var stock = await dbEcon.getStock(guildID, name)
