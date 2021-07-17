@@ -7,19 +7,19 @@ module.exports = {
   permissionError: 'You must be an administrator to use this command.',
   permissions: 'ADMINISTRATOR',
   callback: async (message, arguments) => {
-    const guildID = message.guild.id
+    const guild = message.guild
     message.delete({ timeout: 100 })
     const callType = await dsMsg.response(message, `What robbery are you doing?`);
     const active = await dsMsg.response(message, `What are you trying to do \`start\`, \`end\`?`);
     var status = true
     switch (active) {
       case "start":
-        await dbBattle.updtActive(message.guild.id, callType, status)
+        await dbBattle.updtActive(guild.id, callType, status)
         dsMsg.guildMessage(guild, `Opening up the ${callType} robbery for PD to repospond to`, message.channel.id, 30);
         break;
       case "end":
         status = false
-        await dbBattle.updtActive(message.guild.id, callType, status)
+        await dbBattle.updtActive(guild.id, callType, status)
         await battle.startBattle(guild, callType)
         dsMsg.guildMessage(message.guild, `Closing and starting the ${callType} robbery for PD to repospond to`, message.channel.id, 30);
         break;
