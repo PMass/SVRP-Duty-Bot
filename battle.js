@@ -39,17 +39,19 @@ const dsMsg = require('./dsMsg')
   module.exports.startBattle = async (guild, name) => {
   	try {
       console.log(`running battle startBattle()`)
-      const guildID = guild.id
-      var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = await dbBattle.getBattleInfo(guildID, name)
-      const modifier = dbBattle.getModifier(guild.id, name)
-      var payout = dbBattle.getPayout(guild.id, name)
+      const guildID = guild.id;
+      var test = await dbBattle.getBattleInfo(guildID, name);
+      console.log(test)
+      var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = await dbBattle.getBattleInfo(guildID, name);
+      const modifier = dbBattle.getModifier(guild.id, name);
+      var payout = dbBattle.getPayout(guild.id, name);
       if(atkHealth=0){
-        atkDmg = defDmg
-        atkArmor = defArmor
-      }
+        atkDmg = defDmg;
+        atkArmor = defArmor;
+      };
       if(defHealth=0){
-        defDmg = atkDmg
-        defArmor = atkArmor
+        defDmg = atkDmg;
+        defArmor = atkArmor;
       }
       var status = "engaged"
       while (status == "engaged") {

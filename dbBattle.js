@@ -215,6 +215,7 @@ module.exports = (client) => {}
 
   // Get the payout for a battle
     module.exports.getPayout = async (guildID, name) => {
+        console.log(`Runnning dbBattle getPayout`)
       const cachedValue = payoutCache[`${guildID}-${name}`]
       if (cachedValue) {
         return cachedValue
@@ -241,6 +242,7 @@ module.exports = (client) => {}
 
   // Get a users health
     module.exports.getHealth = async (guildID, userID) => {
+        console.log(`Runnning dbBattle getHealth`)
       const cachedValue = healthCache[`${guildID}-${userID}`]
       if (cachedValue) {
         return cachedValue
@@ -269,6 +271,7 @@ module.exports = (client) => {}
   // Get if a battle is active or not
     module.exports.getActive = async (guildID, name) => {
       return await mongo().then(async (mongoose) => {
+        console.log(`Runnning dbBattle getActive`)
         try {
           const result = await battleSchema.findOne({
             guildID,
@@ -290,6 +293,7 @@ module.exports = (client) => {}
   // Get if a battle is active or not
     module.exports.getBattleInfo = async (guildID, name) => {
       return await mongo().then(async (mongoose) => {
+        console.log(`Runnning dbBattle getBattleInfo`)
         try {
           const result = await battleSchema.findOne({
             guildID,
@@ -313,7 +317,7 @@ module.exports = (client) => {}
             console.log('No active battle found')
           }
           console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
-          return [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor]
+          return [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor];
         } finally {
         }
       })
