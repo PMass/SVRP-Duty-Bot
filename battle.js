@@ -26,7 +26,7 @@ const dsMsg = require('./dsMsg')
           items[name] = items[name] - taking
         }
       }
-      dsMsg.guildMessage(guild, `<@${userID}> you are responding to the ${callType} with ${items}.`, "battle", 60); 
+      dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to the ${callType} with ${items}.`, "battle", 60); 
       await dbBattle.addItemtoUser(guildID, userID, items)
       await dbBattle.updtBattleDef(guildID, callType, userID, health, dmgVal, armorVal)
   	} catch (err){
