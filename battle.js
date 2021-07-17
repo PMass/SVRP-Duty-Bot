@@ -105,3 +105,6 @@ const dsMsg = require('./dsMsg')
   	}
   }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
