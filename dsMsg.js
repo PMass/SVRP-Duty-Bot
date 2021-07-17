@@ -24,7 +24,7 @@ const dbGet = require('./dbGet');
           break;
         default:
           ch = guild.channels.cache.get(msgType)
-          console.log("ERROR: No channel specified for Guild Message, using message channel")
+          console.log("Using direct channel method")
       }
       const msg = await ch.send(text)
       if (duration === -1) {

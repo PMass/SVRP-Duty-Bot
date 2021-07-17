@@ -15,17 +15,14 @@ module.exports = {
     const userID = message.author.id
     var name = arguments[0]
     name = await fnOther.capitalize(name)
-    console.log(name)
     message.delete({ timeout: 100 })
     var stock = await dbEcon.getStock(guildID, name)
-    console.log(stock)
     if(stock == 0){
       dsMsg.guildMessage(guild, `That item is out of stock, please purchase another item!`, message.channel.id, 30);
     } else {
       const coins = await dbEcon.getCoins(guildID, userID)
       const cost = await dbEcon.getCost(guildID, name)
       const newbal = coins - cost
-      console.log(newbal)
       if(newbal < 0){
         dsMsg.guildMessage(guild, `You do not have enough coins to purchase this item!`, message.channel.id, 30);
         return
