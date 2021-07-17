@@ -316,7 +316,6 @@ module.exports = (client) => {}
           } else {
             console.log('No active battle found')
           }
-          console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
           return [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor];
         } finally {
         }
