@@ -43,16 +43,18 @@ const dsMsg = require('./dsMsg')
       var test = await dbBattle.getBattleInfo(guildID, name);
       console.log(test)
       var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = await dbBattle.getBattleInfo(guildID, name);
+      console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
       const modifier = dbBattle.getModifier(guild.id, name);
       var payout = dbBattle.getPayout(guild.id, name);
-      if(atkHealth=0){
+      if(atkHealth == 0){
         atkDmg = defDmg;
         atkArmor = defArmor;
       };
-      if(defHealth=0){
+      if(defHealth == 0){
         defDmg = atkDmg;
         defArmor = atkArmor;
       }
+      console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
       var status = "engaged"
       while (status == "engaged") {
         let atkHit = getRandomInt(atkDmg)
