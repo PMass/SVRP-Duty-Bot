@@ -28,7 +28,7 @@ const dsMsg = require('./dsMsg')
       }
       dsMsg.guildMessage(guild, `<@${userID}> you are responding to the ${callType} with ${items}.`, "battle", 60); 
       await dbBattle.addItemtoUser(guildID, userID, items)
-      await dbBattle.updtBattleDef(guildID, callType, health, dmgVal, armorVal)
+      await dbBattle.updtBattleDef(guildID, callType, userID, health, dmgVal, armorVal)
   	} catch (err){
       console.log(err)
       console.log("error in joining a user to a battle")
@@ -101,9 +101,9 @@ const dsMsg = require('./dsMsg')
       payout = await getRandomInt(payout)
 
       if(atkHealth > defHealth){
-        dsMsg.guildMessage(guild, `The criminals escaped from the heist and made off with ${payout}.`, "battle");
+        dsMsg.guildMessage(guild, `The criminals escaped from the heist and made off with ${payout} dollars.`, "battle");
       } else {
-        dsMsg.guildMessage(guild, `The officers stopped the criminals from escaping and the mayor rewarded them with ${payout}.`, "battle");
+        dsMsg.guildMessage(guild, `The officers stopped the criminals from escaping and the mayor rewarded them with ${payout} dollars.`, "battle");
       }
      console.log(payout)
   	} catch (err){

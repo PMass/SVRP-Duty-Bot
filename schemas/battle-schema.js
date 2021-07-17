@@ -20,6 +20,10 @@ const reqNum = {
   type: Number,
   required: true,
 }
+const reqArray = {
+  type: Array,
+  required: true,
+}
 
 const battleSchema = mongoose.Schema({
   guildID: reqString,
@@ -27,9 +31,11 @@ const battleSchema = mongoose.Schema({
   modifier: reqNum,
   payout: reqNum,
   active: reqBoolean,
+  attackers: reqArray,
   atkHealth: reqNum,
   atkDmg: reqNum,
   atkArmor: reqNum,
+  defenders: reqArray,
   defHealth: reqNum,
   defDmg: reqNum,
   defArmor: reqNum,

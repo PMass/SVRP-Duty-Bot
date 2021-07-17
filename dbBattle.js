@@ -423,7 +423,7 @@ module.exports = (client) => {}
     }
 
   // Update a battle from the defenders side
-    module.exports.updtBattleDef = async (guildID, name, defHealth, defDmg, defArmor) => {
+    module.exports.updtBattleDef = async (guildID, name, userID, defHealth, defDmg, defArmor) => {
       return await mongo().then(async (mongoose) => {
         try {
           var result = await battleSchema.findOne({
@@ -441,6 +441,7 @@ module.exports = (client) => {}
             console.log('No battle found')
           }
           console.log(guildID, name, defHealth, defDmg, defArmor)
+          var defenders = userID
           result = await battleSchema.findOneAndUpdate(
             {
               guildID,
@@ -449,6 +450,9 @@ module.exports = (client) => {}
             {
               guildID,
               name,
+              $push: {
+                defenders,
+              },
               defHealth,
               defDmg,
               defArmor,
