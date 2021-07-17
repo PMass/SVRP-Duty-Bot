@@ -28,6 +28,8 @@ const dsMsg = require('./dsMsg')
           }
         }
       }
+      console.log(equipment)
+      console.log(Object.keys(equipment).length)
       if(Object.keys(equipment).length >= 0){
         dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to the ${callType} with ${Object.keys(equipment)}.`, "battle", 30); 
         await dbBattle.addItemtoUser(guildID, userID, items)      
