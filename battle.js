@@ -56,6 +56,9 @@ const dsMsg = require('./dsMsg')
       }
       console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
       var status = "engaged"
+      if (isNaN(atkHealth)) {
+        return
+      }
       while (status == "engaged") {
         let atkHit = getRandomInt(atkDmg)
         let atkSave = getRandomInt(atkArmor) * modifier
