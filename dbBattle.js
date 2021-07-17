@@ -430,8 +430,6 @@ module.exports = (client) => {}
             guildID,
             name,
           })
-          console.log(result)
-          console.log(guildID, name, defHealth, defDmg, defArmor)
           if (result) {
             defHealth = result.defHealth + defHealth
             defDmg = result.defDmg + defDmg
@@ -440,7 +438,6 @@ module.exports = (client) => {}
           } else {
             console.log('No battle found')
           }
-          console.log(guildID, name, defHealth, defDmg, defArmor)
           var defenders = userID
           result = await battleSchema.findOneAndUpdate(
             {
@@ -462,7 +459,6 @@ module.exports = (client) => {}
               new: true,
             }
           )
-          console.log(result)
         } finally {
           mongoose.connection.close()
         }
