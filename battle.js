@@ -17,16 +17,18 @@ const dsMsg = require('./dsMsg')
       for (let i = 0; i <= length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays
         let name = Object.keys(items)[i]
         let amount = Object.values(items)[i]
-        let taking = await dsMsg.response(message, `You have ${amount} ${name}(s). How many would you like to take?`);
-        if(taking > 0){
-          console.log(name)
-          equipment[name] = taking
-          dmgVal = dmgVal + (await dbBattle.getAttack(guildID, name) * taking)
-          armorVal = armorVal + (await dbBattle.getDefence(guildID, name) * taking)
-          items[name] = items[name] - taking
+        if (amount >= 0 ) {
+          let taking = await dsMsg.response(message, `You have ${amount} ${name}(s). How many would you like to take?`);
+          if(taking > 0){
+            console.log(name)
+            equipment[name] = taking
+            dmgVal = dmgVal + (await dbBattle.getAttack(guildID, name) * taking)
+            armorVal = armorVal + (await dbBattle.getDefence(guildID, name) * taking)
+            items[name] = items[name] - taking
+          }
         }
       }
-      dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to the ${callType} with ${items}.`, "battle", 60); 
+      dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to the ${callType} with ${bject.keys(equipment)}.`, "battle", 60); 
       await dbBattle.addItemtoUser(guildID, userID, items)
       await dbBattle.updtBattleDef(guildID, callType, userID, health, dmgVal, armorVal)
   	} catch (err){
