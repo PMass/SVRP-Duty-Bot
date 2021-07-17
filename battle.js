@@ -32,6 +32,8 @@ const dsMsg = require('./dsMsg')
         dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to the ${callType} with ${Object.keys(equipment)}.`, "battle", 30); 
         await dbBattle.addItemtoUser(guildID, userID, items)      
         await dbBattle.updtBattleDef(guildID, callType, userID, health, dmgVal, armorVal)
+      } else {
+        dsMsg.guildMessage(message.guild, `<@${userID}> you are responding to a call with nothing? Time to go back to academy and train.`, "battle", 30); 
       }
   	} catch (err){
       console.log(err)
