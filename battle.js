@@ -40,17 +40,16 @@ const dsMsg = require('./dsMsg')
   	try {
       console.log(`running battle startBattle()`)
       const guildID = guild.id;
-      var test = await dbBattle.getBattleInfo(guildID, name);
-      console.log(test)
       var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = await dbBattle.getBattleInfo(guildID, name);
-      console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
       const modifier = await dbBattle.getModifier(guild.id, name);
-      const payout = await dbBattle.getPayout(guild.id, name);
+      var payout = await dbBattle.getPayout(guild.id, name);
       if(atkHealth == 0){
+        atkHealth = defHealth;
         atkDmg = defDmg;
         atkArmor = defArmor;
       };
       if(defHealth == 0){
+        defHealth = atkHealth
         defDmg = atkDmg;
         defArmor = atkArmor;
       }
