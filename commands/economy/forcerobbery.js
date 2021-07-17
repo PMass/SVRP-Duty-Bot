@@ -26,7 +26,5 @@ module.exports = {
       default:
         console.log("ERROR: NOT A VALID OPTION FOR TYRING TO DO")
     }
-    dsMsg.guildMessage(guild, `Their are no active ${callType} robberies to responde to. Good job keeping the city safe`, message.channel.id, 30);
-
   },
 }

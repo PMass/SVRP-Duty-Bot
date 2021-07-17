@@ -6,6 +6,7 @@ const dsMsg = require('./dsMsg')
 // Give Role by ID
   module.exports.join = async (guildID, message, callType) => {
   	try {
+      console.log(`running battle join()`)
       const userID = message.author.id
       const items = await dbBattle.getItems(guildID, userID)
       const health = await dbBattle.getHealth(guildID, userID)
@@ -37,6 +38,7 @@ const dsMsg = require('./dsMsg')
 // Take Role by ID
   module.exports.startBattle = async (guild, name) => {
   	try {
+      console.log(`running battle startBattle()`)
       var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guild.id, name)
       const modifier = dbBattle.getModifier(guild.id, name)
       var payout = dbBattle.getPayout(guild.id, name)
