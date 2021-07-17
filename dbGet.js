@@ -29,14 +29,7 @@ const clockFunctions = require('./functions-clock')
           console.log('No User Found')
           noMatch = true
         }
-        return [
-          userID,
-          time,
-          cadet,
-          doc,
-          department,
-          noMatch
-        ];
+        return [userID, time, cadet, doc, department, noMatch];
       } finally {
         mongoose.connection.close()
       }
