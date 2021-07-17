@@ -97,7 +97,8 @@ const dsMsg = require('./dsMsg')
       }
      console.log(payout)
   	} catch (err){
-  		console.log("error in running the battle")
+      console.log("error in running the battle")
+      console.log(err)  		
   	}
   }
 
