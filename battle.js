@@ -54,7 +54,7 @@ const dsMsg = require('./dsMsg')
         defDmg = atkDmg;
         defArmor = atkArmor;
       }
-      console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor)
+      console.log(atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor, modifier, payout)
       var status = "engaged"
       if (isNaN(atkHealth)) {
         return
@@ -67,6 +67,9 @@ const dsMsg = require('./dsMsg')
         let atkWound = defHit - atkSave
         let defWound = atkHit - defSave
         console.log("random", atkHit, atkSave, defHit, defSave)
+        if (isNaN(atkHit)) {
+          return
+        }
         if(atkWound > 0){
           atkHealth = atkHealth - atkWound
           if(atkWound > 5){
