@@ -453,7 +453,7 @@ module.exports = (client) => {}
           } else {
             console.log('No battle found')
           }
-          result = await battleSchema.findOneAndUpdate(
+          await battleSchema.findOneAndUpdate(
             {
               guildID,
               name,
@@ -495,7 +495,7 @@ module.exports = (client) => {}
             console.log('No battle found')
           }
           console.log(guildID, name, defHealth, defDmg, defArmor)
-          result = await battleSchema.findOneAndUpdate(
+          await battleSchema.findOneAndUpdate(
             {
               guildID,
               name,
@@ -521,6 +521,35 @@ module.exports = (client) => {}
         }
       })
     }
+
+  // Update a battle from the attackers side
+    module.exports.updtTrainingAtk = async (guildID, name, atkAttack, atkDefence, atkDmg) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          result = await battleSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              atkAttack,
+              atkDefence,
+              atkDmg,
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+
 
   // Setup a training battle
     module.exports.endTraining = async (guildID, name) => {
