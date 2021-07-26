@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const dbGet = require('./dbGet');
 
 // Send message based on channel and a guild
-  module.exports.guildMessage = async (guild, text, msgType, duration = -1) => {
+  module.exports.guildMsg = async (guild, text, msgType, duration = -1) => {
     try {
       const channels = await dbGet.guildChannels(guild.id)
       var ch = 0
@@ -33,6 +33,69 @@ const dbGet = require('./dbGet');
       setTimeout(() => {
         msg.delete()
       }, 1000 * duration)
+    } catch(err){
+      console.error(err)
+    }
+  }
+
+// Send message based on channel and a guild
+  module.exports.guildMsgBtn = async (guild, text, msgType, button) => {
+    try {
+      const channels = await dbGet.guildChannels(guild.id)
+      var ch = 0
+      switch (msgType) {
+        case "log":
+          ch = guild.channels.cache.get(channels.log)
+          break;
+        case "clock":
+          ch = guild.channels.cache.get(channels.clock)
+          break;
+        case "error":
+          ch = guild.channels.cache.get(channels.error)
+          break;
+        case "spam":
+          ch = guild.channels.cache.get(channels.spam)
+          break;
+        case "battle":
+          ch = guild.channels.cache.get(channels.battle)
+          break;
+        default:
+          ch = guild.channels.cache.get(msgType)
+          console.log("ERROR: No channel specified for Guild Message, using message channel")
+      }
+      const msg = await ch.send(text, button)
+
+    } catch(err){
+      console.error(err)
+    }
+  }
+
+// Send message based on channel and a guild
+  module.exports.guildMsgBtns = async (guild, text, msgType, btns) => {
+    try {
+      const channels = await dbGet.guildChannels(guild.id)
+      var ch = 0
+      switch (msgType) {
+        case "log":
+          ch = guild.channels.cache.get(channels.log)
+          break;
+        case "clock":
+          ch = guild.channels.cache.get(channels.clock)
+          break;
+        case "error":
+          ch = guild.channels.cache.get(channels.error)
+          break;
+        case "spam":
+          ch = guild.channels.cache.get(channels.spam)
+          break;
+        case "battle":
+          ch = guild.channels.cache.get(channels.battle)
+          break;
+        default:
+          ch = guild.channels.cache.get(msgType)
+          console.log("ERROR: No channel specified for Guild Message, using message channel")
+      }
+      const msg = await ch.send(text, btns)
     } catch(err){
       console.error(err)
     }
@@ -232,7 +295,6 @@ const dbGet = require('./dbGet');
       console.error(err)
     }
   }
-
 
 // Send a profile message for the user mentioned
   module.exports.store = async (channel,items,guild) => {

@@ -5,6 +5,8 @@ const guildInfoSchema = require('./schemas/guild-info-schema')
 const playersSchema = require('./schemas/players-schema')
 const clockFunctions = require('./functions-clock')
 
+const channelsCache = {} // { 'guildID': channels }
+
 // Find a user's discord tag and hours worked by their hex id and department on the User Database
   module.exports.user = async (hexID) => {
     return await mongo().then(async (mongoose) => {
@@ -93,6 +95,10 @@ const clockFunctions = require('./functions-clock')
 
 // Find the guild channels for the clock, error, log and spam from the Guild database
   module.exports.guildChannels = async (guildID) => {
+    const cachedValue = channelsCache[`${guildID}`]
+    if (cachedValue) {
+      return cachedValue
+    }
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running guildChannels()')
@@ -105,6 +111,7 @@ const clockFunctions = require('./functions-clock')
         } else {
           console.log('No Server Found');
         }
+        channelsCache[`${guildID}`] = channels
         return channels;
       } finally {
         mongoose.connection.close()

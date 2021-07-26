@@ -1,6 +1,5 @@
 const mongo = require('./mongo')
 const dbEcon = require('./dbEcon')
-const messageCountSchema = require('./schemas/message-count-schema')
 
 const talkedRecently = new Set();
 

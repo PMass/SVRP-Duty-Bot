@@ -34,8 +34,8 @@ module.exports = (client) => {}
           )
           coinsCache[`${guildID}-${userID}`] = result.coins
           return result.coins
-        } finally {
-          mongoose.connection.close()
+        } catch (err) {
+          console.log(err)
         }
       })
     }
@@ -121,8 +121,8 @@ module.exports = (client) => {}
         }
           coinsCache[`${guildID}-${userID}`] = coins
           return coins
-        } finally {
-          mongoose.connection.close()
+        } catch (err) {
+          console.log(err)
         }
       })
     }

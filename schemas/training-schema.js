@@ -25,24 +25,12 @@ const reqArray = {
   required: true,
 }
 
-
-const battleSchema = mongoose.Schema({
+const trainingSchema = mongoose.Schema({
   guildID: reqString,
   name: reqString,
-  modifier: reqNum,
-  payout: reqNum,
-  active: reqBoolean,
-  attacker: reqNum,
-  atkHealth: reqNum,
-  atkDmg: reqNum,
-  atkArmor: reqNum,
-  defender: reqNum,  
-  defHealth: reqNum,
-  defDmg: reqNum,
-  defArmor: reqNum,
-  users: reqArray,
-  training: reqNum,
+  level: reqNum,
+  damage: reqNum,
 })
 
 
-module.exports = mongoose.model('battle', battleSchema)
+module.exports = mongoose.model('training', trainingSchema)

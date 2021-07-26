@@ -30,6 +30,8 @@ const profileSchema = mongoose.Schema({
   coins: reqNum,
   items: reqObject,
   health: reqNum,
+  wins: reqNum,
+  loses: reqNum,
 })
 
 module.exports = mongoose.model('profiles', profileSchema)

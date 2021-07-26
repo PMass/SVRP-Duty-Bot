@@ -15,10 +15,10 @@ module.exports = {
     const callType = arguments[0]
     const active = await dbBattle.getActive(guild.id, callType)
     if(active){
-      dsMsg.guildMessage(guild, `<@${message.author.id}> you readying up to respond to the ${callType} robbery. What equipment do you take?`, message.channel.id, 30);
+      dsMsg.guildMsg(guild, `<@${message.author.id}> you readying up to respond to the ${callType} robbery. What equipment do you take?`, message.channel.id, 30);
       await battle.join(guild.id, message, callType)
     } else {
-      dsMsg.guildMessage(guild, `Their are no active ${callType} robberies to responde to. Good job keeping the city safe`, message.channel.id, 30);
+      dsMsg.guildMsg(guild, `Their are no active ${callType} robberies to responde to. Good job keeping the city safe`, message.channel.id, 30);
     }
   },
 }
