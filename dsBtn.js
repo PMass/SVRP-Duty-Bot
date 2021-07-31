@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const disbut = require("discord-buttons");
 const dsMsg = require('./dsMsg')
-const battle = require('./battle')
+const training = require('./training')
 const dbEcon = require('./dbEcon')
-const dbBattle = require('./dbBattle')
+const dbTraining = require('./dbTraining')
 
 module.exports = (client) => {
   client.on('clickButton', async (button) => {
@@ -22,7 +22,7 @@ module.exports = (client) => {
             const initiator = button.message.content.split(" ")[1]
             var cost = 0 - button.message.content.split(" ")[11]            
             await dbEcon.addCoins(guildID, button.clicker.user.id, cost)
-            await battle.training(guild, message, initiator)
+            await training.training(guild, message, initiator)
             message.delete({ timeout: 100 })
           }
           break;
@@ -31,7 +31,7 @@ module.exports = (client) => {
             dsMsg.guildMsg(guild, `Perhaps another time.`, "battle", 10);
             const initiator = button.message.content.split(" ")[1]
             name = initiator + `-` + button.clicker.user.username
-            dbBattle.endTraining(guildID, name)
+            dbTraining.endTraining(guildID, name)
             message.delete({ timeout: 100 })
           }  
           break;
@@ -72,7 +72,7 @@ module.exports = (client) => {
                 var dmg = 12
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
+            await training.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         case `train_atkLow`:
@@ -112,7 +112,7 @@ module.exports = (client) => {
                 var dmg = 5
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
+            await training.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         case `train_neutral`:
@@ -120,7 +120,7 @@ module.exports = (client) => {
             var atk = 0
             var def = getRandomInt(4) + 8
             var dmg = 0
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
+            await training.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }
           break;
         case `train_deflow`:
@@ -160,7 +160,7 @@ module.exports = (client) => {
                 var dmg = 3
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
+            await training.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         case `train_defHigh`:
@@ -200,7 +200,7 @@ module.exports = (client) => {
                 var dmg = -6
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
+            await training.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         default:

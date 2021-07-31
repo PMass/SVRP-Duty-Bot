@@ -39,6 +39,7 @@ const battleSchema = mongoose.Schema({
   atkDmg: reqNum,
   atkArmor: reqNum,
   atkStatus: reqBoolean,
+  atkType: reqString,
   defender: reqObject,  
   defHealth: reqNum,
   defAttack: reqNum,
@@ -46,6 +47,7 @@ const battleSchema = mongoose.Schema({
   defDmg: reqNum,
   defArmor: reqNum,
   defStatus: reqBoolean,
+  defType: reqString,
   users: reqArray,
   training: reqNum,
 })

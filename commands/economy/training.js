@@ -1,4 +1,4 @@
-const dbBattle = require('../../dbBattle')
+const dbTraining = require('../../dbTraining')
 const battle = require('../../battle')
 const dsMsg = require('../../dsMsg')
 const disbut = require("discord-buttons");
@@ -27,6 +27,11 @@ module.exports = {
       message.reply('Please tag who you want to train with.')
       return
     }
+    if (isNaN(cost)) {
+      message.reply('Please provide a valid numnber amount.')
+      return
+    }
+
     var coins = await dbEcon.getCoins(guild.id, author.id)
     var newbal = coins - cost
     if(newbal < 0){
@@ -56,9 +61,9 @@ module.exports = {
     cost = 0 - cost
     await dbEcon.addCoins(guild.id, user.id, cost)
     const name = authorTag + `-` + user.username
-    await dbBattle.addBattle(guild.id, name, 0, winnings)
+    await dbTraining.addBattle(guild.id, name, 0, winnings)
     const attacker = {id: author.id, username:author.username}
     const defender =  {id: user.id, username:user.username}
-    await dbBattle.addFighters(guild.id, name, attacker, defender)
+    await dbTraining.addFighters(guild.id, name, attacker, defender)
   },
 }

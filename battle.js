@@ -211,6 +211,7 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
         atkHealth = atkHealth - atkDmg
         dsMsg.guildMsg(guild, `${attacker.username} decided to protect themselves and now feels more rested`, "battle", 10);
       }
+      await fncClock.sleep(5)
       if(defDmg > 0){
         if(defAttack >= atkDefence){        
           atkHealth = atkHealth - defDmg
@@ -218,21 +219,28 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
         }
       } else {
         defHealth = defHealth - defDmg
-        dsMsg.guildMsg(guild, `${defender.username} decided to protect themselves and now feels more rested`, "battle", 10);
+        dsMsg.guildMsg(guild, `${defender.username} decided to protect themselves and now feels more rested and recovered`, "battle", 10);
       }
+      await dbBattle.logTraining
+      await fncClock.sleep(5)
       if(atkHealth <= 0 || defHealth <= 0){
         if(atkHealth > defHealth){
           dsMsg.guildMsg(guild, `${attacker.username} has come out victorious over ${defender.username} in training and earned ${payout}`, "battle", 60);
           await dbEcon.addCoins(guildID, attacker.id, payout)
+          await dbBattle.trackWins(guildID, attacker.id, 1)
+          await dbBattle.trackWins(guildID, defender.id, 0)
         } else {
           dsMsg.guildMsg(guild, `${defender.username} was able to defend themselves against ${attacker.username} in training and earned ${payout}`, "battle", 60);
           await dbEcon.addCoins(guildID, defender.id, payout)
+          await dbBattle.trackWins(guildID, attacker.id, 0)
+          await dbBattle.trackWins(guildID, defender.id, 1)
         }
         await dbBattle.endTraining(guildID, name)
       } else {
         await dbBattle.trainingRound(guildID, name, atkHealth, defHealth)
         await battle.moreTraining(guild, attacker.username, defender.username)
       }
+
     } catch (err){
       console.log("error in running the battle")
       console.log(err)
