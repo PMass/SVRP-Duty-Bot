@@ -92,8 +92,8 @@ module.exports = (client) => {}
   // Setup a training battle
     module.exports.addFighters = async (guildID, name, attacker, defender) => {
       return await mongo().then(async (mongoose) => {
-        const atkHealth = 50
-        const defHealth = 50
+        const atkHealth = 20
+        const defHealth = 20
         const active = false
         try {
           const result = await battleSchema.findOneAndUpdate(
@@ -380,6 +380,50 @@ module.exports = (client) => {}
       })
     }
 
+  // Get the training information
+    module.exports.getTrainingInfo = async (guildID, name) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const result = await battleSchema.findOne({
+            guildID,
+            name,
+          })
+          console.log(result)
+          let attacker = 0
+          let atkAttack = 0
+          let atkDefence = 0
+          let atkDmg = 0 
+          let atkHealth = 0
+          let defender = 0
+          let defAttack = 0
+          let defDefence = 0
+          let defDmg = 0 
+          let defHealth = 0
+          let payout = 0
+          if (result) {            
+            attacker = result.attacker
+            atkAttack = result.atkAttack
+            atkDefence = result.atkDefence
+            atkDmg  = result.atkDmg 
+            atkHealth = result.atkHealth
+            defender = result.defender
+            defAttack = result.defAttack
+            defDefence = result.defDefence
+            defDmg  = result.defDmg 
+            defHealth = result.defHealth
+            payout = result.payout
+          } else {
+            console.log('No user found')
+          }
+          console.log(attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout)
+          return [attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout]
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+
 // Update Commands
 
   // Adding an item's stats
@@ -582,17 +626,46 @@ module.exports = (client) => {}
       })
     }
 
-
+  // Update a training from the attackers side
+    module.exports.trainingRound = async (guildID, name, atkHealth, defHealth) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const atkStatus = false
+          const defStatus = false
+          result = await battleSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              atkHealth,
+              atkStatus,
+              defHealth,
+              defStatus,
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
+          return
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
 
   // End a training battle
     module.exports.endTraining = async (guildID, name) => {
       return await mongo().then(async (mongoose) => {
         try {
-          const result = await battleSchema.findOneAndDelete(
+          await battleSchema.findOneAndDelete(
             {
               guildID,
               name,
-            }
+            }            
           )
         } finally {
           mongoose.connection.close()

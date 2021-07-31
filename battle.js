@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const dbBattle = require('./dbBattle')
 const fncClock = require('./functions-clock')
 const dsMsg = require('./dsMsg')
+const dbEcon = require('./dbEcon')
+const battle = require('./battle')
 const { MessageButton, MessageActionRow, MessageMenuOption, MessageMenu} = require('discord-buttons');
 
 const atkHigh = ['Assult Rifle', 'Shotgun', 'Sub-Machine Gun', 'Grenade']
@@ -197,7 +199,9 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
 // Run the Training Simulation
   module.exports.startTraining = async (guild, name) => {
     try {
-      var [attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout] = dbBattle.getTrainingInfo(guild.id, name)
+      const guildID = guild.id
+      console.log(guild.id, name)
+      var [attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout] = await dbBattle.getTrainingInfo(guildID, name)
       if(atkDmg > 0){
         if(atkAttack >= defDefence){
           defHealth = defHealth - atkDmg
@@ -223,24 +227,27 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
         } else {
           dsMsg.guildMsg(guild, `${defender.username} was able to defend themselves against ${attacker.username} in training and earned ${payout}`, "battle", 60);
           await dbEcon.addCoins(guildID, defender.id, payout)
-        } 
-        const name = attacker.username + `-` + defender.username
+        }
         await dbBattle.endTraining(guildID, name)
       } else {
+        await dbBattle.trainingRound(guildID, name, atkHealth, defHealth)
         await battle.moreTraining(guild, attacker.username, defender.username)
       }
     } catch (err){
       console.log("error in running the battle")
+      console.log(err)
+      console.log(attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout)
     }
   }
 
 // Run the Training Simulation
-  module.exports.saveTraining = async (guild, name, clicker, attacker, defender, atk, def, dmg) => {
+  module.exports.saveTraining = async (guild, name, clicker, attacker, defender, atk, def, dmg, message) => {
     try {
       if(clicker == attacker){
         var status = await dbBattle.updtTrainingAtk(guild.id, name, atk, def, dmg)
+        console.log(status)
         if(status){
-          await dbBattle.startTraining(guild, name)
+          await battle.startTraining(guild, name)
           message.delete({ timeout: 100 })
         } else {
           dsMsg.guildMsg(guild, `${attacker} Has made their decision, awaiting ${defender}`, "battle", 10);
@@ -248,7 +255,7 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
       } else {
         var status = await dbBattle.updtTrainingDef(guild.id, name, atk, def, dmg)
         if(status){
-          await dbBattle.startTraining(guild, name)
+          await battle.startTraining(guild, name)
           message.delete({ timeout: 100 })
         } else {
           dsMsg.guildMsg(guild, `${defender} Has made their decision, awaiting ${attacker}`, "battle", 10);
@@ -256,6 +263,8 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
       }
     } catch (err){
       console.log("error in saving the training")
+      console.log(err)
+      console.log(clicker, attacker, defender, atk, def, dmg)
     }
   }
 

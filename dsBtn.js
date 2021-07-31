@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const disbut = require("discord-buttons");
 const dsMsg = require('./dsMsg')
 const battle = require('./battle')
+const dbEcon = require('./dbEcon')
+const dbBattle = require('./dbBattle')
 
 module.exports = (client) => {
   client.on('clickButton', async (button) => {
@@ -12,7 +14,7 @@ module.exports = (client) => {
       const defender = button.message.content.split(" ")[2]
 
       const clicker = button.clicker.user.username
-      const name = attacker + `-` + defender
+      var name = attacker + `-` + defender
       switch (button.id) {
         case `train_yes`:
           if(button.clicker.user.id == message.mentions.users.first().id){
@@ -27,13 +29,14 @@ module.exports = (client) => {
         case `train_no`:
           if(button.clicker.user.id == message.mentions.users.first().id){
             dsMsg.guildMsg(guild, `Perhaps another time.`, "battle", 10);
+            const initiator = button.message.content.split(" ")[1]
+            name = initiator + `-` + button.clicker.user.username
             dbBattle.endTraining(guildID, name)
             message.delete({ timeout: 100 })
           }  
           break;
         case `train_atkHigh`:
           if(clicker == attacker || clicker == defender){
-            dsMsg.guildMsg(guild, `${clicker} your choice has been saved.`, "battle", 10);
             var atk = getRandomInt(4)
             var def = getRandomInt(4)
             var dmgPoints = getRandomInt(9)
@@ -69,12 +72,11 @@ module.exports = (client) => {
                 var dmg = 12
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         case `train_atkLow`:
           if(clicker == attacker || clicker == defender){
-            dsMsg.guildMsg(guild, `${clicker} your choice has been saved.`, "battle", 10);
             var atk = getRandomInt(4) + 4
             var def = getRandomInt(4) + 4
             var dmgPoints = getRandomInt(9)
@@ -110,21 +112,20 @@ module.exports = (client) => {
                 var dmg = 5
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         case `train_neutral`:
           if(clicker == attacker || clicker == defender){
-            dsMsg.guildMsg(guild, `${clicker} your choice has been saved.`, "battle", 10);
             var atk = 0
             var def = getRandomInt(4) + 8
             var dmg = 0
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }
           break;
         case `train_deflow`:
           if(clicker == attacker || clicker == defender){
-            dsMsg.guildMsg(guild, `${clicker} your choice has been saved.`, "battle", 10);
+            var atk = 0
             var def = getRandomInt(4) + 4
             var dmgPoints = getRandomInt(9)
             switch (dmgPoints) {
@@ -159,12 +160,12 @@ module.exports = (client) => {
                 var dmg = 3
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         case `train_defHigh`:
           if(clicker == attacker || clicker == defender){
-            dsMsg.guildMsg(guild, `${clicker} your choice has been saved.`, "battle", 10);
+            var atk = 0
             var def = getRandomInt(4)
             var dmgPoints = getRandomInt(9)
             switch (dmgPoints) {
@@ -199,7 +200,7 @@ module.exports = (client) => {
                 var dmg = -6
                 break;
             }
-            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg, message)
           }  
           break;
         default:
