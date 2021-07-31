@@ -2,12 +2,15 @@ const mongo = require('./mongo')
 const profileSchema = require('./schemas/profile-schema')
 const itemSchema = require('./schemas/item-schema')
 const battleSchema = require('./schemas/battle-schema')
+const trainingSchema = require('./schemas/training-schema')
 
+const itemCache = {} // Either { 'guildID-name-attack': attack } or { 'guildID-name-defence': defence }
 const healthCache = {} // { 'guildID-userID': health }
 const attackCache = {} // { 'guildID-name': attack }
 const defenceCache = {} // { 'guildID-name': defence }
 const modifierCache = {} // { 'guildID-name': modifier }
 const payoutCache = {} // { 'guildID-name': payout }
+const trainingCache = {} // Either { 'guildID-name-level': level } or { 'guildID-name-damage': dmg }
 
 module.exports = (client) => {}
 
@@ -34,6 +37,8 @@ module.exports = (client) => {}
               new: true,
             }
           )
+          itemCach[`${guildID}-${name}-attack`] = result.attack
+          itemCach[`${guildID}-${name}-defence`] = result.defence
           attackCache[`${guildID}-${name}`] = result.attack
           defenceCache[`${guildID}-${name}`] = result.defence
         } finally {
@@ -84,6 +89,37 @@ module.exports = (client) => {}
       })
     }
 
+  // Setup a training battle
+    module.exports.addFighters = async (guildID, name, attacker, defender) => {
+      return await mongo().then(async (mongoose) => {
+        const atkHealth = 20
+        const defHealth = 20
+        const active = false
+        try {
+          const result = await battleSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              atkHealth,
+              defHealth,
+              attacker,
+              defender,
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
   // Give/take an item to a user
     module.exports.addItemtoUser = async (guildID, userID, items) => {
       return await mongo().then(async (mongoose) => {
@@ -103,6 +139,35 @@ module.exports = (client) => {}
               new: true,
             }
           )
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+  // Add a Training Stance - NOT USED ANYMORE
+    module.exports.trainingStance = async (guildID, name, level, damage) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const result = await trainingSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              level,
+              damage,
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
+          trainingCache[`${guildID}-${name}-level`] = result.level
+          trainingCache[`${guildID}-${name}-damage`] = result.damage
+          console.log(trainingCache)
         } finally {
           mongoose.connection.close()
         }
@@ -189,7 +254,6 @@ module.exports = (client) => {}
 
   // Get the modifier for a battle
     module.exports.getModifier = async (guildID, name) => {
-      console.log(`Runnning dbBattle getModifier`)
       const cachedValue = modifierCache[`${guildID}-${name}`]
       if (cachedValue) {
         return cachedValue
@@ -200,7 +264,7 @@ module.exports = (client) => {}
             guildID,
             name,
           })
-          let modifier = 0
+          let modifier = {}
           if (result) {
             modifier = result.modifier
           } else {
@@ -216,7 +280,6 @@ module.exports = (client) => {}
 
   // Get the payout for a battle
     module.exports.getPayout = async (guildID, name) => {
-      console.log(`Runnning dbBattle getPayout`)
       const cachedValue = payoutCache[`${guildID}-${name}`]
       if (cachedValue) {
         return cachedValue
@@ -227,7 +290,7 @@ module.exports = (client) => {}
             guildID,
             name,
           })
-          let payout = 0
+          let payout = {}
           if (result) {
             payout = result.payout
           } else {
@@ -243,7 +306,6 @@ module.exports = (client) => {}
 
   // Get a users health
     module.exports.getHealth = async (guildID, userID) => {
-        console.log(`Runnning dbBattle getHealth`)
       const cachedValue = healthCache[`${guildID}-${userID}`]
       if (cachedValue) {
         return cachedValue
@@ -272,13 +334,13 @@ module.exports = (client) => {}
   // Get if a battle is active or not
     module.exports.getActive = async (guildID, name) => {
       return await mongo().then(async (mongoose) => {
-        console.log(`Runnning dbBattle getActive`)
         try {
           const result = await battleSchema.findOne({
             guildID,
             name,
           })
           let active = false
+          console.log(result)
           if (result) {
             active = result.active
           } else {
@@ -290,64 +352,73 @@ module.exports = (client) => {}
       })
     }
 
-  // Get all active battles
-    module.exports.getActives = async (guildID) => {
+  // Get if a battle is active or not
+    module.exports.getTrnStance = async (guildID, name) => {
+      const cachedDmg = trainingCache[`${guildID}-${name}-damage`]
+      const cachedValue = trainingCache[`${guildID}-${name}-level`]
+      if (cachedValue) {
+        return [cachedValue, cachedDmg];
+      }
       return await mongo().then(async (mongoose) => {
-        console.log(`Runnning dbBattle getActives`)
-        const active = true
         try {
-          const result = await battleSchema.find({
+          const result = await trainingSchema.findOne({
             guildID,
-            active,
+            name,
           })
+          let level = 0
+          let damage = 0
           console.log(result)
-          let names = []
           if (result) {
-            for (let i = 0; i < result.length; i++) { //Go through each role and see if the ID matches any of the IDs of other arrays          
-              let name = result[i].name
-              let nametest = `\`${name}\``
-              console.log(nametest)
-              names.push(nametest);
-            }
+            level = result.level
+            damage = result.damage
           } else {
-            console.log('No active battle found')
+            console.log('No stance found')
           }
-          console.log(names)
-          return names
+          return [level, damage]
         } finally {
         }
       })
     }
 
-
-  // Get if a battle is active or not
-    module.exports.getBattleInfo = async (guildID, name) => {
+  // Get the training information
+    module.exports.getTrainingInfo = async (guildID, name) => {
       return await mongo().then(async (mongoose) => {
-        console.log(`Runnning dbBattle getBattleInfo`)
         try {
           const result = await battleSchema.findOne({
             guildID,
             name,
           })
-          let atkHealth = 0
-          let atkDmg = 0
-          let atkArmor = 0
-          let defHealth = 0
-          let defDmg = 0
-          let defArmor = 0
           console.log(result)
-          if (result) {
+          let attacker = 0
+          let atkAttack = 0
+          let atkDefence = 0
+          let atkDmg = 0 
+          let atkHealth = 0
+          let defender = 0
+          let defAttack = 0
+          let defDefence = 0
+          let defDmg = 0 
+          let defHealth = 0
+          let payout = 0
+          if (result) {            
+            attacker = result.attacker
+            atkAttack = result.atkAttack
+            atkDefence = result.atkDefence
+            atkDmg  = result.atkDmg 
             atkHealth = result.atkHealth
-            atkDmg = result.atkDmg
-            atkArmor = result.atkArmor
+            defender = result.defender
+            defAttack = result.defAttack
+            defDefence = result.defDefence
+            defDmg  = result.defDmg 
             defHealth = result.defHealth
-            defDmg = result.defDmg
-            defArmor = result.defArmor
+            payout = result.payout
           } else {
-            console.log('No active battle found')
+            console.log('No user found')
           }
-          return [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor];
+          console.log(attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout)
+          return [attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout]
         } finally {
+          mongoose.connection.close()
         }
       })
     }
@@ -397,9 +468,7 @@ module.exports = (client) => {}
             {
               guildID,
               userID,
-              $inc: {
-                health,
-              },              
+              health,
             },
             {
               upsert: true,
@@ -428,7 +497,7 @@ module.exports = (client) => {}
           } else {
             console.log('No battle found')
           }
-          result = await battleSchema.findOneAndUpdate(
+          await battleSchema.findOneAndUpdate(
             {
               guildID,
               name,
@@ -452,13 +521,15 @@ module.exports = (client) => {}
     }
 
   // Update a battle from the defenders side
-    module.exports.updtBattleDef = async (guildID, name, userID, defHealth, defDmg, defArmor) => {
+    module.exports.updtBattleDef = async (guildID, name, defHealth, defDmg, defArmor, users) => {
       return await mongo().then(async (mongoose) => {
         try {
           var result = await battleSchema.findOne({
             guildID,
             name,
           })
+          console.log(result)
+          console.log(guildID, name, defHealth, defDmg, defArmor)
           if (result) {
             defHealth = result.defHealth + defHealth
             defDmg = result.defDmg + defDmg
@@ -467,7 +538,39 @@ module.exports = (client) => {}
           } else {
             console.log('No battle found')
           }
-          var defenders = userID
+          console.log(guildID, name, defHealth, defDmg, defArmor)
+          await battleSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              defHealth,
+              defDmg,
+              defArmor,
+              $push: {
+                users,
+              },
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
+          console.log(result)
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+  // Update a training from the attackers side
+    module.exports.updtTrainingAtk = async (guildID, name, atkAttack, atkDefence, atkDmg) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const atkStatus = true
           result = await battleSchema.findOneAndUpdate(
             {
               guildID,
@@ -476,29 +579,29 @@ module.exports = (client) => {}
             {
               guildID,
               name,
-              $push: {
-                defenders,
-              },
-              defHealth,
-              defDmg,
-              defArmor,
+              atkAttack,
+              atkDefence,
+              atkDmg,
+              atkStatus,
             },
             {
               upsert: true,
               new: true,
             }
           )
+          return result.defStatus
         } finally {
           mongoose.connection.close()
         }
       })
     }
 
-  // Set a users health 
-    module.exports.updtActive = async (guildID, name, active) => {
+  // Update a training from the attackers side
+    module.exports.updtTrainingDef = async (guildID, name, defAttack, defDefence, defDmg) => {
       return await mongo().then(async (mongoose) => {
         try {
-          const result = await battleSchema.findOneAndUpdate(
+          const defStatus = true
+          result = await battleSchema.findOneAndUpdate(
             {
               guildID,
               name,
@@ -506,12 +609,63 @@ module.exports = (client) => {}
             {
               guildID,
               name,
-              active,
+              defAttack,
+              defDefence,
+              defDmg,
+              defStatus,
             },
             {
               upsert: true,
               new: true,
             }
+          )
+          return result.atkStatus
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+  // Update a training from the attackers side
+    module.exports.trainingRound = async (guildID, name, atkHealth, defHealth) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const atkStatus = false
+          const defStatus = false
+          result = await battleSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              atkHealth,
+              atkStatus,
+              defHealth,
+              defStatus,
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
+          return
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+  // End a training battle
+    module.exports.endTraining = async (guildID, name) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          await battleSchema.findOneAndDelete(
+            {
+              guildID,
+              name,
+            }            
           )
         } finally {
           mongoose.connection.close()

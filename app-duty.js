@@ -8,10 +8,12 @@
 	const config = require('./config.json');
 	const fnOther = require('./functions-other')
 	const messageCount = require('./message-counter')
+	const clickButton = require('./dsBtn')
 
 	const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
 	const timer = ms => new Promise(res => setTimeout(res, ms))
-
+	const disbut = require("discord-buttons");
+	disbut(client);
 // Commands
 
 client.once('ready', async () => {
@@ -41,6 +43,7 @@ client.once('ready', async () => {
 	  		}
 		}
 	messageCount(client)
+	clickButton(client)
 	readCommands('commands')
 });
 
@@ -54,6 +57,8 @@ client.on('message', message => {
 		fnOther.formatJoin(message)
 	}
 });
+
+
 
 
 setInterval(function autoUpdate() {	

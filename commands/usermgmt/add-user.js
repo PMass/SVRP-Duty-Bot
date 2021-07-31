@@ -16,7 +16,7 @@ module.exports = {
       return
     }
     const statusCheck = await addUser.add(message, mention)
-    dsMsg.guildMessage(message.guild, `Added!`, message.channel.id, 30);
-    dsMsg.guildMessage(message.guild, `<@${message.author.id}> have added <@${mention.id}> to the database. Thank you!`, "spam", 10)
+    dsMsg.guildMsg(message.guild, `Added!`, message.channel.id, 30);
+    dsMsg.guildMsg(message.guild, `<@${message.author.id}> have added <@${mention.id}> to the database. Thank you!`, "spam", 10)
   },
 }

@@ -68,6 +68,6 @@ module.exports = {
     const [userInfoNew, noMatch2] = await dbGet.userFull(guildID, userID)
     userInfoNew.certsFull = await dsGet.checkCerts(guild, certs);
     await gSheets.userUpdate(userInfoNew)
-    dsMsg.guildMessage(guild, `You have sucessfully updated ${mention.displayName} ${option}!`, message.channel.id, 10);
+    dsMsg.guildMsg(guild, `You have sucessfully updated ${mention.displayName} ${option}!`, message.channel.id, 10);
   },
 }

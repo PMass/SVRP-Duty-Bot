@@ -34,8 +34,8 @@ module.exports = (client) => {}
           )
           coinsCache[`${guildID}-${userID}`] = result.coins
           return result.coins
-        } finally {
-          mongoose.connection.close()
+        } catch (err) {
+          console.log(err)
         }
       })
     }
@@ -69,30 +69,30 @@ module.exports = (client) => {}
       })
     }
 
-// Give/take an item to a user
-    module.exports.addItemtoUser = async (guildID, userID, items) => {
-      return await mongo().then(async (mongoose) => {
-        try {
-          const result = await profileSchema.findOneAndUpdate(
-            {
-              guildID,
-              userID,
-            },
-            {
-              guildID,
-              userID,
-              items,
-            },
-            {
-              upsert: true,
-              new: true,
-            }
-          )
-        } finally {
-          mongoose.connection.close()
-        }
-      })
-    }
+  // Give/take an item to a user
+      module.exports.addItemtoUser = async (guildID, userID, items) => {
+        return await mongo().then(async (mongoose) => {
+          try {
+            const result = await profileSchema.findOneAndUpdate(
+              {
+                guildID,
+                userID,
+              },
+              {
+                guildID,
+                userID,
+                items,
+              },
+              {
+                upsert: true,
+                new: true,
+              }
+            )
+          } finally {
+            mongoose.connection.close()
+          }
+        })
+      }
 
 // Get commands
 
@@ -121,8 +121,8 @@ module.exports = (client) => {}
         }
           coinsCache[`${guildID}-${userID}`] = coins
           return coins
-        } finally {
-          mongoose.connection.close()
+        } catch (err) {
+          console.log(err)
         }
       })
     }

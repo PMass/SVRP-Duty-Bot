@@ -18,13 +18,13 @@ module.exports = {
     message.delete({ timeout: 100 })
     var stock = await dbEcon.getStock(guildID, name)
     if(stock == 0){
-      dsMsg.guildMessage(guild, `That item is out of stock, please purchase another item!`, message.channel.id, 30);
+      dsMsg.guildMsg(guild, `That item is out of stock, please purchase another item!`, message.channel.id, 30);
     } else {
       const coins = await dbEcon.getCoins(guildID, userID)
       const cost = await dbEcon.getCost(guildID, name)
       const newbal = coins - cost
       if(newbal < 0){
-        dsMsg.guildMessage(guild, `You do not have enough coins to purchase this item!`, message.channel.id, 30);
+        dsMsg.guildMsg(guild, `You do not have enough coins to purchase this item!`, message.channel.id, 30);
         return
       } else {
         const items = await dbEcon.getItems(guildID, userID)
@@ -38,7 +38,7 @@ module.exports = {
         await dbEcon.updtBal(guildID, userID, newbal)
         await dbEcon.addItemtoUser(guildID, userID, items)
         await dbEcon.updtStock(guildID, name, stock)
-        dsMsg.guildMessage(guild, `You have purchased a ${name} for $${cost}.00 and have $${newbal}.00 left. Their are ${stock} left in stock!`, message.channel.id, 30);
+        dsMsg.guildMsg(guild, `You have purchased a ${name} for $${cost}.00 and have $${newbal}.00 left. Their are ${stock} left in stock!`, message.channel.id, 30);
 
       }
     }

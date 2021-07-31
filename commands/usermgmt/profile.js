@@ -17,7 +17,7 @@ module.exports = {
     }
     const [ userInfo, noMatch ] = await dbGet.userFull(message.guild.id, mention.id)
     if (noMatch) {
-    dsMsg.guildMessage(message.guild, "Didn't find a user, please add them to the database", message.channel.id, 30)
+    dsMsg.guildMsg(message.guild, "Didn't find a user, please add them to the database", message.channel.id, 30)
     } else {
     userInfo.certsFull = await dsGet.checkCerts(message.guild, userInfo.certs);
     userInfo.promo = "01/01/2020"
