@@ -5,16 +5,21 @@ const disbut = require("discord-buttons");
 
 module.exports = {
   commands: ['training', 'train'],
-  minArgs: 1,
-  maxArgs: 1,
-  expectedArgs: "<@ the person who you want to train with>",
+  minArgs: 2,
+  maxArgs: 2,
+  expectedArgs: "<@ the person who you want to train with> <How much you want to wager on the fight",
   callback: async (message, arguments) => {
     message.delete({ timeout: 100 })
 
     const guild = message.guild
     const user = message.mentions.users.first()
-    const userID = user.id
     const authorTag = message.author.username
+    var cost = arguments[1]
+    if (cost<20) {
+      message.reply('Too low of a wager, it must be greater than $20')
+      return
+    }
+    const winnings = cost * 2 - 10
 
     if (!user) {
       message.reply('Please tag who you want to train with.')
@@ -33,12 +38,11 @@ module.exports = {
 
     let buttons = new disbut.MessageActionRow()
       .addComponents(btns.yes, btns.no);
-    dsMsg.guildMsgBtns(guild, `<@${userID}>, ${authorTag} would like to train with you. It costs $50 and is winner take all. Do you accept?`, "battle", buttons);
-
+    dsMsg.guildMsgBtns(guild, `<@${user.id}>, ${authorTag} would like to train with you. It will cost ${cost} and is winner will win ${winnings}. Do you accept?`, "battle", buttons);
+    cost = 0 - cost
+    await dbEcon.addCoins(guildID, user.id, cost)
     const name = authorTag + `-` + user.username
-    await dbBattle.addBattle(guild.id, name, 0, 100)
-    await dbBattle.addFighters(guild.id, name, message.author.id, userID)
-
-
+    await dbBattle.addBattle(guild.id, name, 0, winnings)
+    await dbBattle.addFighters(guild.id, name, message.author, user)
   },
 }

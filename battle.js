@@ -10,7 +10,7 @@ const neutral = ['Cover', 'Fall Back']
 const defLow = ['Use Firstaid-kit', 'Apply Bandage', 'Apply Tourniquet', 'Take Painkillers']
 const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
 
-// Give Role by ID
+// Add a user to the battle
   module.exports.join = async (guildID, message, callType) => {
   	try {
       const userID = message.author.id
@@ -43,7 +43,7 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
     }
   }
 
-// Take Role by ID
+// Run the Battle Simulation
   module.exports.startBattle = async (guildID, name) => {
   	try {
       var [atkHealth, atkDmg, atkArmor, defHealth, defDmg, defArmor] = dbBattle.getBattleInfo(guildID, name)
@@ -100,53 +100,170 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
   	}
   }
 
-// Take Role by ID
+// Create the first Training Message
   module.exports.training = async (guild, message, attacker) => {
     console.log(`running battle training()`) 
     try {
       const defender = message.mentions.users.first().username
-      const name = attacker + `-` + defender
-
       const atkHighLbl = atkHigh[getRandomInt(atkHigh.length)]
       const atkLowLbl = atkLow[getRandomInt(atkLow.length)]
       const neutralLbl = neutral[getRandomInt(neutral.length)]
       const defLowLbl = defLow[getRandomInt(defLow.length)]
       const defHighLbl = defHigh[getRandomInt(defHigh.length)]
-
       //Buttons
-
         atkHighBtn = new MessageButton()
           .setStyle('grey')
           .setLabel(`${atkHighLbl}`) 
           .setID('train_atkHigh')
           .setEmoji('🔥')
-
         atkLowBtn = new MessageButton()
           .setStyle('grey')
           .setLabel(`${atkLowLbl}`) 
           .setID('train_atkLow')
           .setEmoji('🔫')
-
         neutralBtn = new MessageButton()
           .setStyle('grey')
           .setLabel(`${neutralLbl}`) 
           .setID('train_neutral')
           .setEmoji('🧱')
-
         defLowBtn = new MessageButton()
           .setStyle('grey')
           .setLabel(`${defLowLbl}`) 
           .setID('train_deflow')
           .setEmoji('🩹')
-
         defHighBtn = new MessageButton()
           .setStyle('grey')
           .setLabel(`${defHighLbl}`) 
           .setID('train_defHigh')
           .setEmoji('💉')
-
         let buttons = new MessageActionRow()
           .addComponents(atkHighBtn, atkLowBtn, neutralBtn, defLowBtn, defHighBtn);
+      // Message
+        dsMsg.guildMsgBtns(guild, `${attacker} and ${defender} choose the action you're going to take.`, "battle", buttons);
+      console.log(attacker, defender)
+    } catch (err){
+      console.log("error in running the training battle")
+      console.log(err)
+    }
+  }
+
+// Create the Training Message
+  module.exports.moreTraining = async (guild, attacker, defender) => {
+    console.log(`running battle moreTraining()`) 
+    try {
+      
+      const atkHighLbl = atkHigh[getRandomInt(atkHigh.length)]
+      const atkLowLbl = atkLow[getRandomInt(atkLow.length)]
+      const neutralLbl = neutral[getRandomInt(neutral.length)]
+      const defLowLbl = defLow[getRandomInt(defLow.length)]
+      const defHighLbl = defHigh[getRandomInt(defHigh.length)]
+      //Buttons
+        atkHighBtn = new MessageButton()
+          .setStyle('grey')
+          .setLabel(`${atkHighLbl}`) 
+          .setID('train_atkHigh')
+          .setEmoji('🔥')
+        atkLowBtn = new MessageButton()
+          .setStyle('grey')
+          .setLabel(`${atkLowLbl}`) 
+          .setID('train_atkLow')
+          .setEmoji('🔫')
+        neutralBtn = new MessageButton()
+          .setStyle('grey')
+          .setLabel(`${neutralLbl}`) 
+          .setID('train_neutral')
+          .setEmoji('🧱')
+        defLowBtn = new MessageButton()
+          .setStyle('grey')
+          .setLabel(`${defLowLbl}`) 
+          .setID('train_deflow')
+          .setEmoji('🩹')
+        defHighBtn = new MessageButton()
+          .setStyle('grey')
+          .setLabel(`${defHighLbl}`) 
+          .setID('train_defHigh')
+          .setEmoji('💉')
+        let buttons = new MessageActionRow()
+          .addComponents(atkHighBtn, atkLowBtn, neutralBtn, defLowBtn, defHighBtn);
+      // Message
+        dsMsg.guildMsgBtns(guild, `${attacker} and ${defender} choose the action you're going to take.`, "battle", buttons);
+      console.log(attacker, defender)
+    } catch (err){
+      console.log("error in running the training battle")
+      console.log(err)
+    }
+  }
+
+// Run the Training Simulation
+  module.exports.startTraining = async (guild, name) => {
+    try {
+      var [attacker, atkAttack, atkDefence, atkDmg, atkHealth, defender, defAttack, defDefence, defDmg, defHealth, payout] = dbBattle.getTrainingInfo(guild.id, name)
+      if(atkDmg > 0){
+        if(atkAttack >= defDefence){
+          defHealth = defHealth - atkDmg
+          dsMsg.guildMsg(guild, `${attacker.username} was able to get past ${defender.username}'s defence and did some damage`, "battle", 10);
+        }
+      } else {
+        atkHealth = atkHealth - atkDmg
+        dsMsg.guildMsg(guild, `${attacker.username} decided to protect themselves and now feels more rested`, "battle", 10);
+      }
+      if(defDmg > 0){
+        if(defAttack >= atkDefence){        
+          atkHealth = atkHealth - defDmg
+          dsMsg.guildMsg(guild, `${defender.username} was able to get past ${attacker.username}'s defence and did some damage`, "battle", 10);
+        }
+      } else {
+        defHealth = defHealth - defDmg
+        dsMsg.guildMsg(guild, `${defender.username} decided to protect themselves and now feels more rested`, "battle", 10);
+      }
+      if(atkHealth <= 0 || defHealth <= 0){
+        if(atkHealth > defHealth){
+          dsMsg.guildMsg(guild, `${attacker.username} has come out victorious over ${defender.username} in training and earned ${payout}`, "battle", 60);
+          await dbEcon.addCoins(guildID, attacker.id, payout)
+        } else {
+          dsMsg.guildMsg(guild, `${defender.username} was able to defend themselves against ${attacker.username} in training and earned ${payout}`, "battle", 60);
+          await dbEcon.addCoins(guildID, defender.id, payout)
+        } 
+        const name = attacker.username + `-` + defender.username
+        await dbBattle.endTraining(guildID, name)
+      } else {
+        await battle.moreTraining(guild, attacker.username, defender.username)
+      }
+    } catch (err){
+      console.log("error in running the battle")
+    }
+  }
+
+// Run the Training Simulation
+  module.exports.saveTraining = async (guild, name, clicker, attacker, defender, atk, def, dmg) => {
+    try {
+      if(clicker == attacker){
+        var status = await dbBattle.updtTrainingAtk(guild.id, name, atk, def, dmg)
+        if(status){
+          await dbBattle.startTraining(guild, name)
+          message.delete({ timeout: 100 })
+        } else {
+          dsMsg.guildMsg(guild, `${attacker} Has made their decision, awaiting ${defender}`, "battle", 10);
+        }
+      } else {
+        var status = await dbBattle.updtTrainingDef(guild.id, name, atk, def, dmg)
+        if(status){
+          await dbBattle.startTraining(guild, name)
+          message.delete({ timeout: 100 })
+        } else {
+          dsMsg.guildMsg(guild, `${defender} Has made their decision, awaiting ${attacker}`, "battle", 10);
+        }
+      }
+    } catch (err){
+      console.log("error in saving the training")
+    }
+  }
+
+
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
       //Menu
         // AR = new MessageMenuOption()
@@ -214,21 +331,4 @@ const defHigh =  ['Use Med-kit', 'Apply Armor', 'Apply IFAK']
 
         // let selectOptions = new MessageActionRow()
         //   .addComponents(selectAtk, selectDef);
-
-      // Messages
-        dsMsg.guildMsgBtns(guild, `${attacker} and ${defender} choose the action you're going to take.`, "battle", buttons);
-        // dsMsg.guildMsgBtns(guild, `_ _`, "battle", buttonsDef);
-
-        // dsMsg.guildMsgBtns(guild, `<@${attacker}> and <@${defender}> choose the action you're going to take.`, "battle", selectAtk);
-
-      console.log(attacker, defender)
-    } catch (err){
-      console.log("error in running the training battle")
-      console.log(err)
-    }
-  }
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
+      // dsMsg.guildMsgBtns(guild, `<@${attacker}> and <@${defender}> choose the action you're going to take.`, "battle", selectAtk);

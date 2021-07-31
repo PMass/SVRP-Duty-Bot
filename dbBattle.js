@@ -145,7 +145,7 @@ module.exports = (client) => {}
       })
     }
 
-  // Give/take an item to a user
+  // Add a Training Stance - NOT USED ANYMORE
     module.exports.trainingStance = async (guildID, name, level, damage) => {
       return await mongo().then(async (mongoose) => {
         try {
@@ -522,10 +522,11 @@ module.exports = (client) => {}
       })
     }
 
-  // Update a battle from the attackers side
+  // Update a training from the attackers side
     module.exports.updtTrainingAtk = async (guildID, name, atkAttack, atkDefence, atkDmg) => {
       return await mongo().then(async (mongoose) => {
         try {
+          const atkStatus = true
           result = await battleSchema.findOneAndUpdate(
             {
               guildID,
@@ -537,12 +538,44 @@ module.exports = (client) => {}
               atkAttack,
               atkDefence,
               atkDmg,
+              atkStatus,
             },
             {
               upsert: true,
               new: true,
             }
           )
+          return result.defStatus
+        } finally {
+          mongoose.connection.close()
+        }
+      })
+    }
+
+  // Update a training from the attackers side
+    module.exports.updtTrainingDef = async (guildID, name, defAttack, defDefence, defDmg) => {
+      return await mongo().then(async (mongoose) => {
+        try {
+          const defStatus = true
+          result = await battleSchema.findOneAndUpdate(
+            {
+              guildID,
+              name,
+            },
+            {
+              guildID,
+              name,
+              defAttack,
+              defDefence,
+              defDmg,
+              defStatus,
+            },
+            {
+              upsert: true,
+              new: true,
+            }
+          )
+          return result.atkStatus
         } finally {
           mongoose.connection.close()
         }
@@ -551,7 +584,7 @@ module.exports = (client) => {}
 
 
 
-  // Setup a training battle
+  // End a training battle
     module.exports.endTraining = async (guildID, name) => {
       return await mongo().then(async (mongoose) => {
         try {

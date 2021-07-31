@@ -69,30 +69,30 @@ module.exports = (client) => {}
       })
     }
 
-// Give/take an item to a user
-    module.exports.addItemtoUser = async (guildID, userID, items) => {
-      return await mongo().then(async (mongoose) => {
-        try {
-          const result = await profileSchema.findOneAndUpdate(
-            {
-              guildID,
-              userID,
-            },
-            {
-              guildID,
-              userID,
-              items,
-            },
-            {
-              upsert: true,
-              new: true,
-            }
-          )
-        } finally {
-          mongoose.connection.close()
-        }
-      })
-    }
+  // Give/take an item to a user
+      module.exports.addItemtoUser = async (guildID, userID, items) => {
+        return await mongo().then(async (mongoose) => {
+          try {
+            const result = await profileSchema.findOneAndUpdate(
+              {
+                guildID,
+                userID,
+              },
+              {
+                guildID,
+                userID,
+                items,
+              },
+              {
+                upsert: true,
+                new: true,
+              }
+            )
+          } finally {
+            mongoose.connection.close()
+          }
+        })
+      }
 
 // Get commands
 

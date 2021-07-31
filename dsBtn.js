@@ -7,8 +7,10 @@ module.exports = (client) => {
   client.on('clickButton', async (button) => {
       let message = button.message
       let guild = button.guild
+      let guildID = guild.id
       const attacker = button.message.content.split(" ")[0]
       const defender = button.message.content.split(" ")[2]
+
       const clicker = button.clicker.user.username
       const name = attacker + `-` + defender
       switch (button.id) {
@@ -16,7 +18,9 @@ module.exports = (client) => {
           if(button.clicker.user.id == message.mentions.users.first().id){
             dsMsg.guildMsg(guild, `Let the training begin!`, "battle", 10);
             const initiator = button.message.content.split(" ")[1]
-            battle.training(guild, message, initiator)
+            var cost = 0 - button.message.content.split(" ")[11]            
+            await dbEcon.addCoins(guildID, button.clicker.user.id, cost)
+            await battle.training(guild, message, initiator)
             message.delete({ timeout: 100 })
           }
           break;
@@ -65,7 +69,8 @@ module.exports = (client) => {
                 var dmg = 12
                 break;
             }
-          } 
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
+          }  
           break;
         case `train_atkLow`:
           if(clicker == attacker || clicker == defender){
@@ -104,19 +109,18 @@ module.exports = (client) => {
               case 9:
                 var dmg = 5
                 break;
-            }          
-            if(clicker == attacker){
-              dbBattle.updtTrainingAtk(guildID, name, atk, def, dmg)
-            } else {
-              dbBattle.updtTrainingDef(guildID, name, atk, def, dmg)
             }
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
           }  
           break;
         case `train_neutral`:
           if(clicker == attacker || clicker == defender){
             dsMsg.guildMsg(guild, `${clicker} your choice has been saved.`, "battle", 10);
+            var atk = 0
             var def = getRandomInt(4) + 8
-          }  
+            var dmg = 0
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
+          }
           break;
         case `train_deflow`:
           if(clicker == attacker || clicker == defender){
@@ -155,6 +159,7 @@ module.exports = (client) => {
                 var dmg = 3
                 break;
             }
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
           }  
           break;
         case `train_defHigh`:
@@ -194,13 +199,13 @@ module.exports = (client) => {
                 var dmg = -6
                 break;
             }
+            await battle.saveTraining(guild, name, clicker, attacker, defender, atk, def, dmg)
           }  
           break;
         default:
           dsMsg.guildMsg(guild, `I'm not familiar with this button. Please tag PMass to fix this`, message.channel.id, 10);
           console.log("ERROR: unrecognized button")
       }
-
   });
 };
 
