@@ -49,17 +49,6 @@ client.once('ready', async () => {
 
 client.login(config.token);
 
-client.on('message', message => {
-	if (message.channel.name == "duty-log") {
-		fnOther.formatDuty(message)
-	}
-	if (message.channel.name == "join-leave-log-main") {
-		fnOther.formatJoin(message)
-	}
-});
-
-
-
 
 setInterval(function autoUpdate() {	
 			// readCells()
