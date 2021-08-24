@@ -285,19 +285,19 @@ const channelsCache = {} // { 'guildID': channels }
   }
 
 // Add user to User Database
-  module.exports.players = async (hexID) => {
+  module.exports.players = async (hex) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running players()')
         const result = await playersSchema.find({
-            hexID,
+            hex,
           }) 
         // print a message if no documents were found
         let characters = []
         if (result.length === 0) {
           console.log("No users found!");
         } else {
-          characters = result       
+          characters = result
         }
         // replace console.dir with your callback to access individual elements
         return characters;

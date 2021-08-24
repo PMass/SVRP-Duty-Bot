@@ -8,6 +8,7 @@
 	const config = require('./config.json');
 	const fnOther = require('./functions-other')
 	const messageCount = require('./message-counter')
+	const messageLog = require('./message-logger')
 	const clickButton = require('./dsBtn')
 
 	const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
@@ -43,6 +44,7 @@ client.once('ready', async () => {
 	  		}
 		}
 	messageCount(client)
+	messageLog(client)
 	clickButton(client)
 	readCommands('commands')
 });

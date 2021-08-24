@@ -10,8 +10,8 @@ module.exports = {
   permissions: 'MANAGE_ROLES',
   callback: async (message, arguments) => {
     message.delete({ timeout: 5000 })
-    const hexID = arguments[0];
-    const characters = await dbGet.players(hexID)
+    const hex = arguments[0];
+    const characters = await dbGet.players(hex)
     const characterCount = characters.length
     if(characterCount > 0){
       dsMsg.guildMsg(message.guild, `That person has ${characterCount} characters. Which person would you like to add? \'reply with number\'`, message.channel.id, 30)

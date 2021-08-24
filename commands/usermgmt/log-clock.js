@@ -8,13 +8,13 @@ module.exports = {
 	expectedArgs: "<Which Department (police/sheriff)> <Their Steam Hex ID> <Their IC First Name> <Their IC Last Name> <Their IC Last Name> <Their Status>",
 	permissionError: 'You must be an admin',
 	permissions: 'ADMINISTRATOR',
-	callback: async (message, arguments) => {    
+	callback: async (message, arguments) => {
 		message.delete({ timeout: 5000 })
 		const department = arguments[0];
 		const hexID = arguments[1];
 		const firstName = arguments[2];
 		const lastName = arguments[3];
-		const statusRaw = arguments[4];		
+		const statusRaw = arguments[4];
 		const space = " ";
 		let status = (statusRaw =="true");
 		var today = new Date();
