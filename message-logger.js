@@ -5,7 +5,7 @@ module.exports = (client) => {
     let name = message.channel.name;
     if (name == "join-leave-log-main") {
 		console.log('join')
-      joinleave(message.embeds);
+      joinleave(message.content);
     }
     else if (name == "hunting-log") {
 		console.log('Hunting')
@@ -19,10 +19,15 @@ module.exports = (client) => {
 }
 
 async function joinleave(discordmessage) {
-	let name = discordmessage[0].fields[1].value
-	let steamName = discordmessage[0].fields[2].value
-	let hexraw = discordmessage[0].fields[3].value.split("steam:")
-	let hex = hexraw[1]
+	var res2 = discordmessage.split("Player Name: ");
+	var res5 = res2[1].split(" Steam Name: ");
+	var name = res5[0]
+	console.log(name)
+	var res3 = res5[1].split(" Steam ID: steam:");
+	var steamName = res3[0]
+	console.log(steamName)
+	var res4 = res3[1].split(" Reason:");
+	var hex = res4[0]
 	await dbPlayers.addPlayer(steamName, hex, name);
 }
 
