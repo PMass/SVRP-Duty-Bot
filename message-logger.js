@@ -9,25 +9,20 @@ module.exports = (client) => {
     }
     else if (name == "hunting-log") {
 		console.log('Hunting')
-      hunting(message.embeds);
+      // hunting(message.content);
     }
     else if (name == "duty-log") {
 		console.log('duty')
-      duty(message.embeds);
+      // duty(message.content);
     }
   })
 }
 
 async function joinleave(discordmessage) {
-	var res2 = discordmessage.split("Player Name: ");
-	var res5 = res2[1].split(" Steam Name: ");
-	var name = res5[0]
-	console.log(name)
-	var res3 = res5[1].split(" Steam ID: steam:");
-	var steamName = res3[0]
-	console.log(steamName)
-	var res4 = res3[1].split(" Reason:");
-	var hex = res4[0]
+	var split = discordmessage.split("\n");
+	var name = split[3].split(": ")[1];
+  var steamName = split[4].split(": ")[1];
+  var hex = split[5].split(":")[2];
 	await dbPlayers.addPlayer(steamName, hex, name);
 }
 
@@ -37,7 +32,7 @@ async function hunting(discordmessage) {
 	let hexraw = discordmessage[0].fields[3].value.split("steam:")
 	let hex = hexraw[1]
   	let cash = parseFloat(cashraw.replace(',', ''));
-	await dbPlayers.addCash(hex, name, cash);
+	// await dbPlayers.addCash(hex, name, cash);
 }
 
 async function duty(discordmessage) {
