@@ -7,7 +7,7 @@ const docOnSchema = require('./schemas/doc-on-schema')
 module.exports = (client) => {}
 
 // Log someone clocking on/off on the Log Database
-  module.exports.logClock = async (department, hexID, time, name, status) => {
+  module.exports.logClock = async (hexID, time, name, status) => {
     return await mongo().then(async (mongoose) => {
       try {
         console.log('Running logClock()')
@@ -15,7 +15,6 @@ module.exports = (client) => {}
           {
             hexID,
             name,
-            department,
             time,
             status,
           },    

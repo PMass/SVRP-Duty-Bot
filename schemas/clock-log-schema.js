@@ -8,7 +8,7 @@ const reqString = {
 const clockLogSchema = mongoose.Schema({
   hexID: reqString,
   name: reqString,
-  department: reqString,
+  department: String,
   time:{
     type: Date,
     required: true,

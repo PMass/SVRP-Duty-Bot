@@ -5,13 +5,12 @@ const dbUpdate = require('./dbUpdate')
 const dbClock = require('./dbClock')
 const dsMsg = require('./dsMsg')
 
-module.exports.adjustDuty = async (message, team, hexID, fullClock, fullName, status) => {
+module.exports.adjustDuty = async (hex, fullClock, name, status) => {
 	try {
 		// ADD in an If/Then function to only check for PD/DOC/sherif/ems
-	const guild = dbGet.guild(team)
-	console.log(team, hexID, fullClock, fullName, status)
-	const newUser = await dbClock.logClock(team, hexID, fullClock, fullName, status)
-	const [ userID, pastTime, cadet, doc, department, noMatch ] = await dbGet.user(hexID)
+	const guild = guilds.fetch(`749280136590786561`)
+	const newUser = await dbClock.logClock(hex, fullClock, name, status)
+	const [ userID, pastTime, cadet, doc, department, noMatch ] = await dbGet.user(hex)
 	const currentStatus = await dbGet.status(userID, department, status)
 	const group = await fncOther.findGroup(cadet, doc)
 	if (noMatch) {
