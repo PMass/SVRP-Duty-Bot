@@ -19,8 +19,8 @@ module.exports = (client) => {}
             status,
           },    
         )
-      } finally {
-        mongoose.connection.close()
+      } catch(err){
+        console.error(err)
       }
     })
   }
